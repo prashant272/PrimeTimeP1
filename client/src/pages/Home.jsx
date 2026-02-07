@@ -492,7 +492,7 @@ export default function Home() {
                   },
                   {
                     title: 'Award Ceremony – Dubai',
-                    date: '26 May 2026',
+                    date: '26 April 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
                         <span className="text-xl">🇦🇪</span>
