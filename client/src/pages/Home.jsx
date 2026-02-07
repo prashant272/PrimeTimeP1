@@ -56,7 +56,7 @@ export default function Home() {
     {
       title: "Global Healthcare Awards 2026",
       desc: "Recognising excellence and innovation in healthcare leadership.",
-      date: "26 May 2026",
+      date: "26 April 2026",
       place: "Dubai",
     },
     {
@@ -481,28 +481,8 @@ export default function Home() {
               <div className="space-y-6">
                 {[
                   {
-                    title: 'Nomination Deadline',
-                    date: '15 April 2026',
-                    icon: (
-                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffeec3] to-[#d4af37] flex items-center justify-center shadow-lg">
-                        <svg className="w-6 h-6 text-[#392818]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M8 7V3m8 4V3M3 11h18M5 5h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" /></svg>
-                      </span>
-                    ),
-                    border: 'from-[#ffd966] to-[#d4af37]',
-                  },
-                  {
-                    title: 'Jury Evaluation',
-                    date: 'April 2026',
-                    icon: (
-                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffeec3] to-[#d4af37] flex items-center justify-center shadow-lg">
-                        <svg className="w-6 h-6 text-[#392818]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M3 7h18M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2M6 7V19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7M9 12h6" /></svg>
-                      </span>
-                    ),
-                    border: 'from-[#f1d46b] to-[#d4af37]',
-                  },
-                  {
                     title: 'Final Shortlisting',
-                    date: 'Early May 2026',
+                    date: 'Early April for Dubai and early May for London',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#fff3c4] to-[#ffeb98] flex items-center justify-center shadow-lg">
                         <svg className="w-6 h-6 text-[#392818]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M9 13l2.25 2L15 11m-3-8a9 9 0 1 1 0 18a9 9 0 0 1 0-18z" /></svg>
