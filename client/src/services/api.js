@@ -58,6 +58,18 @@ export function fetchMyNominations(token) {
   return request("/api/nominations/my", { method: "GET", token });
 }
 
+export function fetchNominationById(id, token) {
+  return request(`/api/nominations/${id}`, { method: "GET", token });
+}
+
+export function updateUserNomination(id, payload, token) {
+  return request(`/api/nominations/${id}`, {
+    method: "PUT",
+    body: payload,
+    token,
+  });
+}
+
 /* ---------------- Nominations (admin) ---------------- */
 export function fetchAdminNominations(token) {
   return request("/api/admin/nominations", { method: "GET", token });

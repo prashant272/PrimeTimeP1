@@ -22,8 +22,8 @@ export default function Register() {
       await register(name, email, password);
 
       // Agar user "Nominate Now" se aaya hai to /nominate,
-      // otherwise normal case me homepage pe le jao.
-      const from = location.state?.from?.pathname || "/";
+      // otherwise normal case me /nominate pe le jao (as per latest requirement).
+      const from = location.state?.from?.pathname || "/nominate";
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Unable to create account");

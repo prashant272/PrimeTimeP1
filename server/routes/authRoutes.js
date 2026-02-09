@@ -3,17 +3,15 @@ import bcrypt from "bcryptjs";
 
 import User from "../models/User.js";
 import { signToken } from "../middleware/authMiddleware.js";
+import { registerSchema, loginSchema, validate } from "../middleware/validators.js";
 
 const router = express.Router();
 
 // Register user (optionally as admin via secret code)
-router.post("/register", async (req, res) => {
+router.post("/register", registerSchema, validate, async (req, res, next) => {
   try {
     const { name, email, password, secretCode } = req.body;
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "Name, email and password are required" });
-    }
 
     const existing = await User.findOne({ email: email.toLowerCase() });
     if (existing) {
@@ -33,8 +31,8 @@ router.post("/register", async (req, res) => {
 
     const role =
       secretCode &&
-      process.env.ADMIN_CREATE_SECRET &&
-      secretCode === process.env.ADMIN_CREATE_SECRET
+        process.env.ADMIN_CREATE_SECRET &&
+        secretCode === process.env.ADMIN_CREATE_SECRET
         ? "admin"
         : "user";
 
@@ -57,19 +55,15 @@ router.post("/register", async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Register error:", err);
-    return res.status(500).json({ message: "Server error during registration" });
+    next(err);
   }
 });
 
 // Login normal user
-router.post("/login", async (req, res) => {
+router.post("/login", loginSchema, validate, async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email and password are required" });
-    }
 
     const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
@@ -93,8 +87,7 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("Login error:", err);
-    return res.status(500).json({ message: "Server error during login" });
+    next(err);
   }
 });
 

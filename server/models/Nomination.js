@@ -2,10 +2,30 @@ import mongoose from "mongoose";
 
 const nominationSchema = new mongoose.Schema(
   {
-    registrationType: {
+    participationType: {
       type: String,
+      enum: ["nominated as award", "attend as speaker", "attend as exhibitor", "attend as sponsor"],
       required: true,
+      default: "nominated as award",
+    },
+    category: {
+      type: String,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
+    },
+    subCategory: {
+      type: String,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
+      trim: true,
+    },
+    otherSubCategory: {
+      type: String,
+      trim: true,
+      default: "",
     },
     nomineeName: {
       type: String,
@@ -17,30 +37,47 @@ const nominationSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    category: {
+    // New fields for simpler form (speaker/exhibitor/sponsor)
+    designation: {
       type: String,
-      required: true,
       trim: true,
+    },
+    mobile: {
+      type: String,
+      trim: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
     },
     // Organization head
     orgHeadName: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
     },
     orgHeadDesignation: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
     },
     orgHeadMobile: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
     },
     orgHeadEmail: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
       lowercase: true,
     },
@@ -48,22 +85,30 @@ const nominationSchema = new mongoose.Schema(
     // Contact person
     contactName: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
     },
     contactDesignation: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
     },
     contactMobile: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
     },
     contactEmail: {
       type: String,
-      required: true,
+      required: function () {
+        return this.participationType === "nominated as award";
+      },
       trim: true,
       lowercase: true,
     },
@@ -83,22 +128,30 @@ const nominationSchema = new mongoose.Schema(
     // Address
     street: {
       type: String,
-      required: true,
+      required: function () {
+        return (this.participationType || "nominated as award") === "nominated as award";
+      },
       trim: true,
     },
     city: {
       type: String,
-      required: true,
+      required: function () {
+        return (this.participationType || "nominated as award") === "nominated as award";
+      },
       trim: true,
     },
     state: {
       type: String,
-      required: true,
+      required: function () {
+        return (this.participationType || "nominated as award") === "nominated as award";
+      },
       trim: true,
     },
     zip: {
       type: String,
-      required: true,
+      required: function () {
+        return (this.participationType || "nominated as award") === "nominated as award";
+      },
       trim: true,
     },
 
@@ -148,6 +201,11 @@ const nominationSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    preferredLocation: {
+      type: String,
+      enum: ["New Delhi", "Dubai", "London", "USA", ""],
+      default: "",
+    },
   },
   {
     timestamps: true,
@@ -155,6 +213,7 @@ const nominationSchema = new mongoose.Schema(
 );
 
 // Helpful indexes for faster admin queries & filtering
+nominationSchema.index({ createdAt: -1 });
 nominationSchema.index({ user: 1, createdAt: -1 });
 nominationSchema.index({ status: 1, createdAt: -1 });
 nominationSchema.index({ paymentStatus: 1, createdAt: -1 });

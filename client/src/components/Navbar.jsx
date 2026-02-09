@@ -78,9 +78,7 @@ export default function Navbar() {
     }
   };
 
-  if (isNominateRoute) {
-    return null;
-  }
+  // No longer hiding navbar for nomination route to maintain consistency and allow navigation.
 
   // ===== Header for admin routes
   if (isAdminRoute) {
@@ -138,25 +136,8 @@ export default function Navbar() {
                     />
                   </div>
                   <div className="flex gap-2 font-semibold whitespace-nowrap">
-                    <span>Primetime Research Media</span>
+                    <span>Prime Time Research Media Pvt. Ltd</span>
                     <span className="opacity-70">Global Healthcare Awards</span>
-                    <span className="opacity-60">
-                      {location.pathname === "/editions/2026" ? "14th Edition" :
-                        location.pathname === "/editions/2025" ? "13th Edition" :
-                          location.pathname === "/editions/2024" ? "12th Edition" :
-                            location.pathname === "/editions/2023" ? "11th Edition" :
-                              location.pathname === "/editions/2022" ? "10th Edition" :
-                                location.pathname === "/editions/2021" ? "9th Edition" :
-                                  location.pathname === "/editions/2020" ? "8th Edition" :
-                                    location.pathname === "/editions/2019" ? "7th Edition" :
-                                      location.pathname === "/editions/2018" ? "6th Edition" :
-                                        location.pathname === "/editions/2017" ? "5th Edition" :
-                                          location.pathname === "/editions/2016" ? "4th Edition" :
-                                            location.pathname === "/editions/2015" ? "3rd Edition" :
-                                              location.pathname === "/editions/2014" ? "2nd Edition" :
-                                                location.pathname === "/editions/2013" ? "1st Edition" :
-                                                  "14th Edition"}
-                    </span>
                   </div>
                 </div>
                 {/* RIGHT : LOGIN */}
@@ -227,7 +208,7 @@ export default function Navbar() {
               className="h-9 w-auto object-contain"
               style={{ maxWidth: 40 }}
             />
-            <span className="text-[13px] font-semibold whitespace-nowrap text-white">Primetime Research Media</span>
+            <span className="text-[13px] font-semibold whitespace-nowrap text-white">Prime Time Research Media Pvt. Ltd</span>
           </div>
           {/* Welcome & logout/login */}
           <div className="flex items-center gap-1">
@@ -385,7 +366,7 @@ function MobileMenuDrawer({
               alt="PrimeTime Logo"
               className="h-8 w-auto object-contain"
             />
-            <span className="font-semibold text-sm text-white">Primetime Research Media</span>
+            <span className="font-semibold text-sm text-white">Prime Time Research Media Pvt. Ltd</span>
           </div>
           <button
             aria-label="Close Menu"

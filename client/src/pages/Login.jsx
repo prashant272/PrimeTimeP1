@@ -18,7 +18,7 @@ export default function Login() {
     try {
       setSubmitting(true);
       await login(email, password);
-      const from = location.state?.from?.pathname || "/";
+      const from = location.state?.from?.pathname || "/nominate";
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Unable to login");
@@ -33,7 +33,7 @@ export default function Login() {
       <div className="relative w-full max-w-sm bg-white/5 backdrop-blur-2xl shadow-[0_10px_40px_-10px_#d4af37c5] border border-[#d4af37]/20 rounded-2xl px-5 py- md:py-9 flex flex-col items-center sm:px-7">
         {/* Removed logo circle above the card */}
         <h1 className="mt-10 text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-[#fff8e1] via-[#d4af37] to-[#c79f2a] bg-clip-text text-transparent tracking-tight drop-shadow-sm">
-           Login
+          Login
         </h1>
         <p className="mb-6 text-center text-base md:text-lg text-white/70">Sign in to your exclusive account</p>
 

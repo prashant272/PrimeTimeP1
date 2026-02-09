@@ -139,7 +139,7 @@ export default function Footer() {
               <div className="flex items-start gap-2">
                 <span className="inline-block w-5 mt-0.5 text-[#d4af37]">🏢</span>
                 <span className="text-sm leading-snug">
-                  <strong>Office:</strong> Prime Time Research Media, C-31, Nawada Housing Complex, New Delhi-59
+                  <strong>Office:</strong> Prime Time Research Media Pvt. Ltd, C-31, Nawada Housing Complex, New Delhi-59
                 </span>
               </div>
               <div className="grid grid-cols-1 gap-y-2">
@@ -225,7 +225,7 @@ export default function Footer() {
         {" "} &bull; © {new Date().getFullYear()} All Rights Reserved
         {" "} | This page is owned by{" "}
         <span className="text-[#d4af37] font-bold">
-          Prime Time Research Media
+          Prime Time Research Media Pvt. Ltd
         </span>
       </div>
 

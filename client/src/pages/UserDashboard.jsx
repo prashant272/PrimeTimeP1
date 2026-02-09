@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchMyNominations } from "../services/api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { Crown, UserCircle } from "lucide-react";
+import { Crown, UserCircle, ExternalLink } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const STATUS_LABELS = {
   nominated: "Nominated",
@@ -24,6 +25,7 @@ const STATUS_COLORS = {
 };
 
 export default function UserDashboard() {
+  const navigate = useNavigate();
   const { token, user } = useAuth();
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -157,23 +159,32 @@ export default function UserDashboard() {
                         <StatusBadge status={n.status} />
                       </div>
                     </div>
-                    <div className="mt-2 sm:mt-4 pt-1 xs:pt-2 sm:pt-3 flex flex-col-reverse md:flex-row gap-1 xs:gap-2 md:gap-5 lg:gap-6 items-start justify-between text-xs xs:text-sm sm:text-sm text-[#ffeec3]/80 italic">
-                      <span>
-                        <span className="font-bold text-[#ffd966] not-italic">
-                          Submitted on{" "}
+                    <div className="mt-4 pt-4 border-t border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                      <div className="flex flex-col gap-1 text-xs xs:text-sm sm:text-sm text-[#ffeec3]/80 italic">
+                        <span>
+                          <span className="font-bold text-[#ffd966] not-italic">
+                            Submitted on{" "}
+                          </span>
+                          {n.createdAt
+                            ? new Date(n.createdAt).toLocaleString()
+                            : "-"}
                         </span>
-                        {n.createdAt
-                          ? new Date(n.createdAt).toLocaleString()
-                          : "-"}
-                      </span>
-                      {n.remarks && (
-                        <span className="line-clamp-2 max-w-xs sm:max-w-sm md:max-w-xl text-[#ffb6b6] not-italic">
-                          <span className="font-semibold text-[#fff]/90">
-                            Remarks:
-                          </span>{" "}
-                          <span className="text-[#ffeec3]">{n.remarks}</span>
-                        </span>
-                      )}
+                        {n.remarks && (
+                          <span className="line-clamp-1 max-w-xs text-[#ffeec3]/60 not-italic">
+                            <span className="font-semibold text-[#fff]/90 mr-1">
+                              Remarks:
+                            </span>
+                            {n.remarks}
+                          </span>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={() => navigate(`/nomination/${n._id}`)}
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-white/5 border border-white/10 text-[#d4af37] font-bold uppercase tracking-widest text-[10px] hover:bg-[#d4af37] hover:text-black transition-all group"
+                      >
+                        See All Details <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -225,10 +236,10 @@ function StatusBadge({ status }) {
     normalized === "selected"
       ? "bg-emerald-300"
       : normalized === "evaluation"
-      ? "bg-yellow-300"
-      : normalized === "rejected"
-      ? "bg-red-400"
-      : "bg-blue-400";
+        ? "bg-yellow-300"
+        : normalized === "rejected"
+          ? "bg-red-400"
+          : "bg-blue-400";
 
   return (
     <span

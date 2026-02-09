@@ -8,7 +8,7 @@ import { authenticate, requireAdmin, signToken } from "../middleware/authMiddlew
 const router = express.Router();
 
 // Admin login
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body || {};
     if (!email || !password) {
@@ -34,26 +34,24 @@ router.post("/login", async (req, res) => {
       user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } catch (err) {
-    console.error("Admin login error:", err);
-    return res.status(500).json({ message: "Server error during admin login" });
+    next(err);
   }
 });
 
 // List all nominations (admin)
-router.get("/nominations", authenticate, requireAdmin, async (_req, res) => {
+router.get("/nominations", authenticate, requireAdmin, async (_req, res, next) => {
   try {
     const docs = await Nomination.find({})
       .populate("user", "email name role")
       .sort({ createdAt: -1 });
     return res.json(docs);
   } catch (err) {
-    console.error("Fetch admin nominations error:", err);
-    return res.status(500).json({ message: "Unable to fetch nominations" });
+    next(err);
   }
 });
 
 // Update nomination status
-router.patch("/nominations/:id/status", authenticate, requireAdmin, async (req, res) => {
+router.patch("/nominations/:id/status", authenticate, requireAdmin, async (req, res, next) => {
   try {
     const { status } = req.body || {};
     const updated = await Nomination.findByIdAndUpdate(
@@ -65,13 +63,12 @@ router.patch("/nominations/:id/status", authenticate, requireAdmin, async (req, 
     if (!updated) return res.status(404).json({ message: "Nomination not found" });
     return res.json(updated);
   } catch (err) {
-    console.error("Update nomination status error:", err);
-    return res.status(400).json({ message: err?.message || "Unable to update status" });
+    next(err);
   }
 });
 
 // Update nomination (admin)
-router.put("/nominations/:id", authenticate, requireAdmin, async (req, res) => {
+router.put("/nominations/:id", authenticate, requireAdmin, async (req, res, next) => {
   try {
     const payload = req.body || {};
     // prevent user reassignment
@@ -85,20 +82,18 @@ router.put("/nominations/:id", authenticate, requireAdmin, async (req, res) => {
     if (!updated) return res.status(404).json({ message: "Nomination not found" });
     return res.json(updated);
   } catch (err) {
-    console.error("Update nomination error:", err);
-    return res.status(400).json({ message: err?.message || "Unable to update nomination" });
+    next(err);
   }
 });
 
 // Delete nomination (admin)
-router.delete("/nominations/:id", authenticate, requireAdmin, async (req, res) => {
+router.delete("/nominations/:id", authenticate, requireAdmin, async (req, res, next) => {
   try {
     const deleted = await Nomination.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Nomination not found" });
     return res.json({ ok: true });
   } catch (err) {
-    console.error("Delete nomination error:", err);
-    return res.status(500).json({ message: "Unable to delete nomination" });
+    next(err);
   }
 });
 

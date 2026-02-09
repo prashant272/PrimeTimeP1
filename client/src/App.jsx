@@ -16,6 +16,8 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NominationForm from "./pages/NominationForm.jsx";
 import UserDashboard from "./pages/UserDashboard.jsx";
+import NominationDetails from "./pages/NominationDetails.jsx";
+import SuccessPage from "./pages/SuccessPage.jsx";
 import AdminLogin from "./pages/AdminLogin.jsx";
 import AdminRegister from "./pages/AdminRegister.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
@@ -56,6 +58,23 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/nominate/:id"
+            element={
+              <ProtectedRoute allowedRoles={["user"]}>
+                <NominationForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/nomination/:id"
+            element={
+              <ProtectedRoute allowedRoles={["user"]}>
+                <NominationDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/success" element={<SuccessPage />} />
           <Route
             path="/dashboard"
             element={
