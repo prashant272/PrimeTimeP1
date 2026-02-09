@@ -65,13 +65,13 @@ export default function Home() {
 
   const events = [
     {
-      title: "Global Healthcare Awards 2026 ",
+      title: "Global Healthcare Awards 2026 – Dubai Edition 🇦🇪 ",
       desc: "Recognising excellence and innovation in healthcare leadership.",
       date: "26 April 2026",
       place: "Dubai",
     },
     {
-      title: "Global Healthcare Awards 2026",
+      title: "Global Healthcare Awards 2026 – London Edition 🇬🇧",
       desc: "Recognising excellence and innovation in healthcare leadership.",
       date: "9 June 2026",
       place: "London",
@@ -237,6 +237,33 @@ export default function Home() {
       link: "https://www.primetimemedia.in/usa-business-summit",
       color: "from-[#fdfbfb] to-[#ebedee]"
     }
+  ];
+
+  const homeFaqs = [
+    {
+      q: "What is Global Healthcare Awards 2026?",
+      a: "Global Healthcare Awards 2026 is an international recognition platform that honours hospitals, doctors, clinics, healthcare organisations, and healthtech companies for excellence, innovation, and quality patient care.",
+    },
+    {
+      q: "Who can apply for nomination?",
+      a: "Hospitals and healthcare institutions, clinics and diagnostic centres, individual doctors and medical professionals, healthcare startups, healthtech companies, and medical or wellness organisations can apply for nomination.",
+    },
+    {
+      q: "What is the nomination process and deadline?",
+      a: "The nomination process is completely online. Applicants need to fill out the nomination form and submit the required details and documents. The current extended deadline mentioned on this page is 15 April 2026; for any change, updated dates will always be shown on the website.",
+    },
+    {
+      q: "How are the winners selected?",
+      a: "Winners are selected through a structured evaluation process that includes research-based assessment, service quality, innovation, patient impact, and ethical practices, as explained in the Research Methodology and Selection Process sections.",
+    },
+    {
+      q: "What are the benefits of participating?",
+      a: "Participants receive global recognition and credibility, enhanced brand visibility and media exposure, greater trust among patients and partners, networking with healthcare leaders, and marketing assets such as certificates and winner logos.",
+    },
+    {
+      q: "Is self-nomination allowed?",
+      a: "Yes, eligible organisations and individuals can nominate themselves directly for relevant categories.",
+    },
   ];
 
   // Responsive and premium utility variables
@@ -468,7 +495,7 @@ export default function Home() {
         </div>
       </section>
       {/* OVERVIEW + DATES: Main theme background (use SECTION_BG to keep consistent) */}
-      <section className={`relative py-12 lg:py-16 overflow-hidden ${SECTION_BG} border-b border-[#d4af37]/20`}>
+      <section className={`relative py-12 lg:py-20 overflow-hidden ${SECTION_BG} border-b border-[#d4af37]/20`}>
         {/* Gradient Glow Background */}
         <div className="absolute inset-0 -z-10 pointer-events-none">
           <div className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] bg-gradient-to-br from-[#d4af37]/20 via-[#d4af37]/10 to-transparent rounded-full mix-blend-screen blur-[120px] animate-blob" />
@@ -476,12 +503,12 @@ export default function Home() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-16 gap-x-12">
             {/* ==== LEFT: OVERVIEW ==== */}
-            <div className="space-y-8 flex flex-col justify-center">
+            <div className="flex flex-col justify-center h-full lg:pr-6 xl:pr-12">
               {/* Section Badge */}
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#2a1b12]/20 backdrop-blur-2xl border border-[#d4af37]/20 shadow-2xl hover:bg-[#392818]/20 hover:border-[#d4af37]/40 transition-all duration-500 group/badge">
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#2a1b12]/20 backdrop-blur-2xl border border-[#d4af37]/20 shadow-2xl hover:bg-[#392818]/20 hover:border-[#d4af37]/40 transition-all duration-500 group/badge mb-4">
                 <div className="relative">
                   <svg className="w-5 h-5 text-[#d4af37] group-hover/badge:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path d="M12 2l2.39 7.24h7.61l-6.19 4.5L16.92 22 12 17.27 7.08 22l1.11-8.26-6.19-4.5h7.61L12 2z" /></svg>
                   <div className="absolute inset-0 bg-[#d4af37]/20 blur-xl rounded-full animate-pulse"></div>
@@ -489,14 +516,12 @@ export default function Home() {
                 <span className="text-sm font-bold tracking-wider text-[#ffeec3]">ABOUT THE AWARDS</span>
               </div>
 
-              <div>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
-                  <span className="bg-gradient-to-r from-white via-[#ffeec3] to-[#d4af37] bg-clip-text text-transparent">
-                    Overview of Healthcare Awards 2026
-                  </span>
-                </h2>
-                <div className="w-20 h-1.5 bg-gradient-to-r from-[#ffeec3] via-[#d4af37] to-[#c5b471] rounded-full" />
-              </div>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
+                <span className="bg-gradient-to-r from-white via-[#ffeec3] to-[#d4af37] bg-clip-text text-transparent">
+                  Overview of Healthcare Awards 2026
+                </span>
+              </h2>
+              <div className="w-20 h-1.5 bg-gradient-to-r from-[#ffeec3] via-[#d4af37] to-[#c5b471] rounded-full mb-7" />
 
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-[#d4af37]/20 via-[#392818]/10 to-[#ffd966]/20 opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-1000 rounded-3xl" />
@@ -510,7 +535,7 @@ export default function Home() {
                   {/* Gold Bar */}
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#ffd966] via-[#d4af37] to-transparent" />
                   {/* Decorative Orb */}
-                  <div className="absolute top-0 right-0 w-44 h-44 bg-gradient-to-br from-[#d4af37]/10 to-[#ffd966]/5 blur-2xl rounded-full transform translate-x-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity duration-700" />
+                  <div className="absolute top-0 right-0 w-44 h-44 bg-gradient-to-br from-[#d4af37]/10 to-[#ffd966]/5 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-20 transition-opacity duration-700" />
                   <div className="relative space-y-6">
                     {/* Award Name + Icon */}
                     <div className="flex items-start gap-4">
@@ -549,9 +574,8 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
             {/* ==== RIGHT: Key Dates ==== */}
-            <div className="space-y-8 flex flex-col lg:pt-[72px]">
+            <div className="flex flex-col justify-center h-full lg:pl-8 xl:pl-16 space-y-8">
               <div>
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
                   <span className="bg-gradient-to-r from-[#ffeec3] via-[#ffd966] to-[#d4af37] bg-clip-text text-transparent">
@@ -563,16 +587,6 @@ export default function Home() {
               {/* Timeline Style Cards */}
               <div className="space-y-6">
                 {[
-                  {
-                    title: 'Final Shortlisting',
-                    date: 'Early April for Dubai and early May for London',
-                    icon: (
-                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#fff3c4] to-[#ffeb98] flex items-center justify-center shadow-lg">
-                        <svg className="w-6 h-6 text-[#392818]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M9 13l2.25 2L15 11m-3-8a9 9 0 1 1 0 18a9 9 0 0 1 0-18z" /></svg>
-                      </span>
-                    ),
-                    border: 'from-[#ffeb98] to-[#ffeec3]',
-                  },
                   {
                     title: 'Award Ceremony – Dubai',
                     date: '26 April 2026',
@@ -642,6 +656,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+
           {/* Bottom Decorative */}
           <div className="mt-20 text-center">
             <div className="inline-flex items-center gap-2 text-[#ffeec3]/70 text-sm">
@@ -1099,6 +1114,89 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* ================= KEY FAQ SNAPSHOT ================= */}
+      <section className={`relative pt-12 md:pt-20 pb-16 md:pb-28 overflow-hidden ${HIGHLIGHT_BG}`}>
+        {/* Premium Glow Ornaments */}
+        <div className="absolute inset-0 pointer-events-none -z-10">
+          <div className="absolute top-0 left-1/4 w-72 h-72 bg-gradient-to-br from-[#d4af37]/25 via-transparent to-transparent rounded-full blur-3xl" />
+          <div className="absolute bottom-[-6rem] right-1/6 w-96 h-96 bg-gradient-to-tr from-[#c62828]/15 via-[#d4af37]/10 to-transparent rounded-full blur-3xl" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-2 xs:px-3 sm:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl xs:text-5xl md:text-6xl font-heading font-extrabold bg-gradient-to-r from-[#fffbe7] via-[#ffe79b] via-50% to-[#d4af37] bg-clip-text text-transparent drop-shadow-lg tracking-tight">
+              Frequently Asked Questions
+            </h2>
+            <div className="mt-4 w-28 sm:w-40 h-[5px] mx-auto rounded-full bg-gradient-to-r from-transparent via-[#ffd966] to-transparent shadow-[0_0_24px_2px_#ffeec3]" />
+            <p className="mt-6 text-base sm:text-lg md:text-xl text-[#ffefb0] max-w-2xl mx-auto font-medium tracking-wide leading-relaxed">
+              <span className="bg-gradient-to-br from-[#fffbe7] via-[#ffe79b] to-[#d4af37] bg-clip-text text-transparent font-bold">Your most essential queries about nominations, eligibility, and benefits—</span>
+              for the complete FAQ, please visit our FAQ page.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+            {homeFaqs.map((item, index) => (
+              <div
+                key={index}
+                className="relative flex h-full"
+              >
+                <div
+                  className="
+                    group
+                    relative
+                    flex flex-col
+                    flex-grow
+                    overflow-visible
+                    bg-gradient-to-br from-[#2a1b12]/70 via-[#3c230f]/90 to-[#dac377]/10
+                    border border-[#eed47c]/20
+                    hover:border-[#ffd966]
+                    rounded-2xl sm:rounded-3xl
+                    p-5 xs:p-6 sm:p-7 md:p-8
+                    shadow-[0_8px_22px_-8px_#eed47c66]
+                    hover:shadow-[0_16px_28px_-8px_#ffd96677]
+                    transition-all duration-300
+                    cursor-pointer
+                    w-full
+                    min-h-[240px] xs:min-h-[200px] sm:min-h-[240px] md:min-h-[220px]
+                    max-w-full
+                    box-border
+                  "
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  {/* Q Number Circle - moved INSIDE card content */}
+                  <div className="flex items-center mb-3">
+                    <span className="inline-flex items-center justify-center bg-gradient-to-r from-[#fbf6df] via-[#ffe7a1] to-[#d4af37] rounded-full shadow-lg w-8 h-8 text-base sm:text-xl font-bold text-[#a28533] border-2 border-[#ffeec3]/70">
+                      Q{index + 1}
+                    </span>
+                  </div>
+                  {/* Decorative Glow */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#ffeec3]/10 via-transparent to-transparent opacity-70 -z-10 rounded-b-3xl pointer-events-none" />
+                  {/* Inner Content */}
+                  <div className="flex-1 flex flex-col overflow-hidden">
+                    {/* Question */}
+                    <h3 className="mb-2 sm:mb-3 text-base xs:text-lg md:text-xl font-bold tracking-wide bg-gradient-to-r from-[#ffeec3] via-[#ffe07d] to-[#d4af37] bg-clip-text text-transparent drop-shadow group-hover:scale-105 group-hover:drop-shadow-[0_2px_12px_#ffeec399] transition duration-300 break-words">
+                      {item.q}
+                    </h3>
+                    {/* Answer */}
+                    <p className="text-xs xs:text-sm sm:text-base md:text-lg text-[#ffeec3]/90 leading-relaxed font-medium bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#fff7cf] group-hover:via-[#ffefb0] group-hover:to-[#ffe07d] group-hover:text-transparent transition-colors duration-300 break-words line-clamp-6 sm:line-clamp-5">
+                      {item.a}
+                    </p>
+                  </div>
+
+                  {/* Bottom premium accent */}
+                  <div className="mt-6 h-1 w-14 sm:w-20 mx-auto rounded-full bg-gradient-to-r from-[#ffeec3] via-[#ffd966] to-transparent opacity-60" />
+
+                  {/* Subtle floating gold particles effect (decorative dots) */}
+                  <div className="absolute left-2 bottom-2 h-2 w-2 bg-[#ffeec3]/30 rounded-full blur-[2px] animate-pulse"></div>
+                  <div className="absolute right-3 top-3 h-2 w-2 bg-[#ffd966]/20 rounded-full blur-[1.5px] animate-pulse delay-500"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       {/* CTA section - keep visually distinct but aligned */}
       <section className={`relative pt-10 sm:pt-14 md:pt-20 pb-12 sm:pb-20 md:pb-28 text-center overflow-hidden ${PRIMARY_BG}`}>
         <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
@@ -1128,19 +1226,20 @@ export default function Home() {
       </section>
 
       {/* OUR OTHER UPCOMING AWARDS section */}
-      <section className={`relative pt-16 md:pt-24 pb-16 md:pb-24 overflow-hidden ${HIGHLIGHT_BG}`}>
+      <section className={`relative pt-12 sm:pt-24 md:pt-32 pb-14 sm:pb-24 md:pb-32 overflow-hidden ${HIGHLIGHT_BG}`}>
+        {/* Responsive glowing background blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute top-1/4 left-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#d4af37]/5 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#c62828]/5 rounded-full blur-3xl animate-pulse delay-700"></div>
+          <div className="absolute top-[20%] left-[12%] w-[60px] xs:w-[110px] sm:w-[190px] md:w-[240px] lg:w-[350px] h-[60px] xs:h-[110px] sm:h-[190px] md:h-[240px] lg:h-[350px] bg-[#d4af37]/5 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute bottom-[15%] right-[16%] w-[60px] xs:w-[110px] sm:w-[190px] md:w-[240px] lg:w-[350px] h-[60px] xs:h-[110px] sm:h-[190px] md:h-[240px] lg:h-[350px] bg-[#c62828]/5 rounded-full blur-2xl animate-pulse delay-700"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 md:mb-20">
-            <h2 className="text-3xl xs:text-4xl md:text-5xl font-heading font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white via-[#d4af37] to-white bg-clip-text text-transparent drop-shadow-xl">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-2 xs:px-4 sm:px-6">
+          <div className="text-center mb-8 xs:mb-14 sm:mb-20 md:mb-28">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-3 sm:mb-5 bg-gradient-to-r from-white via-[#d4af37] to-white bg-clip-text text-transparent drop-shadow-xl">
               Our Other Upcoming Awards
             </h2>
-            <div className="w-24 sm:w-32 h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto"></div>
-            <p className="mt-6 text-[#ebdcc8] text-base sm:text-lg max-w-2xl mx-auto">
+            <div className="w-16 xs:w-20 sm:w-32 h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto"></div>
+            <p className="mt-3 xs:mt-4 sm:mt-6 text-[#ebdcc8] text-xs xs:text-sm sm:text-base md:text-lg max-w-xl xs:max-w-2xl mx-auto">
               Join us in celebrating excellence across various industries globally.
             </p>
           </div>
@@ -1148,12 +1247,12 @@ export default function Home() {
           <div className="w-full">
             <Swiper
               modules={[Autoplay, Pagination]}
-              spaceBetween={30}
-              slidesPerView={3}
+              spaceBetween={8}
+              slidesPerView={1.05}
               loop={true}
-              speed={2000}
+              speed={1400}
               autoplay={{
-                delay: 2000,
+                delay: 2600,
                 disableOnInteraction: false,
               }}
               pagination={{
@@ -1161,57 +1260,109 @@ export default function Home() {
                 dynamicBullets: true,
               }}
               breakpoints={{
-                640: {
-                  slidesPerView: 2,
+                0: {
+                  slidesPerView: 1.05,
+                  spaceBetween: 8,
                 },
-                1024: {
+                390: {
+                  slidesPerView: 1.12,
+                  spaceBetween: 9,
+                },
+                440: {
+                  slidesPerView: 1.2,
+                  spaceBetween: 12,
+                },
+                580: {
+                  slidesPerView: 1.6,
+                  spaceBetween: 14,
+                },
+                700: {
+                  slidesPerView: 2,
+                  spaceBetween: 14,
+                },
+                900: {
+                  slidesPerView: 2.5,
+                  spaceBetween: 16,
+                },
+                1100: {
                   slidesPerView: 3,
+                  spaceBetween: 18,
+                },
+                1400: {
+                  slidesPerView: 4,
+                  spaceBetween: 22,
                 },
               }}
-              className="pb-16"
+              className="pb-12 xs:pb-16 sm:pb-20"
+              style={{paddingLeft: 0, paddingRight: 0}}
             >
               {upcomingAwards.map((award, index) => (
-                <SwiperSlide key={index}>
-                  <div className="group relative flex flex-col rounded-2xl bg-gradient-to-br from-[#2a1b12] to-[#1a110a] border border-[#d4af37]/20 hover:border-[#d4af37]/60 transition-all duration-500 hover:shadow-[0_20px_40px_-12px_#d4af3733] overflow-hidden max-w-sm mx-auto h-125">
-                    {/* Banner Image - Adjusted for better fitting */}
-                    <div className="relative h-52 overflow-hidden bg-black/50">
+                <SwiperSlide key={index} className="!px-0">
+                  <div
+                    className="
+                      group relative flex flex-col rounded-lg xs:rounded-xl sm:rounded-2xl
+                      bg-gradient-to-br from-[#2a1b12]/95 via-[#1a110a]/90 to-[#2a1b12]/95
+                      border border-[#d4af37]/10 hover:border-[#d4af37]/80
+                      transition-all duration-500 hover:shadow-[0_8px_26px_-10px_#e5c75b55]
+                      overflow-hidden w-full
+                      h-[280px] xs:h-[330px] sm:h-[370px] md:h-[390px] lg:h-[400px] xl:h-[410px]
+                      p-0 shadow-md hover:scale-[1.025]
+                    "
+                    style={{ maxWidth: '100%' }}
+                  >
+                    {/* Premium Glow */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#d4af37]/5 via-[#ffedbb]/0 to-[#c62828]/10 opacity-0 group-hover:opacity-60 transition duration-500 pointer-events-none z-10 rounded-lg xs:rounded-xl sm:rounded-2xl blur-sm"></div>
+
+                    {/* Image on upper half - strongly responsive height */}
+                    <div className="relative w-full" style={{ height: "51%" }}>
                       <img
                         src={award.banner}
                         alt={award.title}
-                        className="w-full h-full object-fill transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                        style={{ borderTopLeftRadius: 'inherit', borderTopRightRadius: 'inherit', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
+                        loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1a110a] via-transparent to-transparent"></div>
-                      <div className="absolute bottom-3 left-4">
-                        <span className="px-2 py-0.5 rounded-full bg-[#d4af37] text-black text-[10px] font-bold uppercase tracking-wider">
+                      {/* Top Black gradient for some depth */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10 rounded-t-lg xs:rounded-t-xl sm:rounded-t-2xl pointer-events-none"></div>
+                      {/* Gold shine at bottom of image */}
+                      <div className="absolute bottom-0 left-0 w-full h-3 xs:h-4 sm:h-7 md:h-8 bg-gradient-to-t from-[#ffe18b77] via-transparent to-transparent opacity-75 blur-[2px] pointer-events-none z-10"></div>
+                      <div className="absolute bottom-2 left-1 xs:left-2 z-20">
+                        <span className="px-1.5 py-[1px] xs:px-2.5 xs:py-1 rounded-full bg-gradient-to-r from-[#ffe9a3] to-[#d4af37] text-black text-[9px] xs:text-[10px] sm:text-[12px] font-bold uppercase tracking-wide shadow-md border border-[#fff4]/20 backdrop-blur">
                           {award.location}
                         </span>
                       </div>
                     </div>
 
-                    {/* Content - More compact */}
-                    <div className="p-6 flex flex-col flex-grow">
-                      <h3 className="text-lg md:text-xl font-bold mb-1.5 text-[#ffeec3] group-hover:text-white transition-colors line-clamp-2">
-                        {award.title}
-                      </h3>
-                      <p className="text-[#d4af37] font-semibold text-xs mb-3">
-                        {award.date}
-                      </p>
-                      <p className="text-[#dbc6ad] text-xs md:text-sm leading-relaxed group-hover:text-white transition-colors flex-grow line-clamp-3">
-                        {award.desc}
-                      </p>
-
+                    {/* Text Content fills lower half */}
+                    <div className="
+                      flex flex-col flex-grow justify-between
+                      px-2.5 xs:px-3.5 sm:px-5 pt-2 xs:pt-3 sm:pt-4 pb-2.5 sm:pb-5
+                      h-full
+                    ">
+                      <div>
+                        <h3 className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl font-black mb-0.5 xs:mb-1 sm:mb-2.5 bg-gradient-to-r from-[#ffeec3] via-[#d4af37] to-[#efd270] bg-clip-text text-transparent group-hover:from-white group-hover:to-[#ffeec3] transition-all duration-300 leading-tight drop-shadow-[0_2px_8px_#d4af3720] line-clamp-2">
+                          {award.title}
+                        </h3>
+                        <p className="text-[#d4af37] font-semibold text-[10px] xs:text-xs sm:text-sm mb-0.5 xs:mb-1 sm:mb-2">
+                          {award.date}
+                        </p>
+                        <p className="text-[#dbc6ad] text-[10px] xs:text-xs sm:text-sm md:text-base leading-snug group-hover:text-white transition-colors mb-2 xs:mb-3 sm:mb-4 drop-shadow-[0_1px_4px_#23140f11] font-medium line-clamp-3">
+                          {award.desc}
+                        </p>
+                      </div>
                       <a
                         href={award.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-6 relative overflow-hidden group/btn rounded-lg bg-gradient-to-r from-[#d4af37] to-[#a28533] text-black font-bold px-4 py-2 text-sm text-center transition-all duration-300 hover:brightness-110"
+                        className="relative overflow-hidden group/btn rounded-md xs:rounded-lg sm:rounded-xl bg-gradient-to-r from-[#fcecb0] via-[#d4af37] to-[#a28533] text-[#23140f] hover:text-white font-extrabold px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 text-xs xs:text-sm sm:text-base text-center transition-all duration-300 hover:scale-105 hover:shadow-[0_2px_16px_-2px_#d4af3780] border border-[#ffe99b44] group-hover/btn:border-[#fff7d1] tracking-wide"
                       >
-                        <span className="relative z-10 flex items-center justify-center gap-2">
+                        <span className="relative z-10 flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2">
                           Visit Website
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
                         </span>
+                        <div className="absolute left-0 top-0 h-full w-1/3 bg-gradient-to-r from-[#fff7d1] via-[#f1d46b90] to-transparent opacity-0 group-hover/btn:opacity-70 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-all duration-700 z-0" />
                       </a>
                     </div>
                   </div>
@@ -1222,27 +1373,31 @@ export default function Home() {
         </div>
       </section>
       {/* WHO SHOULD NOMINATE section */}
-      <section className={`relative pt-16 sm:pt-24 pb-20 sm:pb-32 overflow-hidden ${HIGHLIGHT_BG}`}>
-        {/* Animated Background Glows */}
+      <section className={`relative pt-14 sm:pt-24 pb-16 sm:pb-24 overflow-hidden ${HIGHLIGHT_BG}`}>
+        {/* Animated Gradient Glows */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute top-1/4 right-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#d4af37]/10 rounded-full blur-[120px] animate-pulse"></div>
-          <div className="absolute bottom-1/4 left-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#c62828]/10 rounded-full blur-[120px] animate-pulse delay-1000"></div>
+          <div className="absolute top-1/4 right-1/4 w-[260px] md:w-[440px] h-[260px] md:h-[440px] bg-gradient-radial from-[#d4af37]/30 via-transparent to-transparent rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 left-1/4 w-[200px] md:w-[380px] h-[200px] md:h-[380px] bg-gradient-radial from-[#fde68a]/30 via-transparent to-transparent rounded-full blur-[60px] animate-pulse delay-1000" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 md:mb-20">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/30 mb-6 group hover:bg-[#d4af37]/20 transition-all duration-300">
-              <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse"></span>
-              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-[#d4af37] uppercase">Nomination Categories</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="text-center mb-10 md:mb-20">
+            {/* Premium Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#ffe9a3]/30 via-[#d4af37]/10 to-[#c8b36b]/20 border border-[#d4af37]/30 shadow-md mb-6 group transition-all duration-200 hover:bg-[#ffeec340] hover:border-[#ffeec3] hover:scale-105">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#f2e7b6] drop-shadow-[0_2px_4px_#d4af3720]" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2l2.618 5.808 6.382.738-4.9 4.064L15.236 18 10 14.868 4.764 18l1.136-5.39-4.9-4.064 6.382-.738L10 2z"/>
+              </svg>
+              <span className="text-xs sm:text-sm font-extrabold tracking-[0.2em] bg-gradient-to-r from-[#fffbe8] via-[#d4af37] to-[#efd270] bg-clip-text text-transparent uppercase drop-shadow-[0_2px_8px_#d4af3710]">
+                Nomination Categories
+              </span>
             </div>
 
-            <h2 className="text-3xl xs:text-4xl md:text-5xl font-heading font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white via-[#d4af37] to-white bg-clip-text text-transparent drop-shadow-2xl">
-              Who Should Nominate
+            <h2 className="text-3xl xs:text-4xl md:text-5xl font-heading font-extrabold mb-2 sm:mb-5 bg-gradient-to-tl from-white via-[#efd270] to-[#ffeec3] bg-clip-text text-transparent drop-shadow-[0_2px_22px_#d4af3722] tracking-tight">
+              Who Should Nominate?
             </h2>
-            <div className="w-24 sm:w-32 h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto"></div>
-            <p className="mt-8 text-[#dbc6ad] text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-              We invite visionaries and institutions that are shaping the future of global education to join our prestigious circle of excellence.
+            <div className="w-24 sm:w-32 h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto rounded-full shadow-[0_4px_22px_#d4af3733]" />
+            <p className="mt-7 text-[#ffe8b9] text-base sm:text-lg max-w-xl mx-auto leading-relaxed font-medium bg-gradient-to-r from-[#dbc6ad] via-[#fffbe8] to-[#d4af37] bg-clip-text text-transparent">
+              Join an elite circle inspiring global education. We invite visionaries, educators, and leading institutions to become part of our prestigious honors.
             </p>
           </div>
 
@@ -1251,38 +1406,38 @@ export default function Home() {
               <div
                 key={index}
                 ref={(el) => (sectionRefs.current[25 + index] = el)}
-                className="group relative h-full opacity-0 translate-y-8 transition-all duration-700"
+                className="group relative opacity-0 translate-y-8 transition-all duration-900"
               >
-                {/* Main Card */}
-                <div className="relative h-full flex flex-col p-8 sm:p-10 bg-gradient-to-br from-[#2a1b12]/90 via-[#1a110a]/95 to-[#2a1b12]/90 backdrop-blur-xl rounded-[2rem] border border-[#d4af37]/20 hover:border-[#d4af37]/80 transition-all duration-500 hover:shadow-[0_20px_60px_-15px_#d4af3744] hover:-translate-y-3">
+                {/* Improved Card */}
+                <div className="relative flex flex-col items-center h-full min-h-[300px] max-h-[410px] p-6 sm:p-7 bg-gradient-to-br from-[#35210e]/90 via-[#22140e]/96 to-[#2a1b10]/90 rounded-2xl border border-[#ffeec3]/10 hover:border-[#efd270]/80 shadow-lg hover:shadow-[0_12px_32px_-8px_#d4af3730] transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                  {/* Subtle Gold Vertical Line */}
+                  <div className="absolute left-1/2 top-3 w-0.5 h-20 bg-gradient-to-b from-[#ffeec3]/30 via-[#d4af37]/50 to-transparent opacity-50 -translate-x-1/2" />
+                  {/* Decorative corner shimmer */}
+                  <div className="absolute top-0 right-0 w-14 h-14 bg-gradient-to-br from-[#ffeec3]/40 to-transparent rounded-tr-2xl blur-[8px] opacity-0 group-hover:opacity-90 transition-opacity duration-500" />
 
-                  {/* Decorative corner accent */}
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#d4af37]/10 to-transparent rounded-tr-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  {/* Icon with Glow */}
-                  <div className="relative mb-8 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                    <div className="absolute inset-0 bg-[#d4af37]/20 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div className="relative text-5xl md:text-6xl filter drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+                  {/* Icon with Subtle Glow */}
+                  <div className="relative mb-5 flex-shrink-0">
+                    <span className="absolute -inset-2 rounded-full bg-[#d4af3760] blur-2xl opacity-0 group-hover:opacity-70 transition-opacity duration-400"></span>
+                    <span className="relative text-4xl md:text-5xl filter drop-shadow-[0_0_14px_rgba(212,175,55,0.10)] text-[#efe6be]">
                       {item.icon}
-                    </div>
+                    </span>
                   </div>
 
-                  {/* Text Content */}
-                  <div className="relative z-10 flex flex-col flex-grow">
-                    <h3 className="text-xl sm:text-2xl font-black mb-4 bg-gradient-to-r from-[#ffeec3] to-[#d4af37] bg-clip-text text-transparent group-hover:from-white group-hover:to-[#ffeec3] transition-all duration-300 leading-tight">
+                  {/* Card Text Content */}
+                  <div className="flex-1 w-full flex flex-col justify-start">
+                    <h3 className="text-lg sm:text-xl font-extrabold mb-2 bg-gradient-to-r from-[#fffbe8] via-[#d4af37] to-[#efd270] bg-clip-text text-transparent group-hover:from-white group-hover:to-[#fffbe8] transition-all duration-400 leading-snug tracking-wide drop-shadow-[0_2px_6px_#d4af3722]">
                       {item.title}
                     </h3>
-                    <p className="text-sm sm:text-base text-[#dbc6ad] leading-relaxed group-hover:text-white/90 transition-colors flex-grow">
+                    <p className="text-sm sm:text-base text-[#ffe8b9] leading-relaxed group-hover:text-white/95 transition-colors font-medium mt-1">
                       {item.desc}
                     </p>
                   </div>
 
-                  {/* Bottom Accent Loader */}
-                  <div className="mt-8 h-1 w-12 bg-gradient-to-r from-[#d4af37] to-transparent rounded-full group-hover:w-full transition-all duration-700 opacity-40 group-hover:opacity-100"></div>
+                  {/* Gold underline bar */}
+                  <div className="mt-6 h-1 w-12 bg-gradient-to-r from-[#ffeec3] via-[#d4af37] to-transparent rounded-full group-hover:w-20 transition-all duration-400 opacity-70 group-hover:opacity-100 shadow-[0_2px_7px_#d4af3711]"></div>
                 </div>
-
-                {/* Outer Card Glow Overlay - Appears on Hover */}
-                <div className="absolute -inset-[1px] bg-gradient-to-br from-[#d4af37]/40 via-transparent to-[#d4af37]/40 rounded-[2rem] opacity-0 group-hover:opacity-100 blur-[2px] -z-10 transition-opacity duration-500"></div>
+                {/* Subtle glowing halo */}
+                <div className="absolute -inset-[1.5px] bg-gradient-to-br from-[#ffeec340] via-transparent to-[#d4af37]/30 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm -z-10 transition-opacity duration-400 pointer-events-none"></div>
               </div>
             ))}
           </div>

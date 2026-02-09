@@ -24,6 +24,7 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
+import FAQ from "./pages/FAQ.jsx";
 
 export default function App() {
   const location = useLocation();
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/previous-editions" element={<PreviousEditions />} />
           <Route path="/media" element={<Media />} />
           <Route path="/editions/:year" element={<EditionDetail />} />
+          <Route path="/faq" element={<FAQ />} />
           <Route
             path="/nominate"
             element={

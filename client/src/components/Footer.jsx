@@ -32,6 +32,7 @@ export default function Footer() {
           grid-cols-1 
           sm:grid-cols-2 
           md:grid-cols-4 
+          lg:grid-cols-5
           gap-y-12 gap-x-8
         ">
 
@@ -123,6 +124,88 @@ export default function Footer() {
                 <Link to="/contact" className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200">
                   Contact Us
                 </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* ==== OTHER SERVICES (Prime Time Media) ==== */}
+          <div>
+            <h3
+              className="font-semibold mb-5 text-lg text-[#f5f3f0] tracking-wide
+                border-l-4 pl-3 border-[#ffeec3]/20"
+            >
+              Other Services
+            </h3>
+            <ul className="space-y-3 text-base">
+              <li>
+                <a
+                  href="https://primetimemedia.in/market-research/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200"
+                >
+                  Market Research
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://primetimemedia.in/digital-marketing/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200"
+                >
+                  Digital Marketing
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://primetimemedia.in/brand-reputation-management/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200"
+                >
+                  Brand Reputation Management
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://primetimemedia.in/business-consultancy-services/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200"
+                >
+                  Business Consultancy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://primetimemedia.in/public-relation-management/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200"
+                >
+                  Public Relation Management
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://primetimemedia.in/social-media-management/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200"
+                >
+                  Social Media Management
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://primetimemedia.in/web-development/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#d4af37] hover:pl-2 transition-all duration-200"
+                >
+                  Web Development
+                </a>
               </li>
             </ul>
           </div>

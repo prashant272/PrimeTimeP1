@@ -13,6 +13,8 @@ import {
   FaTrophy,
   FaHistory,
   FaRegClone,
+  FaQuestionCircle,
+  FaStar,
 } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -279,6 +281,8 @@ const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true) => {
       <NavItem to="/contact" icon={<FaEnvelope />} label="Contact Us" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/media" icon={<FaTrophy />} label="Media" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/previous-editions" icon={<FaHistory />} label="Previous Editions" color={color} onClick={createNavHandler(onClick)} />
+      <NavItem to="/faq" icon={<FaQuestionCircle />} label="FAQ" color={color} onClick={createNavHandler(onClick)} />
+      <NavItem to="/nominate" icon={<FaStar />} label="Nominate Now" color={color} onClick={createNavHandler(onClick)} />
       {isUser && showDashboard && (
         <NavItem
           to="/dashboard"
