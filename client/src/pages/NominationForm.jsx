@@ -272,6 +272,16 @@ export default function NominationForm() {
       return;
     }
 
+    // Phone Input Restriction
+    const phoneFields = ["mobile", "contactMobile", "orgHeadMobile"];
+    if (phoneFields.includes(name)) {
+      const allowedRegex = /^[\d\s\+\-\(\)]*$/;
+      if (!allowedRegex.test(value)) {
+        alert("Text are not allowed! Please enter only phone number.");
+        return; // Block the update
+      }
+    }
+
     setForm((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
@@ -293,6 +303,15 @@ export default function NominationForm() {
     list.forEach(field => {
       if (!form[field] || (typeof form[field] === "string" && form[field].trim() === "")) {
         errors[field] = "Required";
+      }
+    });
+
+    const phoneRegex = /^[\d\s\+\-\(\)]{7,20}$/;
+    const phoneFields = ["mobile", "contactMobile", "orgHeadMobile"];
+
+    phoneFields.forEach(field => {
+      if (form[field] && form[field].trim() !== "" && !phoneRegex.test(form[field])) {
+        errors[field] = "Invalid format";
       }
     });
 
@@ -321,7 +340,14 @@ export default function NominationForm() {
       const requiredAward = ["category", "subCategory", "nomineeName", "organization", "orgHeadName", "orgHeadDesignation", "orgHeadMobile", "orgHeadEmail", "contactName", "contactDesignation", "contactMobile", "contactEmail", "street", "city", "state", "zip"];
       const requiredOther = ["nomineeName", "organization", "designation", "mobile", "email"];
       const list = form.participationType === "nominated as award" ? requiredAward : requiredOther;
+
       list.forEach(f => { if (!form[f]) currentErrors[f] = true; });
+
+      const phoneRegex = /^[\d\s\+\-\(\)]{7,20}$/;
+      ["mobile", "contactMobile", "orgHeadMobile"].forEach(f => {
+        if (form[f] && !phoneRegex.test(form[f])) currentErrors[f] = true;
+      });
+
       if (form.participationType === "nominated as award" && form.subCategory === "Other" && !form.otherSubCategory) currentErrors.otherSubCategory = true;
       if (!form.acceptTerms) currentErrors.acceptTerms = true;
 
@@ -588,6 +614,11 @@ export default function NominationForm() {
                         onChange={handleChange}
                         className={getInputClass("orgHeadMobile")}
                       />
+                      {fieldErrors.orgHeadMobile && (
+                        <p className="text-red-400 text-[10px] mt-1 ml-1 font-bold animate-pulse">
+                          {fieldErrors.orgHeadMobile}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Official Email *</label>
@@ -637,6 +668,11 @@ export default function NominationForm() {
                         onChange={handleChange}
                         className={getInputClass("contactMobile")}
                       />
+                      {fieldErrors.contactMobile && (
+                        <p className="text-red-400 text-[10px] mt-1 ml-1 font-bold animate-pulse">
+                          {fieldErrors.contactMobile}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Contact Email *</label>
@@ -753,6 +789,11 @@ export default function NominationForm() {
                         onChange={handleChange}
                         className={getInputClass("mobile")}
                       />
+                      {fieldErrors.mobile && (
+                        <p className="text-red-400 text-[10px] mt-1 ml-1 font-bold animate-pulse">
+                          {fieldErrors.mobile}
+                        </p>
+                      )}
                     </div>
 
                     <div>

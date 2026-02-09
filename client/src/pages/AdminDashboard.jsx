@@ -25,6 +25,22 @@ const STATUS_FILTER_OPTIONS = [
   ...STATUS_OPTIONS,
 ];
 
+const PARTICIPATION_TYPE_FILTER_OPTIONS = [
+  { value: "all", label: "All Types" },
+  { value: "nominated as award", label: "Award Nomination" },
+  { value: "attend as speaker", label: "Speaker" },
+  { value: "attend as exhibitor", label: "Exhibitor" },
+  { value: "attend as sponsor", label: "Sponsor" },
+];
+
+const LOCATION_FILTER_OPTIONS = [
+  { value: "all", label: "All Locations" },
+  { value: "New Delhi", label: "New Delhi" },
+  { value: "Dubai", label: "Dubai" },
+  { value: "London", label: "London" },
+  { value: "USA", label: "USA" },
+];
+
 /* ------------------ Status Badge ------------------ */
 function StatusBadge({ status }) {
   const normalized = status || "nominated";
@@ -72,6 +88,8 @@ export default function AdminDashboard() {
   const [error, setError] = useState("");
 
   const [statusFilter, setStatusFilter] = useState("all");
+  const [participationTypeFilter, setParticipationTypeFilter] = useState("all");
+  const [locationFilter, setLocationFilter] = useState("all");
   const [updatingId, setUpdatingId] = useState(null);
 
   const [editingNomination, setEditingNomination] = useState(null);
@@ -97,16 +115,22 @@ export default function AdminDashboard() {
 
   /* ------------------ Filter ------------------ */
   useEffect(() => {
-    if (statusFilter === "all") {
-      setFilteredNominations(nominations);
-    } else {
-      setFilteredNominations(
-        nominations.filter(
-          (n) => (n.status || "nominated") === statusFilter
-        )
-      );
+    let filtered = [...nominations];
+
+    if (statusFilter !== "all") {
+      filtered = filtered.filter((n) => (n.status || "nominated") === statusFilter);
     }
-  }, [nominations, statusFilter]);
+
+    if (participationTypeFilter !== "all") {
+      filtered = filtered.filter((n) => n.participationType === participationTypeFilter);
+    }
+
+    if (locationFilter !== "all") {
+      filtered = filtered.filter((n) => n.preferredLocation === locationFilter);
+    }
+
+    setFilteredNominations(filtered);
+  }, [nominations, statusFilter, participationTypeFilter, locationFilter]);
 
   const paymentSummary = useMemo(() => {
     const summary = {
@@ -188,9 +212,9 @@ export default function AdminDashboard() {
       <table className="min-w-[1600px] w-full text-xs border-separate border-spacing-0">
         <thead>
           <tr className="bg-gradient-to-r from-[#231e09] to-[#2e2612] text-[#f2eab6] border-0">
-            <th className="px-4 py-3 text-left rounded-tl-2xl">Reg Type</th>
+            <th className="px-4 py-3 text-left">Participation</th>
             <th className="px-4 py-3 text-left">Category</th>
-            <th className="px-4 py-3 text-left">Assigned Category</th>
+            <th className="px-4 py-3 text-left">Mobile</th>
             <th className="px-4 py-3 text-left">Nominee</th>
             <th className="px-4 py-3 text-left">Status</th>
             <th className="px-4 py-3 text-left">Payment</th>
@@ -217,16 +241,33 @@ export default function AdminDashboard() {
                 : "bg-gradient-to-r from-[#211c12be] to-[#35341be6]"
                 }`}
             >
-              <td className="px-4 py-4 font-semibold text-[#fee5af]">{n.registrationType}</td>
-              <td className="px-4 py-4">{n.category}</td>
+              <td className="px-4 py-4 font-semibold text-[#fee5af]">
+                {n.participationType === "nominated as award" ? "🏆 Award" :
+                  n.participationType === "attend as speaker" ? "🎤 Speaker" :
+                    n.participationType === "attend as exhibitor" ? "🎪 Exhibitor" :
+                      n.participationType === "attend as sponsor" ? "💎 Sponsor" : n.participationType}
+              </td>
               <td className="px-4 py-4">
-                {n.assignedCategory ? (
-                  <span className="font-semibold text-yellow-300">
-                    {n.assignedCategory}
-                  </span>
+                {n.participationType === "nominated as award" ? (
+                  <>
+                    <div className="font-semibold text-yellow-300">{n.assignedCategory || n.category}</div>
+                    <div className="text-[10px] text-gray-400 opacity-70">{n.subCategory}</div>
+                  </>
                 ) : (
-                  <span className="text-gray-500">—</span>
+                  <span className="text-gray-500 italic">N/A</span>
                 )}
+              </td>
+              <td className="px-4 py-4">
+                <div className="flex flex-col gap-0.5">
+                  {[n.mobile, n.contactMobile, n.orgHeadMobile].filter(Boolean).map((phone, i) => (
+                    <span key={i} className="text-[#a4fbd2] font-mono text-[11px] whitespace-nowrap">
+                      {phone}
+                    </span>
+                  ))}
+                  {![n.mobile, n.contactMobile, n.orgHeadMobile].some(Boolean) && (
+                    <span className="text-gray-500">—</span>
+                  )}
+                </div>
               </td>
               <td className="px-4 py-4">
                 <div className="font-semibold text-lg text-[#d4af37]">{n.nomineeName}</div>
@@ -458,14 +499,14 @@ export default function AdminDashboard() {
         <ShieldCheck className="inline text-[#ffe36d]" size={22} /> Admin Section
       </h2>
       <p className="mb-2 text-[#e9e3be]">
-       future content 
+        future content
       </p>
       <ul className="list-disc list-inside space-y-1 text-[13px] text-[#c4b889]">
         <li>
-          <span className="font-semibold text-[#e1c36a]">Nominations</span> 
+          <span className="font-semibold text-[#e1c36a]">Nominations</span>
         </li>
         <li>
-          <span className="font-semibold text-[#e1c36a]">Status</span> 
+          <span className="font-semibold text-[#e1c36a]">Status</span>
         </li>
       </ul>
     </div>
@@ -561,6 +602,36 @@ export default function AdminDashboard() {
                 </option>
               ))}
             </select>
+
+            <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider ml-2">
+              Type:
+            </span>
+            <select
+              value={participationTypeFilter}
+              onChange={(e) => setParticipationTypeFilter(e.target.value)}
+              className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
+            >
+              {PARTICIPATION_TYPE_FILTER_OPTIONS.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+
+            <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider ml-2">
+              Location:
+            </span>
+            <select
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+              className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
+            >
+              {LOCATION_FILTER_OPTIONS.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
             <span className="text-xs text-[#ffd975] font-mono bg-[#d4af37]/10 px-3 py-1 rounded-full border border-[#d4af37]/20">
               {filteredNominations.length} records
             </span>
@@ -615,14 +686,14 @@ export default function AdminDashboard() {
                 />
               </div>
               <div>
-                <label className="text-xs text-[#f6e589] font-semibold">Registration Type</label>
+                <label className="text-xs text-[#f6e589] font-semibold">Participation Type</label>
                 <input
                   className={inputClass}
-                  value={editForm.registrationType || ""}
+                  value={editForm.participationType || ""}
                   onChange={(e) =>
                     setEditForm({
                       ...editForm,
-                      registrationType: e.target.value,
+                      participationType: e.target.value,
                     })
                   }
                   placeholder="Type"
