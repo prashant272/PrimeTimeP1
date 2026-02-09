@@ -65,13 +65,13 @@ export default function Home() {
 
   const events = [
     {
-      title: "Global Healthcare Awards 2026 – Dubai Edition 🇦🇪 ",
+      title: "Global Healthcare Awards 2026 – Dubai Edition ",
       desc: "Recognising excellence and innovation in healthcare leadership.",
       date: "26 April 2026",
       place: "Dubai",
     },
     {
-      title: "Global Healthcare Awards 2026 – London Edition 🇬🇧",
+      title: "Global Healthcare Awards 2026 – London Edition",
       desc: "Recognising excellence and innovation in healthcare leadership.",
       date: "9 June 2026",
       place: "London",
