@@ -55,7 +55,7 @@ export default function Home() {
 
   const handleNominateClick = () => {
     if (!isAuthenticated || user?.role !== "user") {
-      navigate("/login", { state: { from: { pathname: "/nominate" } } });
+      navigate("/register", { state: { from: { pathname: "/nominate" } } });
     } else {
       navigate("/nominate");
     }
@@ -1294,7 +1294,7 @@ export default function Home() {
                 },
               }}
               className="pb-12 xs:pb-16 sm:pb-20"
-              style={{paddingLeft: 0, paddingRight: 0}}
+              style={{ paddingLeft: 0, paddingRight: 0 }}
             >
               {upcomingAwards.map((award, index) => (
                 <SwiperSlide key={index} className="!px-0">
@@ -1385,7 +1385,7 @@ export default function Home() {
             {/* Premium Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#ffe9a3]/30 via-[#d4af37]/10 to-[#c8b36b]/20 border border-[#d4af37]/30 shadow-md mb-6 group transition-all duration-200 hover:bg-[#ffeec340] hover:border-[#ffeec3] hover:scale-105">
               <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#f2e7b6] drop-shadow-[0_2px_4px_#d4af3720]" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 2l2.618 5.808 6.382.738-4.9 4.064L15.236 18 10 14.868 4.764 18l1.136-5.39-4.9-4.064 6.382-.738L10 2z"/>
+                <path d="M10 2l2.618 5.808 6.382.738-4.9 4.064L15.236 18 10 14.868 4.764 18l1.136-5.39-4.9-4.064 6.382-.738L10 2z" />
               </svg>
               <span className="text-xs sm:text-sm font-extrabold tracking-[0.2em] bg-gradient-to-r from-[#fffbe8] via-[#d4af37] to-[#efd270] bg-clip-text text-transparent uppercase drop-shadow-[0_2px_8px_#d4af3710]">
                 Nomination Categories

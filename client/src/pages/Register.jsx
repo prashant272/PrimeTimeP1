@@ -46,19 +46,19 @@ export default function Register() {
         <span>Back to Home</span>
       </Link>
 
-      <div className="relative w-full max-w-[440px] flex flex-col items-center">
+      <div className="relative w-full max-w-[440px] md:max-w-[520px] lg:max-w-[560px] flex flex-col items-center">
         {/* Decorative Top Accent */}
         <div
-          className="w-24 h-1 mb-8 rounded-full opacity-50"
+          className="w-24 h-1 mb-6 rounded-full opacity-50"
           style={{ background: goldGrad }}
         />
 
-        <div className="w-full bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-b from-white via-white to-[#d4af37] bg-clip-text text-transparent tracking-tighter mb-2">
+        <div className="w-full bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-6 sm:p-8 md:px-12 md:py-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
+          <div className="text-center mb-6">
+            <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-b from-white via-white to-[#d4af37] bg-clip-text text-transparent tracking-tighter mb-2">
               Join Awards
             </h1>
-            <p className="text-gray-500 text-[9px] font-black uppercase tracking-[0.3em] ml-1">
+            <p className="text-gray-500 text-[11px] font-black uppercase tracking-[0.3em] ml-1">
               Start your nomination journey
             </p>
           </div>
@@ -70,8 +70,8 @@ export default function Register() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2 group">
-              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
+            <div className="space-y-3 group">
+              <label className="flex items-center gap-2 text-xs md:text-sm font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
                 <FiUser /> Full Name / Org
               </label>
               <input
@@ -84,8 +84,8 @@ export default function Register() {
               />
             </div>
 
-            <div className="space-y-2 group">
-              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
+            <div className="space-y-3 group">
+              <label className="flex items-center gap-2 text-xs md:text-sm font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
                 <FiMail /> Identity / Email
               </label>
               <input
@@ -98,8 +98,8 @@ export default function Register() {
               />
             </div>
 
-            <div className="space-y-2 group">
-              <label className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
+            <div className="space-y-3 group">
+              <label className="flex items-center gap-2 text-xs md:text-sm font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
                 <FiLock /> Set Credentials
               </label>
               <input
@@ -122,7 +122,7 @@ export default function Register() {
                 className="absolute inset-0 transition-transform group-hover:scale-110"
                 style={{ background: goldGrad }}
               />
-              <span className="relative flex items-center gap-3 text-black font-black uppercase tracking-widest text-sm">
+              <span className="relative flex items-center gap-3 text-black font-black uppercase tracking-widest text-lg">
                 {submitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
@@ -130,16 +130,16 @@ export default function Register() {
                   </>
                 ) : (
                   <>
-                    Create Account <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+                    Create Account <FiArrowRight className="text-xl group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
               </span>
             </button>
           </form>
 
-          <div className="mt-10 pt-8 border-t border-white/5 text-center">
-            <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">
-              Already a member?{" "}
+          <div className="mt-8 pt-6 border-t border-white/5 text-center">
+            <p className="text-gray-500 text-sm font-bold uppercase tracking-wider">
+              If you are already registered, please login{" "}
               <Link
                 to="/login"
                 className="text-white hover:text-[#d4af37] transition-colors ml-2 underline decoration-[#d4af37]/30"

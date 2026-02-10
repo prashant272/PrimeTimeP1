@@ -19,7 +19,18 @@ const app = express();
 // Security and Logging
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://www.globalhealthcareawards.com",
+    "https://globalhealthcareawards.com",
+    "http://localhost:5173",
+    "http://localhost:5174",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Rate Limiting

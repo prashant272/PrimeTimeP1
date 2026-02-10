@@ -253,6 +253,7 @@ const initialForm = {
   otherSubCategory: "",
   nomineeName: "",
   organization: "",
+  turnover: "",
   designation: "", // for simple form
   mobile: "",      // for simple form
   email: "",       // for simple form
@@ -539,12 +540,15 @@ export default function NominationForm() {
 
         <div className="mb-8 md:mb-10 text-center relative">
           <div className="flex flex-col items-center justify-center mb-4">
-            <h1 className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 tracking-tighter uppercase font-black px-4">
+            <h1 className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 tracking-tighter uppercase font-black px-4 text-center">
               <span className="text-2xl sm:text-3xl md:text-5xl text-[#ffb400] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                Healthcare Excellence
+                Global
               </span>
-              <span className="text-lg sm:text-xl md:text-3xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                Awards
+              <span className="text-2xl sm:text-3xl md:text-5xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                Healthcare
+              </span>
+              <span className="text-2xl sm:text-3xl md:text-5xl text-[#ffb400] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                Excellence Awards
               </span>
               <span className="text-2xl sm:text-3xl md:text-5xl text-[#ffb400] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 & summit 2026
@@ -706,7 +710,7 @@ export default function NominationForm() {
                         className={getInputClass("nomineeName")}
                       />
                     </div>
-                    <div className="md:col-span-2">
+                    <div className="md:col-span-1">
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Organization / Hospital / Institution *</label>
                       <input
                         name="organization"
@@ -715,6 +719,16 @@ export default function NominationForm() {
                         value={form.organization}
                         onChange={handleChange}
                         className={getInputClass("organization")}
+                      />
+                    </div>
+                    <div className="md:col-span-1">
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Annual Turnover (Last FY)</label>
+                      <input
+                        name="turnover"
+                        placeholder="Ex: 50 Cr / 10M USD"
+                        value={form.turnover}
+                        onChange={handleChange}
+                        className={getInputClass("turnover")}
                       />
                     </div>
                   </div>
@@ -835,6 +849,10 @@ export default function NominationForm() {
                     <div>
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Organization *</label>
                       <input name="organization" ref={el => inputRef.current.organization = el} placeholder="Company / Institution Name" value={form.organization} onChange={handleChange} className={getInputClass("organization")} />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Annual Turnover</label>
+                      <input name="turnover" placeholder="Ex: 50 Cr / 10M USD" value={form.turnover} onChange={handleChange} className={getInputClass("turnover")} />
                     </div>
                     <div>
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Designation *</label>
