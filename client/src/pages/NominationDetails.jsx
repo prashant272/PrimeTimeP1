@@ -189,9 +189,32 @@ export default function NominationDetails() {
                             </div>
                         </div>
 
+                        {/* Support Document Section */}
+                        {nomination.pdfUrl && (
+                            <div className="mt-12 pt-12 border-t border-white/5">
+                                <h3 className="text-xs font-black uppercase tracking-widest text-gray-500 mb-4 flex items-center gap-2">
+                                    <FiBriefcase className="text-[#d4af37]" /> Supporting Document
+                                </h3>
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <a
+                                        href={nomination.pdfUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] font-bold hover:bg-[#d4af37]/20 transition-all group"
+                                    >
+                                        <FiInfo className="text-xl group-hover:scale-110 transition-transform" />
+                                        View Uploaded Profile / Document
+                                    </a>
+                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">
+                                        Click to view the attached PDF profile in a new tab
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
                         {/* Remarks Section */}
                         {nomination.remarks && (
-                            <div className="mt-12 pt-12 border-t border-white/5">
+                            <div className={`mt-12 pt-12 border-t border-white/5 ${nomination.pdfUrl ? "mt-8 pt-8 border-none" : ""}`}>
                                 <h3 className="text-xs font-black uppercase tracking-widest text-gray-500 mb-4">Additional Remarks</h3>
                                 <div className="bg-white/5 rounded-2xl p-6 border border-white/10 italic text-gray-300 leading-relaxed">
                                     "{nomination.remarks}"

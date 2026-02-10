@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import { FiShield, FiUser, FiMail, FiLock, FiKey, FiArrowRight, FiHome } from "react-icons/fi";
 
 export default function AdminRegister() {
     const { register } = useAuth();
@@ -19,10 +20,7 @@ export default function AdminRegister() {
 
         try {
             setSubmitting(true);
-            // Pass secretCode to register function
             await register(name, email, password, secretCode);
-
-            // Redirect to /admin after successful registration
             navigate("/admin", { replace: true });
         } catch (err) {
             setError(err.message || "Unable to create admin account");
@@ -31,103 +29,138 @@ export default function AdminRegister() {
         }
     };
 
+    const adminGrad = "linear-gradient(135deg, #2563eb, #3b82f6, #d4af37)";
+
     return (
-        <section className="min-h-screen w-full bg-gradient-to-br from-[#161e34] via-[#232953] to-[#111827] flex items-center justify-center px-3 py-28 sm:px-6 md:px-10 lg:px-0">
-            <div className="relative w-full max-w-sm sm:max-w-md bg-white/5 backdrop-blur-2xl shadow-[0_10px_40px_-10px_#3b82f6c5] border border-blue-400/20 rounded-2xl px-5 py-8 md:py-10 flex flex-col items-center sm:px-7">
+        <section className="min-h-[100dvh] w-full bg-[#050810] relative flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+            {/* Background Orbs */}
+            <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-600/10 rounded-full blur-[150px] animate-pulse" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-[#d4af37]/5 rounded-full blur-[150px]" />
 
-                <h1 className="mt-4 text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-[#c7e8ff] via-[#2196f3] to-[#0277bd] bg-clip-text text-transparent drop-shadow-md tracking-tight">
-                    New Admin Registration
-                </h1>
-                <p className="mb-6 text-center text-base md:text-lg text-white/70">
-                    Create a new proper admin account.
-                </p>
+            <Link
+                to="/"
+                className="absolute top-6 left-6 flex items-center gap-2 text-blue-400/40 hover:text-white transition-all text-sm font-bold uppercase tracking-widest group"
+            >
+                <FiHome className="text-lg group-hover:-translate-y-0.5 transition-transform" />
+                <span>Back to Home</span>
+            </Link>
 
-                {error && (
-                    <div className="mb-3 w-full rounded-xl bg-red-500/10 border border-red-400/40 px-3 py-2 text-center text-sm text-red-100 shadow-sm">
-                        {error}
-                    </div>
-                )}
+            <div className="relative w-full max-w-[440px] flex flex-col items-center pt-8 md:pt-14">
+                {/* Admin Shield Icon */}
+                <div className="mx-auto mb-6 w-20 h-20 bg-gradient-to-tr from-blue-600 via-blue-400 to-[#d4af37] rounded-[1.8rem] rotate-[15deg] flex items-center justify-center shadow-2xl shadow-blue-600/20 group">
+                    <FiShield className="h-10 w-10 text-white -rotate-[15deg] group-hover:scale-110 transition-transform" />
+                </div>
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="w-full space-y-4 flex flex-col"
-                    autoComplete="off"
-                >
-                    <div>
-                        <label className="block text-sm font-semibold text-white/80 mb-1 ml-2">
-                            Full Name
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full rounded-xl bg-white/10 border border-blue-400/40 px-3 py-2 text-blue-100 text-base font-medium shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 placeholder:text-blue-400/50"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            placeholder="Admin Name"
-                        />
+                <div className="w-full bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-8 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] overflow-y-auto max-h-[85dvh] custom-scrollbar">
+                    <div className="text-center mb-8">
+                        <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-b from-white via-white to-blue-400 bg-clip-text text-transparent tracking-tight mb-2 uppercase">
+                            Admin Setup
+                        </h1>
+                        <p className="text-blue-400/40 text-[8px] font-black uppercase tracking-[0.5em] ml-1">
+                            New Administrative Node
+                        </p>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-semibold text-white/80 mb-1 ml-2">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            className="w-full rounded-xl bg-white/10 border border-blue-400/40 px-3 py-2 text-blue-100 text-base font-medium shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 placeholder:text-blue-400/50"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            placeholder="admin@example.com"
-                        />
+                    {error && (
+                        <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-bold text-center uppercase tracking-widest">
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-1.5 group">
+                            <label className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-blue-400/60 group-focus-within:text-blue-400 transition-colors ml-1">
+                                <FiUser /> Admin Full Name
+                            </label>
+                            <input
+                                type="text"
+                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500/40 focus:bg-white/[0.06] transition-all"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                placeholder="Admin Name"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5 group">
+                            <label className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-blue-400/60 group-focus-within:text-blue-400 transition-colors ml-1">
+                                <FiMail /> Internal Email
+                            </label>
+                            <input
+                                type="email"
+                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500/40 focus:bg-white/[0.06] transition-all"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                placeholder="admin@internal.com"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5 group">
+                            <label className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
+                                <FiKey /> System Access Token
+                            </label>
+                            <input
+                                type="password"
+                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white text-sm focus:outline-none focus:border-[#d4af37]/40 focus:bg-white/[0.06] transition-all"
+                                value={secretCode}
+                                onChange={(e) => setSecretCode(e.target.value)}
+                                required
+                                placeholder="Secret Key"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5 group">
+                            <label className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-blue-400/60 group-focus-within:text-blue-400 transition-colors ml-1">
+                                <FiLock /> Set Security Key
+                            </label>
+                            <input
+                                type="password"
+                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-3.5 text-white text-sm focus:outline-none focus:border-blue-500/40 focus:bg-white/[0.06] transition-all"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                minLength={6}
+                                placeholder="Min 6 chars"
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={submitting}
+                            className="w-full group relative flex items-center justify-center h-14 rounded-2xl overflow-hidden transition-all active:scale-95 disabled:opacity-50 mt-4"
+                        >
+                            <div
+                                className="absolute inset-0 transition-transform group-hover:scale-110"
+                                style={{ background: adminGrad }}
+                            />
+                            <span className="relative flex items-center gap-3 text-white font-black uppercase tracking-widest text-[11px]">
+                                {submitting ? (
+                                    <>
+                                        <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                                        Checking clearance...
+                                    </>
+                                ) : (
+                                    <>
+                                        Initialise Account <FiArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+                                    </>
+                                )}
+                            </span>
+                        </button>
+                    </form>
+
+                    <div className="mt-8 pt-6 border-t border-white/5 text-center">
+                        <p className="text-blue-200/20 text-[9px] font-black uppercase tracking-widest">
+                            Existing node?{" "}
+                            <Link
+                                to="/admin/login"
+                                className="text-blue-400 hover:text-white transition-colors ml-2 underline decoration-blue-400/20"
+                            >
+                                System Login
+                            </Link>
+                        </p>
                     </div>
-
-                    <div>
-                        <label className="block text-sm font-semibold text-white/80 mb-1 ml-2">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            className="w-full rounded-xl bg-white/10 border border-blue-400/40 px-3 py-2 text-blue-100 text-base font-medium shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 placeholder:text-blue-400/50"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            minLength={6}
-                            placeholder="Min 6 chars"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-semibold text-white/80 mb-1 ml-2">
-                            Secret Code
-                        </label>
-                        <input
-                            type="password"
-                            className="w-full rounded-xl bg-white/10 border border-blue-400/40 px-3 py-2 text-blue-100 text-base font-medium shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 placeholder:text-blue-400/50"
-                            value={secretCode}
-                            onChange={(e) => setSecretCode(e.target.value)}
-                            required
-                            placeholder="Secret Code"
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={submitting}
-                        className="mt-4 w-full rounded-full bg-gradient-to-r from-blue-100 via-blue-500 to-blue-400 text-blue-900 transition-all duration-200 px-4 py-2 text-base font-bold shadow-lg hover:from-blue-400 hover:to-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:opacity-60 tracking-wider"
-                    >
-                        {submitting ? "Creating..." : "Create Admin Account"}
-                    </button>
-                </form>
-
-                <p className="mt-6 text-center text-sm text-blue-200/70">
-                    Already an admin?{" "}
-                    <Link
-                        to="/admin/login"
-                        className="text-blue-300 hover:text-blue-100 font-semibold underline decoration-blue-400/30"
-                    >
-                        Login here
-                    </Link>
-                </p>
+                </div>
             </div>
         </section>
     );

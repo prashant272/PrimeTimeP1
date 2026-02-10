@@ -6,7 +6,7 @@ import { createNomination, fetchNominationById, updateUserNomination } from "../
 import { useAuth } from "../context/AuthContext.jsx";
 
 const categoryMap = {
-  Hospital: {
+  "Hospital": {
     "Overall Excellence": [
       "Best Hospital of the Year",
       "Excellence in Healthcare Services",
@@ -60,98 +60,193 @@ const categoryMap = {
       "Best Emerging Hospital",
     ],
   },
-  Clinic: {
-    "Overall Excellence": [
-      "Best Clinic of the Year",
-      "Excellence in Primary Care",
-      "Most Trusted Clinic Brand",
-      "Clinic Excellence Award",
+  "Individual Doctor": {
+    "General": [
+      "Doctor of the Year",
+      "Best Clinician of the Year",
+      "Excellence in Patient Care Award",
+      "Outstanding Medical Practitioner Award",
+      "Best Diagnostic Excellence Award",
+      "Best Surgical Excellence Award",
+      "Best Emergency Care Doctor",
     ],
-    "Specialty-Based Awards": [
-      "Best Dental Clinic",
-      "Best IVF / Fertility Clinic",
-      "Best Skin & Cosmetology Clinic",
-      "Best Orthopaedic Clinic",
-      "Best Eye Care Clinic",
-      "Best Pediatric Clinic",
-      "Best Physiotherapy Clinic",
-      "Best AYUSH Clinic",
+    "Specialty-Wise Doctor Awards": [
+      "Best Cardiologist of the Year",
+      "Best Orthopedic Doctor",
+      "Best Gynecologist & Obstetrician",
+      "Best Pediatrician",
+      "Best Neurologist",
+      "Best Oncologist",
+      "Best Dermatologist",
+      "Best Psychiatrist",
+      "Best General Physician",
+      "Best ENT Specialist",
+      "Best Dental Surgeon",
+      "Best Ophthalmologist",
+      "Best Diabetologist",
+      "Best Anesthesiologist",
+      "Best Pulmonologist",
+    ],
+    "Leadership & Impact Awards": [
+      "Healthcare Leadership Excellence Award",
+      "Medical Innovator of the Year",
+      "Doctor Excellence in Medical Research",
+      "Young Doctor Achiever Award",
+      "Lifetime Achievement Award in Healthcare",
+      "Doctor with Social Impact Award",
+      "Rural Healthcare Champion Award",
     ],
     "Innovation & Technology": [
-      "Most Innovative Clinic",
-      "Excellence in Digital Health Adoption",
-      "Best Clinic for Holistic Health",
+      "Excellence in Digital Healthcare Adoption",
+      "Best Use of Medical Technology Award",
+      "Telemedicine Excellence Award",
+      "AI & Innovation in Healthcare Award",
     ],
-    "Patient Care & Quality": [
-      "Best Patient Care Clinic",
-      "Excellence in Patient Safety (Clinic)",
-      "Best Clinic for Patient Satisfaction",
-      "Compassionate Care Clinic Award",
+    "Community & Service Recognition": [
+      "Doctor with Compassion Award",
+      "Public Health Impact Award",
+      "Covid / Pandemic Service Excellence Award",
+      "Community Healthcare Service Award",
     ],
-    "Accessibility & Outreach": [
-      "Affordable Healthcare Clinic Award",
-      "Community Outreach Excellence Award",
-      "Best Emerging Clinic",
+    "Academic & Training Excellence": [
+      "Medical Educator of the Year",
+      "Excellence in Clinical Training Award",
+      "Research & Publication Excellence Award",
     ],
   },
-  "Diagnostic Center": {
+  "Clinic": {
     "Overall Excellence": [
-      "Best Diagnostic Center of the Year",
-      "Diagnostic Excellence Award",
-      "Most Trusted Diagnostic Brand",
-      "Outstanding Diagnostic Center",
+      "Best Doctor Clinic of the Year",
+      "Excellence in Clinical Care Award",
+      "Most Trusted Doctor Clinic",
+      "Outstanding Healthcare Clinic Award",
+      "Clinic of the Year (Healthcare Excellence)",
     ],
-    "Service-Based Awards": [
-      "Best Pathology Lab",
-      "Best Imaging Center",
-      "Best Radiology Center",
-      "Best Preventive Health Checkup Center",
-      "Best Advanced Diagnostic Facility",
+    "Patient-Centric Care": [
+      "Best Patient Care Clinic",
+      "Patient Satisfaction Excellence Award",
+      "Compassionate Care Clinic Award",
+      "Patient Choice Award – Doctor Clinic",
+    ],
+    "Specialty-Based Categories": [
+      "Best Multispecialty Doctor Clinic",
+      "Best Dental Clinic",
+      "Best Skin & Aesthetic Clinic",
+      "Best Pediatric Clinic",
+      "Best Orthopedic Clinic",
+      "Best Gynecology & Maternity Clinic",
+      "Best Eye Care Clinic",
+      "Best Physiotherapy & Rehabilitation Clinic",
+      "Best Diagnostic & Preventive Care Clinic",
+    ],
+    "Innovation & Growth": [
+      "Most Innovative Doctor Clinic",
+      "Excellence in Digital Healthcare Clinic",
+      "Best Emerging Doctor Clinic",
+      "Healthcare Startup Clinic of the Year",
+    ],
+    "Regional & Community Impact": [
+      "Best Doctor Clinic – City/State Level",
+      "Community Healthcare Excellence Award",
+      "Rural Healthcare Champion Clinic",
+      "Affordable Healthcare Clinic Award",
+    ],
+    "Leadership & Ethics": [
+      "Ethical Medical Practice Award",
+      "Healthcare Leadership – Doctor Clinic",
+      "Quality & Safety Excellence Award",
+    ],
+  },
+  "Diagnosis & Pathology Lab": {
+    "Core Excellence Categories": [
+      "Best Diagnostic & Pathology Laboratory of the Year",
+      "Excellence in Diagnostic Services Award",
+      "Best Clinical Pathology Lab",
+      "Best Advanced Diagnostic Center",
+      "Most Trusted Diagnostic & Pathology Lab",
+    ],
+    "Technology & Innovation": [
+      "Excellence in Diagnostic Innovation",
+      "Best Use of Advanced Technology in Diagnostics",
+      "AI & Automation Excellence Award in Pathology",
+      "Excellence in Molecular & Genetic Diagnostics",
     ],
     "Quality & Accuracy": [
-      "Excellence in Diagnostic Accuracy",
-      "Best Diagnostic Center for Patient Satisfaction",
-      "Patient Safety Excellence Award (Diagnostics)",
-      "Fast & Reliable Reporting Award",
+      "Excellence in Accuracy & Quality Assurance",
+      "Best NABL-Accredited Diagnostic Lab",
+      "Excellence in Lab Safety & Compliance",
+      "Quality Excellence in Pathology Services",
     ],
-    "Type & Accreditation": [
-      "Best NABL Accredited Lab",
-      "Best Standalone Diagnostic Center",
-      "Best Hospital-Affiliated Diagnostic Center",
-      "Best Emerging Diagnostic Center",
+    "Specialized Diagnostics": [
+      "Excellence in Radiology & Imaging Diagnostics",
+      "Excellence in Preventive Health Check Services",
+      "Excellence in Histopathology & Cytopathology",
+      "Excellence in Clinical Biochemistry Services",
+    ],
+    "Patient-Centric Awards": [
+      "Patient-Centric Diagnostic Service Award",
+      "Excellence in Fast & Accurate Reporting",
+      "Best Home Sample Collection Service",
+      "Excellence in Customer Care & Experience",
+    ],
+    "Regional / Growth-Based": [
+      "Emerging Diagnostic & Pathology Lab of the Year",
+      "Fastest Growing Diagnostic Chain",
+      "Best Regional Diagnostic Lab (City / State / Zone)",
+    ],
+    "Leadership & Brand": [
+      "Diagnostic Lab Brand of the Year",
+      "Healthcare Excellence in Diagnostic Leadership",
+      "Lifetime Achievement in Diagnostic Services (Individual)",
     ],
   },
-  "Individual / Organization": {
-    "Individual Excellence": [
-      "Best Doctor of the Year",
-      "Best Surgeon",
-      "Best Specialist Doctor",
-      "Emerging Doctor of the Year",
-      "Lifetime Achievement in Healthcare",
+  "Pharma Company": {
+    "Overall Excellence": [
+      "Pharma Company of the Year",
+      "Best Pharmaceutical Company – India",
+      "Fastest Growing Pharma Company",
+      "Most Trusted Pharma Brand",
     ],
-    "Organization / Company": [
-      "Best Pharma Company",
-      "Best Generic Medicine Brand",
-      "Best Medical Device Company",
-      "Best Healthcare Organization",
-      "Excellence in Pharma Research",
+    "Product & Innovation": [
+      "Excellence in Pharmaceutical Innovation",
+      "Best New Drug / Product Launch",
+      "Excellence in Generic Medicines",
+      "Excellence in Specialty Pharmaceuticals",
+      "Best OTC Healthcare Product",
     ],
-    "Startup & Innovation": [
-      "Best Healthcare Startup",
-      "Best HealthTech Innovation",
-      "Best Digital Health Platform",
-      "AI Innovation in Healthcare Award",
+    "R&D & Quality": [
+      "Excellence in Research & Development",
+      "Best Quality Compliance & Standards Award",
+      "Excellence in Manufacturing Practices (GMP)",
+      "Innovation in Drug Development",
     ],
-    "Social Impact": [
-      "Community Healthcare Excellence Award",
-      "CSR in Healthcare Award",
-      "Rural Healthcare Excellence Award",
-      "Public Health Impact Award",
+    "Market & Impact": [
+      "Excellence in Patient-Centric Healthcare",
+      "Contribution to Public Health",
+      "Affordable Healthcare Excellence Award",
+      "Rural & Community Healthcare Impact Award",
+    ],
+    "Business & Marketing": [
+      "Excellence in Pharma Marketing",
+      "Best Pharma Distribution Network",
+      "Emerging Pharma Company of the Year",
+      "Pharma Export Excellence Award",
+    ],
+    "Sustainability & Ethics": [
+      "Excellence in Sustainable Pharmaceutical Practices",
+      "CSR Excellence in Healthcare",
+      "Ethical Business Practices Award – Pharma",
+    ],
+    "Leadership & Individuals (Optional)": [
+      "Pharma Leader of the Year",
+      "Woman Leader in Pharmaceuticals",
+      "Young Achiever in Pharma Industry",
     ],
   },
 };
 
 const initialForm = {
+  nominationType: "healthcare",
   participationType: "nominated as award", // default
   category: "",
   subCategory: "",
@@ -173,14 +268,17 @@ const initialForm = {
   contactEmail: "",
 
   website: "",
-  turnover: "",
+  facebook: "",
+  instagram: "",
+  youtube: "",
 
   street: "",
   city: "",
   state: "",
   zip: "",
 
-  preferredLocation: "",
+  preferredLocation: [],
+  pdf: null,
   remarks: "",
   acceptTerms: false,
 };
@@ -213,14 +311,12 @@ export default function NominationForm() {
             return;
           }
 
-          // Merge fetched data with initial form structure
           setForm(prev => ({
             ...prev,
             ...data,
-            // Ensure category mapping is handled
             subCategory: data.subCategory || "",
             otherSubCategory: data.otherSubCategory || "",
-            acceptTerms: false, // User must re-accept terms for update
+            acceptTerms: false,
           }));
         } catch (err) {
           setError(err.message || "Failed to load nomination data");
@@ -235,7 +331,6 @@ export default function NominationForm() {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    // Clear field specific error
     if (fieldErrors[name]) {
       setFieldErrors(prev => {
         const next = { ...prev };
@@ -278,8 +373,20 @@ export default function NominationForm() {
       const allowedRegex = /^[\d\s\+\-\(\)]*$/;
       if (!allowedRegex.test(value)) {
         alert("Text are not allowed! Please enter only phone number.");
-        return; // Block the update
+        return;
       }
+    }
+
+    // Handle multi-select fields (e.g., preferredLocation)
+    if (name === "preferredLocation") {
+      setForm((prev) => {
+        const currentLocations = Array.isArray(prev.preferredLocation) ? prev.preferredLocation : [];
+        const newLocations = currentLocations.includes(value)
+          ? currentLocations.filter((loc) => loc !== value)
+          : [...currentLocations, value];
+        return { ...prev, preferredLocation: newLocations };
+      });
+      return;
     }
 
     setForm((prev) => ({
@@ -333,15 +440,13 @@ export default function NominationForm() {
 
     if (!validateForm()) {
       alert("Please fill all mandatory fields marked in red.");
-      // Scroll to first error field
-      const firstError = Object.keys(validateForm() ? {} : fieldErrors)[0];
-      // Need a fresh validation or use state (state is async, so better re-calc or use result of direct validation)
+
       const currentErrors = {};
       const requiredAward = ["category", "subCategory", "nomineeName", "organization", "orgHeadName", "orgHeadDesignation", "orgHeadMobile", "orgHeadEmail", "contactName", "contactDesignation", "contactMobile", "contactEmail", "street", "city", "state", "zip"];
       const requiredOther = ["nomineeName", "organization", "designation", "mobile", "email"];
       const list = form.participationType === "nominated as award" ? requiredAward : requiredOther;
 
-      list.forEach(f => { if (!form[f]) currentErrors[f] = true; });
+      list.forEach(f => { if (!form[f] || (typeof form[f] === "string" && form[f].trim() === "")) currentErrors[f] = true; });
 
       const phoneRegex = /^[\d\s\+\-\(\)]{7,20}$/;
       ["mobile", "contactMobile", "orgHeadMobile"].forEach(f => {
@@ -361,12 +466,23 @@ export default function NominationForm() {
 
     try {
       setSubmitting(true);
+
+      const formData = new FormData();
+      Object.keys(form).forEach(key => {
+        if (key === "preferredLocation") {
+          form[key].forEach(loc => formData.append("preferredLocation", loc));
+        } else if (key === "pdf" && form[key]) {
+          formData.append("pdf", form[key]);
+        } else if (form[key] !== null && form[key] !== undefined) {
+          formData.append(key, form[key]);
+        }
+      });
+
       if (isEditMode) {
-        await updateUserNomination(id, form, token);
-        navigate(`/nomination/${id}`); // Back to details
+        await updateUserNomination(id, formData, token);
+        navigate(`/dashboard`);
       } else {
-        await createNomination(form, token);
-        setForm(initialForm);
+        await createNomination(formData, token);
         navigate("/success");
       }
     } catch (err) {
@@ -390,9 +506,17 @@ export default function NominationForm() {
     return `${base} ${errorClass}`;
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#3a1418] flex items-center justify-center">
+        <FiRefreshCcw className="text-[#d4af37] w-12 h-12 animate-spin" />
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen py-7 sm:py-30 pb-32 relative overflow-hidden bg-[#3a1418]">
-      {/* Premium Background Elements */}
+    <div className="min-h-screen pt-24 sm:pt-32 pb-32 relative overflow-hidden bg-[#3a1418]">
+      {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#d4af37] opacity-[0.03] rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#d4af37] opacity-[0.03] rounded-full blur-[120px]"></div>
@@ -413,14 +537,19 @@ export default function NominationForm() {
           )}
         </div>
 
-        <div className="mb-8 md:mb-12 text-center relative">
-          {/* Header Decorations */}
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <Crown className="w-8 h-8 sm:w-10 sm:h-10 text-[#d4af37] animate-pulse" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f2d06b] to-[#c62828] uppercase tracking-tighter leading-none px-2">
-              {isEditMode ? "Update Nomination" : "Healthcare Excellence Awards"}
+        <div className="mb-8 md:mb-10 text-center relative">
+          <div className="flex flex-col items-center justify-center mb-4">
+            <h1 className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 tracking-tighter uppercase font-black px-4">
+              <span className="text-2xl sm:text-3xl md:text-5xl text-[#ffb400] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                Healthcare Excellence
+              </span>
+              <span className="text-lg sm:text-xl md:text-3xl text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                Awards
+              </span>
+              <span className="text-2xl sm:text-3xl md:text-5xl text-[#ffb400] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                & summit 2026
+              </span>
             </h1>
-            <Crown className="w-8 h-8 sm:w-10 sm:h-10 text-[#d4af37] animate-pulse" />
           </div>
 
           <div className="h-1 w-24 md:w-32 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto rounded-full mb-8"></div>
@@ -445,23 +574,25 @@ export default function NominationForm() {
           <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-8">
 
             {/* Participation Choice */}
-            <div className="md:col-span-2 space-y-4">
+            <div className="md:col-span-2 space-y-6">
               <label className="text-sm font-bold text-[#d4af37] uppercase tracking-widest pl-1">
                 Choose Your Presence Role
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                 {[
-                  { id: "nominated as award", label: "Nominated as Award", icon: "🏆" },
-                  { id: "attend as speaker", label: "Attend as Speaker", icon: "🎤" },
-                  { id: "attend as exhibitor", label: "Attend as Exhibitor", icon: "🎪" },
-                  { id: "attend as sponsor", label: "Attend as Sponsor", icon: "💎" },
+                  { id: "nominated as award", prefix: "Nominated as", highlight: "Awarded", primary: true },
+                  { id: "attend as speaker", prefix: "Attend as", highlight: "Speaker", primary: false },
+                  { id: "attend as exhibitor", prefix: "Attend as", highlight: "Exhibitor", primary: false },
+                  { id: "attend as sponsor", prefix: "Attend as", highlight: "Sponsor", primary: false },
                 ].map((type) => (
                   <label
                     key={type.id}
-                    className={`group relative flex flex-col items-center justify-center p-6 rounded-2xl border-2 cursor-pointer transition-all duration-300
+                    className={`group relative flex flex-col items-center justify-center p-4 sm:p-8 rounded-xl sm:rounded-3xl border-2 cursor-pointer transition-all duration-500 overflow-hidden
                       ${form.participationType === type.id
-                        ? "bg-gradient-to-br from-[#d4af37] to-[#b8860b] border-transparent text-black scale-105 shadow-[0_15px_30px_rgba(212,175,55,0.2)]"
-                        : "bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:border-white/20"
+                        ? type.primary
+                          ? "bg-gradient-to-br from-[#d4af37] via-[#f2d06b] to-[#b8860b] border-transparent text-black scale-[1.05] shadow-[0_20px_40px_rgba(212,175,55,0.4)] ring-4 ring-[#d4af37]/20"
+                          : "bg-gradient-to-br from-[#c62828] via-[#e53935] to-[#b71c1c] border-transparent text-white scale-[1.05] shadow-[0_20px_40px_rgba(198,40,40,0.4)] ring-4 ring-red-500/20"
+                        : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:border-[#d4af37]/40 hover:scale-[1.02] shadow-xl"
                       }`}
                   >
                     <input
@@ -472,20 +603,29 @@ export default function NominationForm() {
                       onChange={handleChange}
                       className="hidden"
                     />
-                    <span className={`text-2xl mb-2 transition-transform group-hover:scale-125 ${form.participationType === type.id ? "scale-110" : ""}`}>
-                      {type.icon}
-                    </span>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-center">
-                      {type.label}
-                    </span>
+
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                      <span className={`text-[8px] sm:text-xs font-bold uppercase tracking-widest mb-1 transition-colors duration-300 ${form.participationType === type.id ? "opacity-90" : "text-gray-500"}`}>
+                        {type.prefix}
+                      </span>
+                      <span className={`text-sm sm:text-2xl font-black uppercase tracking-tighter leading-none transition-all duration-300 ${form.participationType === type.id ? "scale-110" : "text-[#d4af37] drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]"}`}>
+                        {type.highlight}
+                      </span>
+                    </div>
+
+                    {form.participationType === type.id && (
+                      <div className={`absolute top-2 right-2 sm:top-3 sm:right-3 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full animate-ping ${type.primary ? "bg-black" : "bg-white"}`}></div>
+                    )}
                   </label>
                 ))}
               </div>
             </div>
 
+
             {form.participationType === "nominated as award" ? (
               <>
-                {/* Category Selection Block */}
                 <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/5">
                   <div className="sm:col-span-2 mb-2">
                     <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
@@ -494,7 +634,7 @@ export default function NominationForm() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Primary Category *</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Category *</label>
                     <select
                       name="category"
                       ref={el => inputRef.current.category = el}
@@ -502,7 +642,7 @@ export default function NominationForm() {
                       onChange={handleChange}
                       className={getSelectClass("category")}
                     >
-                      <option value="" className="bg-[#3a1418]">-- Select Sector --</option>
+                      <option value="" className="bg-[#3a1418]">Select Category</option>
                       {Object.keys(categoryMap).map((t) => (
                         <option key={t} value={t} className="bg-[#3a1418]">{t}</option>
                       ))}
@@ -510,7 +650,7 @@ export default function NominationForm() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Sub-category *</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Sub Category *</label>
                     <select
                       name="subCategory"
                       ref={el => inputRef.current.subCategory = el}
@@ -519,7 +659,7 @@ export default function NominationForm() {
                       disabled={!form.category}
                       className={getSelectClass("subCategory")}
                     >
-                      <option value="" className="bg-[#3a1418]">-- Pick an Award --</option>
+                      <option value="" className="bg-[#3a1418]">Select Subcategory</option>
                       {Object.entries(groupedSubCategories).map(([group, list]) => (
                         <optgroup key={group} label={group} className="bg-black text-[#d4af37] font-bold">
                           {list.map((item) => (
@@ -550,7 +690,6 @@ export default function NominationForm() {
                   )}
                 </div>
 
-                {/* Nominee Details */}
                 <div className="md:col-span-2">
                   <h3 className="text-base sm:text-lg font-bold text-white mb-6 flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Nominee Information
@@ -561,16 +700,18 @@ export default function NominationForm() {
                       <input
                         name="nomineeName"
                         ref={el => inputRef.current.nomineeName = el}
+                        placeholder="Ex: Dr. Prashant Kumar"
                         value={form.nomineeName}
                         onChange={handleChange}
                         className={getInputClass("nomineeName")}
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Organization / Hospital / Corporate Identity *</label>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Organization / Hospital / Institution *</label>
                       <input
                         name="organization"
                         ref={el => inputRef.current.organization = el}
+                        placeholder="Organization Name"
                         value={form.organization}
                         onChange={handleChange}
                         className={getInputClass("organization")}
@@ -579,127 +720,78 @@ export default function NominationForm() {
                   </div>
                 </div>
 
-                {/* Organization Head Details */}
                 <div className="md:col-span-2 pt-6 border-t border-white/5">
                   <h3 className="text-base sm:text-lg font-bold text-white mb-6 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Organization Head Profile
+                    <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Organization Head Details
                   </h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Head Name *</label>
-                      <input
-                        name="orgHeadName"
-                        ref={el => inputRef.current.orgHeadName = el}
-                        value={form.orgHeadName}
-                        onChange={handleChange}
-                        className={getInputClass("orgHeadName")}
-                      />
+                      <input name="orgHeadName" ref={el => inputRef.current.orgHeadName = el} value={form.orgHeadName} onChange={handleChange} className={getInputClass("orgHeadName")} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Designation *</label>
-                      <input
-                        name="orgHeadDesignation"
-                        ref={el => inputRef.current.orgHeadDesignation = el}
-                        value={form.orgHeadDesignation}
-                        onChange={handleChange}
-                        className={getInputClass("orgHeadDesignation")}
-                      />
+                      <input name="orgHeadDesignation" ref={el => inputRef.current.orgHeadDesignation = el} value={form.orgHeadDesignation} onChange={handleChange} className={getInputClass("orgHeadDesignation")} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Mobile Number *</label>
-                      <input
-                        name="orgHeadMobile"
-                        ref={el => inputRef.current.orgHeadMobile = el}
-                        value={form.orgHeadMobile}
-                        onChange={handleChange}
-                        className={getInputClass("orgHeadMobile")}
-                      />
-                      {fieldErrors.orgHeadMobile && (
-                        <p className="text-red-400 text-[10px] mt-1 ml-1 font-bold animate-pulse">
-                          {fieldErrors.orgHeadMobile}
-                        </p>
-                      )}
+                      <input name="orgHeadMobile" ref={el => inputRef.current.orgHeadMobile = el} value={form.orgHeadMobile} onChange={handleChange} className={getInputClass("orgHeadMobile")} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Official Email *</label>
-                      <input
-                        name="orgHeadEmail"
-                        ref={el => inputRef.current.orgHeadEmail = el}
-                        value={form.orgHeadEmail}
-                        onChange={handleChange}
-                        className={getInputClass("orgHeadEmail")}
-                      />
+                      <input name="orgHeadEmail" ref={el => inputRef.current.orgHeadEmail = el} value={form.orgHeadEmail} onChange={handleChange} className={getInputClass("orgHeadEmail")} />
                     </div>
                   </div>
                 </div>
 
-                {/* Contact Person Details */}
                 <div className="md:col-span-2 pt-6 border-t border-white/5">
                   <h3 className="text-base sm:text-lg font-bold text-white mb-6 flex items-center gap-2">
-                    <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Liaison / Contact Person
+                    <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Contact Person Details
                   </h3>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Contact Name *</label>
-                      <input
-                        name="contactName"
-                        ref={el => inputRef.current.contactName = el}
-                        value={form.contactName}
-                        onChange={handleChange}
-                        className={getInputClass("contactName")}
-                      />
+                      <input name="contactName" ref={el => inputRef.current.contactName = el} value={form.contactName} onChange={handleChange} className={getInputClass("contactName")} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Designation *</label>
-                      <input
-                        name="contactDesignation"
-                        ref={el => inputRef.current.contactDesignation = el}
-                        value={form.contactDesignation}
-                        onChange={handleChange}
-                        className={getInputClass("contactDesignation")}
-                      />
+                      <input name="contactDesignation" ref={el => inputRef.current.contactDesignation = el} value={form.contactDesignation} onChange={handleChange} className={getInputClass("contactDesignation")} />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Contact Mobile *</label>
-                      <input
-                        name="contactMobile"
-                        ref={el => inputRef.current.contactMobile = el}
-                        value={form.contactMobile}
-                        onChange={handleChange}
-                        className={getInputClass("contactMobile")}
-                      />
-                      {fieldErrors.contactMobile && (
-                        <p className="text-red-400 text-[10px] mt-1 ml-1 font-bold animate-pulse">
-                          {fieldErrors.contactMobile}
-                        </p>
-                      )}
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Mobile *</label>
+                      <input name="contactMobile" ref={el => inputRef.current.contactMobile = el} value={form.contactMobile} onChange={handleChange} className={getInputClass("contactMobile")} />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Contact Email *</label>
-                      <input
-                        name="contactEmail"
-                        ref={el => inputRef.current.contactEmail = el}
-                        value={form.contactEmail}
-                        onChange={handleChange}
-                        className={getInputClass("contactEmail")}
-                      />
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Email *</label>
+                      <input name="contactEmail" ref={el => inputRef.current.contactEmail = el} value={form.contactEmail} onChange={handleChange} className={getInputClass("contactEmail")} />
                     </div>
                   </div>
                 </div>
 
-                {/* Corporate Presence */}
-                <div className="md:col-span-2 pt-6 border-t border-white/5 grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Corporate Website</label>
-                    <input name="website" value={form.website} onChange={handleChange} className={getInputClass("website")} />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Annual Turnover</label>
-                    <input name="turnover" value={form.turnover} onChange={handleChange} className={getInputClass("turnover")} />
+                <div className="md:col-span-2 pt-6 border-t border-white/5">
+                  <h3 className="text-base sm:text-lg font-bold text-white mb-6 flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Social Media Presence
+                  </h3>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Website</label>
+                      <input name="website" placeholder="https://yourwebsite.com" value={form.website} onChange={handleChange} className={getInputClass("website")} />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Facebook</label>
+                      <input name="facebook" placeholder="Facebook Profile/Page Link" value={form.facebook} onChange={handleChange} className={getInputClass("facebook")} />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Instagram</label>
+                      <input name="instagram" placeholder="Instagram Profile Link" value={form.instagram} onChange={handleChange} className={getInputClass("instagram")} />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">YouTube</label>
+                      <input name="youtube" placeholder="YouTube Channel Link" value={form.youtube} onChange={handleChange} className={getInputClass("youtube")} />
+                    </div>
                   </div>
                 </div>
 
-                {/* Logistics */}
                 <div className="md:col-span-2 pt-6 border-t border-white/5 space-y-6">
                   <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Location & Logistics
@@ -707,13 +799,7 @@ export default function NominationForm() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 sm:gap-6">
                     <div className="sm:col-span-2">
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Street Address *</label>
-                      <input
-                        name="street"
-                        ref={el => inputRef.current.street = el}
-                        value={form.street}
-                        onChange={handleChange}
-                        className={getInputClass("street")}
-                      />
+                      <input name="street" ref={el => inputRef.current.street = el} value={form.street} onChange={handleChange} className={getInputClass("street")} />
                     </div>
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">City *</label>
@@ -732,195 +818,175 @@ export default function NominationForm() {
               </>
             ) : (
               <>
-                {/* Simple Form Block */}
                 <div className="md:col-span-2 p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 flex flex-col items-center">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#d4af37]/20 flex items-center justify-center mb-6 border border-[#d4af37]/30 shadow-inner">
-                    <span className="text-2xl sm:text-3xl">📝</span>
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#d4af37]/20 flex items-center justify-center mb-6 border border-[#d4af37]/30 shadow-inner text-2xl">
+                    📝
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#d4af37] mb-2 uppercase tracking-tighter text-center px-2">Registration Form</h3>
-                  <p className="text-gray-400 text-xs sm:text-sm mb-8 sm:mb-10 font-light italic text-center max-w-md px-4">
-                    You are registering to {form.participationType.replace("attend as", "attend as a")}. Our team will review your profile and reach out for coordination.
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#d4af37] mb-2 uppercase tracking-tighter text-center">Registration Info</h3>
+                  <p className="text-gray-400 text-xs sm:text-sm mb-8 text-center max-w-md italic">
+                    You are registering to attend as a {form.participationType.split(' ').pop()}. Our team will review your profile and reach out for coordination.
                   </p>
 
                   <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8">
                     <div className="sm:col-span-2">
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Full Name *</label>
-                      <input
-                        name="nomineeName"
-                        ref={el => inputRef.current.nomineeName = el}
-                        placeholder="Ex: Dr. Prashant Kumar"
-                        value={form.nomineeName}
-                        onChange={handleChange}
-                        className={getInputClass("nomineeName")}
-                      />
+                      <input name="nomineeName" ref={el => inputRef.current.nomineeName = el} placeholder="Ex: Dr. Prashant Kumar" value={form.nomineeName} onChange={handleChange} className={getInputClass("nomineeName")} />
                     </div>
-
                     <div>
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Organization *</label>
-                      <input
-                        name="organization"
-                        ref={el => inputRef.current.organization = el}
-                        placeholder="Company / Institution Name"
-                        value={form.organization}
-                        onChange={handleChange}
-                        className={getInputClass("organization")}
-                      />
+                      <input name="organization" ref={el => inputRef.current.organization = el} placeholder="Company / Institution Name" value={form.organization} onChange={handleChange} className={getInputClass("organization")} />
                     </div>
-
                     <div>
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Designation *</label>
-                      <input
-                        name="designation"
-                        ref={el => inputRef.current.designation = el}
-                        placeholder="Current Job Title"
-                        value={form.designation}
-                        onChange={handleChange}
-                        className={getInputClass("designation")}
-                      />
+                      <input name="designation" ref={el => inputRef.current.designation = el} placeholder="Current Job Title" value={form.designation} onChange={handleChange} className={getInputClass("designation")} />
                     </div>
-
                     <div>
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Mobile Contact *</label>
-                      <input
-                        name="mobile"
-                        ref={el => inputRef.current.mobile = el}
-                        placeholder="+91 XXXXX XXXXX"
-                        value={form.mobile}
-                        onChange={handleChange}
-                        className={getInputClass("mobile")}
-                      />
-                      {fieldErrors.mobile && (
-                        <p className="text-red-400 text-[10px] mt-1 ml-1 font-bold animate-pulse">
-                          {fieldErrors.mobile}
-                        </p>
-                      )}
+                      <input name="mobile" ref={el => inputRef.current.mobile = el} placeholder="+91 XXXXX XXXXX" value={form.mobile} onChange={handleChange} className={getInputClass("mobile")} />
                     </div>
-
                     <div>
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Official Email *</label>
-                      <input
-                        name="email"
-                        ref={el => inputRef.current.email = el}
-                        placeholder="work@domain.com"
-                        value={form.email}
-                        onChange={handleChange}
-                        className={getInputClass("email")}
-                      />
+                      <input name="email" ref={el => inputRef.current.email = el} placeholder="work@domain.com" value={form.email} onChange={handleChange} className={getInputClass("email")} />
                     </div>
-
                     <div className="md:col-span-2">
                       <label className="block text-[10px] font-black text-[#d4af37] uppercase tracking-[0.2em] mb-3 ml-1">Portfolio / Website</label>
-                      <input
-                        name="website"
-                        placeholder="https://example.com"
-                        value={form.website}
-                        onChange={handleChange}
-                        className={getInputClass("website")}
-                      />
+                      <input name="website" placeholder="https://example.com" value={form.website} onChange={handleChange} className={getInputClass("website")} />
                     </div>
                   </div>
                 </div>
               </>
             )}
 
-            {/* Location Section */}
+            {/* Preferred Event Location */}
             <div className="md:col-span-2 pt-8 border-t border-white/5 space-y-6">
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Preferred Award Event Location
-              </h3>
-              <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold ml-1 md:ml-4">(Optional - Please select your preference)</p>
+              <div className="flex flex-col">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Preferred Event Location
+                </h3>
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold ml-1 mt-1">
+                  (Optional - Please select your preference)
+                </p>
+              </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 px-1 md:px-2">
-                {["New Delhi", "Dubai", "London", "USA"].map((loc) => (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                {["New Delhi", "Dubai", "USA", "London"].map((loc) => (
                   <label
                     key={loc}
                     className={`flex items-center justify-center p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer text-center
-                      ${form.preferredLocation === loc
-                        ? "bg-[#d4af37] border-transparent text-black font-bold shadow-[0_5px_15px_rgba(212,175,55,0.3)]"
+                      ${form.preferredLocation?.includes(loc)
+                        ? "bg-[#d4af37]/20 border-[#d4af37] text-[#d4af37] shadow-[0_5px_15px_rgba(212,175,55,0.2)]"
                         : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:border-white/20"
                       }`}
                   >
                     <input
-                      type="radio"
+                      type="checkbox"
                       name="preferredLocation"
                       value={loc}
-                      checked={form.preferredLocation === loc}
+                      checked={form.preferredLocation?.includes(loc)}
                       onChange={handleChange}
                       className="hidden"
                     />
-                    <span className="text-xs uppercase tracking-tighter">{loc}</span>
+                    <span className="text-xs font-bold uppercase tracking-wider">{loc}</span>
                   </label>
                 ))}
               </div>
-              {form.preferredLocation && (
-                <button
-                  type="button"
-                  onClick={() => setForm(prev => ({ ...prev, preferredLocation: "" }))}
-                  className="text-[10px] text-[#d4af37] hover:underline ml-4 flex items-center gap-1"
-                >
-                  <FiX /> Clear Selection
-                </button>
-              )}
             </div>
 
-            {/* Remarks Section */}
+            {/* PDF Support Document Upload */}
+            <div className="md:col-span-2 pt-8 border-t border-white/5 space-y-6">
+              <div className="flex flex-col">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Support Document (Optional)
+                </h3>
+                <p className="text-[10px] text-gray-400 uppercase tracking-widest font-bold ml-1 mt-1">
+                  Upload any supporting document or profile (PDF only, max 5MB)
+                </p>
+              </div>
+
+              <div className="relative group">
+                <input
+                  type="file"
+                  name="pdf"
+                  accept=".pdf"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file && file.type === "application/pdf") {
+                      if (file.size > 5 * 1024 * 1024) {
+                        alert("File size exceeds 5MB limit.");
+                        e.target.value = "";
+                        return;
+                      }
+                      setForm(prev => ({ ...prev, pdf: file }));
+                    } else if (file) {
+                      alert("Please upload a valid PDF file.");
+                      e.target.value = "";
+                    }
+                  }}
+                  className="hidden"
+                  id="pdf-upload"
+                />
+                <label
+                  htmlFor="pdf-upload"
+                  className={`flex flex-col items-center justify-center p-8 rounded-2xl border-2 border-dashed transition-all duration-300 cursor-pointer
+                    ${form.pdf
+                      ? "bg-[#d4af37]/10 border-[#d4af37] text-[#d4af37]"
+                      : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:border-[#d4af37]/40"
+                    }`}
+                >
+                  <div className="text-3xl mb-3">
+                    {form.pdf ? "📄" : "📤"}
+                  </div>
+                  <span className="text-sm font-bold uppercase tracking-widest">
+                    {form.pdf ? form.pdf.name : "Click to select PDF"}
+                  </span>
+                  {form.pdf && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setForm(prev => ({ ...prev, pdf: null }));
+                        document.getElementById('pdf-upload').value = "";
+                      }}
+                      className="mt-4 text-[10px] font-black underline uppercase tracking-tighter hover:text-white"
+                    >
+                      Remove File
+                    </button>
+                  )}
+                </label>
+              </div>
+            </div>
+
             <div className="md:col-span-2 pt-8 border-t border-white/5">
               <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Additional Remarks</label>
-              <textarea
-                name="remarks"
-                value={form.remarks}
-                onChange={handleChange}
-                rows={4}
-                placeholder="Share any specific information or requests with our team..."
-                className={`${getInputClass("remarks")} resize-none`}
-              />
+              <textarea name="remarks" value={form.remarks} onChange={handleChange} rows={4} placeholder="Your message..." className={`${getInputClass("remarks")} resize-none`} />
             </div>
 
-            {/* Premium Multi-step Terms Section */}
             <div className="md:col-span-2 bg-white/5 border border-white/5 p-6 rounded-2xl group transition-all hover:bg-white/[0.07]">
               <label className="flex gap-4 cursor-pointer select-none">
                 <div className="relative flex items-center pt-1">
-                  <input
-                    type="checkbox"
-                    name="acceptTerms"
-                    ref={el => inputRef.current.acceptTerms = el}
-                    checked={form.acceptTerms}
-                    onChange={handleChange}
-                    className="w-5 h-5 rounded border-2 border-[#d4af37]/40 bg-transparent checked:bg-[#d4af37] appearance-none transition-all cursor-pointer"
-                  />
+                  <input type="checkbox" name="acceptTerms" ref={el => inputRef.current.acceptTerms = el} checked={form.acceptTerms} onChange={handleChange} className="w-5 h-5 rounded border-2 border-[#d4af37]/40 bg-transparent checked:bg-[#d4af37] appearance-none transition-all cursor-pointer" />
                   {form.acceptTerms && <span className="absolute left-[3px] top-[4px] text-black text-[10px] font-bold pointer-events-none">✓</span>}
                 </div>
                 <div className="flex-1">
-                  <p className={`text-sm leading-relaxed transition-colors ${fieldErrors.acceptTerms ? "text-red-400" : "text-gray-300"}`}>
-                    <span className="font-bold text-[#d4af37]">DECLARATION:</span> I hereby verify that I have thoroughly reviewed the Selection Procedures and Terms & Conditions. The data provided above is accurate to the best of my knowledge and I consent to its review by the jury panel.
+                  <p className={`text-sm tracking-tight transition-colors ${fieldErrors.acceptTerms ? "text-red-400" : "text-gray-300"}`}>
+                    <span className="font-bold text-[#d4af37]">DECLARATION:</span> I hereby verify that I have reviewed the Terms & Conditions. The data provided is true to the best of my knowledge.
                   </p>
                 </div>
               </label>
             </div>
 
-            {/* Centered Submit Button */}
-            <div className="md:col-span-2 flex flex-col items-center gap-4 py-8 md:py-4">
+            <div className="md:col-span-2 flex flex-col items-center gap-4 py-8">
               <button
                 type="submit"
                 disabled={submitting}
                 className="group relative inline-flex items-center justify-center w-full sm:w-auto px-12 py-4 font-black tracking-[0.2em] uppercase transition-all duration-300 bg-gradient-to-r from-[#d4af37] to-[#b8860b] text-black rounded-full overflow-hidden shadow-[0_20px_40px_-10px_rgba(212,175,55,0.4)] hover:shadow-[0_20px_50px_-5px_rgba(212,175,55,0.6)] hover:-translate-y-1 active:scale-95 disabled:grayscale disabled:opacity-50"
               >
                 <span className="relative z-10 flex items-center gap-3">
-                  {submitting ? (
-                    <>
-                      <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Verifying...
-                    </>
-                  ) : (
-                    <>Submit Registration <span className="text-xl group-hover:translate-x-2 transition-transform">→</span></>
-                  )}
+                  {submitting ? "Processing..." : isEditMode ? "Update Submission" : "Submit Registration"}
+                  {!submitting && <span className="text-xl group-hover:translate-x-2 transition-transform">→</span>}
                 </span>
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-shimmer"></div>
               </button>
-              <p className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Secure SSL Encrypted Transmission</p>
             </div>
 
           </form>

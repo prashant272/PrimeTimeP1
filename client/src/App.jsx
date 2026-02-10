@@ -26,6 +26,7 @@ import ScrollToTop from "./components/ScrollToTop.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
 import FAQ from "./pages/FAQ.jsx";
 
+
 export default function App() {
   const location = useLocation();
 

@@ -201,10 +201,19 @@ const nominationSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    preferredLocation: {
+    nominationType: {
       type: String,
-      enum: ["New Delhi", "Dubai", "London", "USA", ""],
+      enum: ["education", "healthcare"],
+      default: "education",
+    },
+    pdfUrl: {
+      type: String,
+      trim: true,
       default: "",
+    },
+    preferredLocation: {
+      type: [String],
+      default: [],
     },
   },
   {

@@ -1,11 +1,50 @@
 import express from "express";
 import bcrypt from "bcryptjs";
+import { GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import User from "../models/User.js";
 import Nomination from "../models/Nomination.js";
 import { authenticate, requireAdmin, signToken } from "../middleware/authMiddleware.js";
+import s3Client from "../utils/s3Config.js";
 
 const router = express.Router();
+
+const BUCKET_NAME = process.env.AWS_S3_BUCKET || "pdf-storage-prime";
+
+// Helper to generate signed URL
+const getSignedPdfUrl = async (key) => {
+  if (!key) return "";
+  try {
+    let s3Key = key;
+    // Handle legacy full URLs for admin too
+    if (key.startsWith("http")) {
+      const urlObj = new URL(key);
+      if (urlObj.hostname.includes("amazonaws.com") && urlObj.pathname.includes(BUCKET_NAME)) {
+        const pathParts = urlObj.pathname.split("/");
+        const bucketIndex = pathParts.indexOf(BUCKET_NAME);
+        if (bucketIndex !== -1) {
+          s3Key = pathParts.slice(bucketIndex + 1).join("/");
+        } else {
+          s3Key = urlObj.pathname.startsWith("/") ? urlObj.pathname.slice(1) : urlObj.pathname;
+        }
+      } else {
+        return key;
+      }
+    }
+
+    const command = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: decodeURIComponent(s3Key),
+      ResponseContentType: 'application/pdf',
+      ResponseContentDisposition: 'inline'
+    });
+    return await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+  } catch (err) {
+    console.error("Error generating signed URL for admin:", err);
+    return "";
+  }
+};
 
 // Admin login
 router.post("/login", async (req, res, next) => {
@@ -43,8 +82,20 @@ router.get("/nominations", authenticate, requireAdmin, async (_req, res, next) =
   try {
     const docs = await Nomination.find({})
       .populate("user", "email name role")
-      .sort({ createdAt: -1 });
-    return res.json(docs);
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Generate signed URLs for admin
+    const results = await Promise.all(
+      docs.map(async (doc) => {
+        if (doc.pdfUrl) {
+          doc.pdfUrl = await getSignedPdfUrl(doc.pdfUrl);
+        }
+        return doc;
+      })
+    );
+
+    return res.json(results);
   } catch (err) {
     next(err);
   }

@@ -6,7 +6,7 @@ import {
   deleteNomination,
 } from "../services/api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { ShieldCheck, Edit2, Trash2 } from "lucide-react";
+import { ShieldCheck, Edit2, Trash2, FileText } from "lucide-react";
 
 /* ------------------ Constants ------------------ */
 const goldGrad =
@@ -352,6 +352,17 @@ export default function AdminDashboard() {
               </td>
               <td className="px-4 py-4 sticky right-0 bg-gradient-to-l from-[#18130e] to-[#1f1810ac] z-20 shadow-lg rounded-tr-xl rounded-br-xl">
                 <div className="flex gap-2">
+                  {n.pdfUrl && (
+                    <a
+                      href={n.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 flex items-center justify-center border border-blue-400/50 bg-[#101b23]/60 text-blue-400 rounded-full shadow transition hover:bg-gradient-to-tr hover:from-[#99c8fb] hover:to-[#3a86ce] hover:text-[#101b23]"
+                      title="View PDF"
+                    >
+                      <FileText size={16} />
+                    </a>
+                  )}
                   <button
                     onClick={() => handleEdit(n)}
                     className="w-8 h-8 flex items-center justify-center border border-[#d4af37]/70 bg-[#2b2512]/70 text-[#d4af37] rounded-full shadow transition hover:bg-gradient-to-tr hover:from-[#fbe399] hover:to-[#ceb655] hover:text-[#221d10]"
