@@ -13,8 +13,8 @@ import {
   FaTrophy,
   FaHistory,
   FaRegClone,
+  FaRegEdit,
   FaQuestionCircle,
-  FaStar,
 } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -25,7 +25,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
-  const isNominateRoute = location.pathname === "/nominate";
+  const isNominateRoute = location.pathname.startsWith("/nominate");
   const isHomePage = location.pathname === "/";
   const isOtherPage = !isHomePage && !isAdminRoute && !isNominateRoute;
   const isUser = user?.role === "user";
@@ -80,7 +80,6 @@ export default function Navbar() {
     }
   };
 
-  // No longer hiding navbar for nomination route to maintain consistency and allow navigation.
 
   // ===== Header for admin routes
   if (isAdminRoute) {
@@ -96,7 +95,7 @@ export default function Navbar() {
             <div className="flex flex-col leading-tight">
               <span className="font-semibold">Admin Dashboard</span>
               <span className="text-[11px] text-gray-300">
-                Global Healthcare Awards – Internal Panel
+                Global Education Awards – Internal Panel
               </span>
             </div>
           </div>
@@ -134,12 +133,12 @@ export default function Navbar() {
                     <img
                       src="/images/primetimelogo.gif"
                       alt="PrimeTime Logo"
-                      className="absolute top-[-10px] left-0 h-[100px] w-auto max-w-none object-contain z-50 drop-shadow-md"
+                      className="absolute top-[-10px] left-[-30px] h-[100px] w-auto max-w-none object-contain z-50 drop-shadow-md"
                     />
                   </div>
                   <div className="flex gap-2 font-semibold whitespace-nowrap">
-                    <span>Prime Time Research Media Pvt. Ltd</span>
-                    <span className="opacity-70">Global Healthcare Awards</span>
+                    <span>Prime Time Research Media Pvt. Ltd. </span>
+                    <span className="opacity-70">Global Education Awards</span>
                   </div>
                 </div>
                 {/* RIGHT : LOGIN */}
@@ -210,7 +209,7 @@ export default function Navbar() {
               className="h-9 w-auto object-contain"
               style={{ maxWidth: 40 }}
             />
-            <span className="text-[13px] font-semibold whitespace-nowrap text-white">Prime Time Research Media Pvt. Ltd</span>
+            <span className="text-[13px] font-semibold whitespace-nowrap text-white">Prime Time Research Media Pvt. Ltd.</span>
           </div>
           {/* Welcome & logout/login */}
           <div className="flex items-center gap-1">
@@ -282,7 +281,7 @@ const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true) => {
       <NavItem to="/media" icon={<FaTrophy />} label="Media" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/previous-editions" icon={<FaHistory />} label="Previous Editions" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/faq" icon={<FaQuestionCircle />} label="FAQ" color={color} onClick={createNavHandler(onClick)} />
-      <NavItem to="/nominate" icon={<FaStar />} label="Nominate Now" color={color} onClick={createNavHandler(onClick)} />
+      <NavItem to="/nominate" icon={<FaRegEdit />} label="Nominate Now" color={color} onClick={createNavHandler(onClick)} />
       {isUser && showDashboard && (
         <NavItem
           to="/dashboard"
@@ -370,7 +369,7 @@ function MobileMenuDrawer({
               alt="PrimeTime Logo"
               className="h-8 w-auto object-contain"
             />
-            <span className="font-semibold text-sm text-white">Prime Time Research Media Pvt. Ltd</span>
+            <span className="font-semibold text-sm text-white">Prime Time Research Media Pvt. Ltd.</span>
           </div>
           <button
             aria-label="Close Menu"
