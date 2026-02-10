@@ -95,7 +95,7 @@ export default function Navbar() {
             <div className="flex flex-col leading-tight">
               <span className="font-semibold">Admin Dashboard</span>
               <span className="text-[11px] text-gray-300">
-                Global Education Awards – Internal Panel
+                Global Healthcare Awards – Internal Panel
               </span>
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function Navbar() {
                   </div>
                   <div className="flex gap-2 font-semibold whitespace-nowrap">
                     <span>Prime Time Research Media Pvt. Ltd. </span>
-                    <span className="opacity-70">Global Education Awards</span>
+                    <span className="opacity-70">Global Healthcare Awards</span>
                   </div>
                 </div>
                 {/* RIGHT : LOGIN */}
