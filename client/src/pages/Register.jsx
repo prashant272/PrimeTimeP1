@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import { getBaseUrl } from "../services/api.js";
 import { FiUser, FiMail, FiLock, FiArrowRight, FiHome } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 
@@ -149,7 +150,7 @@ export default function Register() {
 
             <button
               onClick={() => {
-                const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+                const apiUrl = getBaseUrl();
                 window.location.href = `${apiUrl}/api/auth/google`;
               }}
               className="w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/[0.03] border border-white/10 text-white font-bold hover:bg-white/[0.06] transition-all active:scale-[0.98]"

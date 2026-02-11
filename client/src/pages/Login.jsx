@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import { getBaseUrl } from "../services/api.js";
 import { FiMail, FiLock, FiArrowRight, FiHome } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 
@@ -43,7 +44,7 @@ export default function Login() {
   };
 
   const handleGoogleLogin = () => {
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    const apiUrl = getBaseUrl();
     window.location.href = `${apiUrl}/api/auth/google`;
   };
 

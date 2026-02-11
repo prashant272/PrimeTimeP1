@@ -1,6 +1,6 @@
 
 
-function getBaseUrl() {
+export function getBaseUrl() {
   // Prefer explicit API base URL if provided
   const fromEnv =
     typeof import.meta !== "undefined"
