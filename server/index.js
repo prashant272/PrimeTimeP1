@@ -89,9 +89,7 @@ app.get(
     const user = req.user;
     const token = signToken({ id: user._id, email: user.email, role: user.role, name: user.name });
 
-    const frontendUrl = process.env.NODE_ENV === "production"
-      ? "https://www.globalhealthcareawards.com"
-      : "http://localhost:5173";
+    const frontendUrl = process.env.FRONTEND_URL || "https://www.globalhealthcareawards.com";
 
     // Redirect to frontend /auth-callback with data, which will then seamlessly navigate to /nominate
     res.redirect(`${frontendUrl}/auth-callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
