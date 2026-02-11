@@ -6,7 +6,7 @@ import {
   deleteNomination,
 } from "../services/api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { ShieldCheck, Edit2, Trash2, FileText } from "lucide-react";
+import { ShieldCheck, Edit2, Trash2, FileText, Search } from "lucide-react";
 
 /* ------------------ Constants ------------------ */
 const goldGrad =
@@ -90,6 +90,8 @@ export default function AdminDashboard() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [participationTypeFilter, setParticipationTypeFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOrder, setSortOrder] = useState("newest"); // 'newest' or 'oldest'
   const [updatingId, setUpdatingId] = useState(null);
 
   const [editingNomination, setEditingNomination] = useState(null);
@@ -129,8 +131,26 @@ export default function AdminDashboard() {
       filtered = filtered.filter((n) => n.preferredLocation === locationFilter);
     }
 
+    if (searchTerm.trim()) {
+      const s = searchTerm.toLowerCase();
+      filtered = filtered.filter((n) => {
+        const nameMatch = n.nomineeName?.toLowerCase().includes(s);
+        const emailMatch = n.email?.toLowerCase().includes(s);
+        const mobileMatch = (n.mobileNumber || n.phone)?.toLowerCase().includes(s);
+        const orgMatch = n.organization?.toLowerCase().includes(s);
+        return nameMatch || emailMatch || mobileMatch || orgMatch;
+      });
+    }
+
+    // Sort by date
+    filtered.sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0);
+      const dateB = new Date(b.createdAt || 0);
+      return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
+    });
+
     setFilteredNominations(filtered);
-  }, [nominations, statusFilter, participationTypeFilter, locationFilter]);
+  }, [nominations, statusFilter, participationTypeFilter, locationFilter, searchTerm, sortOrder]);
 
   const paymentSummary = useMemo(() => {
     const summary = {
@@ -145,6 +165,39 @@ export default function AdminDashboard() {
       if (summary[key] != null) summary[key] += 1;
     });
     return summary;
+  }, [nominations]);
+
+  const dailySummary = useMemo(() => {
+    const groups = {};
+    nominations.forEach((n) => {
+      const dateKey = n.createdAt
+        ? new Date(n.createdAt).toLocaleDateString("en-GB")
+        : "Unknown Date";
+
+      if (!groups[dateKey]) {
+        groups[dateKey] = {
+          date: dateKey,
+          total: 0,
+          paid: 0,
+          pending: 0,
+          initial_paid: 0,
+        };
+      }
+      groups[dateKey].total += 1;
+      const status = n.paymentStatus || "not_paid";
+      if (status === "paid") groups[dateKey].paid += 1;
+      else if (status === "initial_paid") groups[dateKey].initial_paid += 1;
+      else groups[dateKey].pending += 1;
+    });
+
+    // Sort by date descending
+    return Object.values(groups).sort((a, b) => {
+      if (a.date === "Unknown Date") return 1;
+      if (b.date === "Unknown Date") return -1;
+      const dateA = new Date(a.date.split("/").reverse().join("-"));
+      const dateB = new Date(b.date.split("/").reverse().join("-"));
+      return dateB - dateA;
+    });
   }, [nominations]);
 
   /* ------------------ Status Change ------------------ */
@@ -523,6 +576,70 @@ export default function AdminDashboard() {
     </div>
   );
 
+  const renderAnalyticsTab = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-gradient-to-br from-[#272316] to-[#1a160a] p-6 rounded-2xl border border-[#edd14830] shadow-lg">
+          <p className="text-[#c7ba7e] text-xs font-bold uppercase tracking-widest mb-1">Total Registrations</p>
+          <p className="text-3xl font-black text-white">{paymentSummary.total}</p>
+        </div>
+        <div className="bg-gradient-to-br from-[#272316] to-[#1a160a] p-6 rounded-2xl border border-[#edd14830] shadow-lg">
+          <p className="text-[#c7ba7e] text-xs font-bold uppercase tracking-widest mb-1">Total Paid</p>
+          <p className="text-3xl font-black text-green-400">{paymentSummary.paid}</p>
+        </div>
+        <div className="bg-gradient-to-br from-[#272316] to-[#1a160a] p-6 rounded-2xl border border-[#edd14830] shadow-lg">
+          <p className="text-[#c7ba7e] text-xs font-bold uppercase tracking-widest mb-1">Initial Payments</p>
+          <p className="text-3xl font-black text-blue-400">{paymentSummary.initial_paid}</p>
+        </div>
+        <div className="bg-gradient-to-br from-[#272316] to-[#1a160a] p-6 rounded-2xl border border-[#edd14830] shadow-lg">
+          <p className="text-[#c7ba7e] text-xs font-bold uppercase tracking-widest mb-1">Pending/Not Paid</p>
+          <p className="text-3xl font-black text-red-400">{paymentSummary.not_paid}</p>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto border border-[#eaca5f40] rounded-2xl bg-[#1a160ae6] backdrop-blur-md shadow-2xl">
+        <table className="w-full text-sm text-left border-separate border-spacing-0">
+          <thead>
+            <tr className="bg-gradient-to-r from-[#231e09] to-[#2e2612] text-[#f2eab6]">
+              <th className="px-6 py-4 font-black uppercase tracking-widest text-xs border-b border-[#edd14830]">Registration Date</th>
+              <th className="px-6 py-4 font-black uppercase tracking-widest text-xs border-b border-[#edd14830]">Daily Total</th>
+              <th className="px-6 py-4 font-black uppercase tracking-widest text-xs border-b border-[#edd14830]">Paid</th>
+              <th className="px-6 py-4 font-black uppercase tracking-widest text-xs border-b border-[#edd14830]">Partial Paid</th>
+              <th className="px-6 py-4 font-black uppercase tracking-widest text-xs border-b border-[#edd14830]">Pending</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#edd14815]">
+            {dailySummary.map((row, idx) => (
+              <tr
+                key={row.date}
+                className={`hover:bg-[#d4af3708] transition-colors ${idx % 2 === 0 ? "bg-[#ffffff02]" : "bg-transparent"
+                  }`}
+              >
+                <td className="px-6 py-4 font-bold text-[#fbe376]">{row.date}</td>
+                <td className="px-6 py-4 font-black text-lg">{row.total}</td>
+                <td className="px-6 py-4">
+                  <span className="px-3 py-1 rounded-full bg-green-500/10 text-green-400 text-xs font-bold border border-green-500/20">
+                    {row.paid} Paid
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold border border-blue-500/20">
+                    {row.initial_paid} Partial
+                  </span>
+                </td>
+                <td className="px-6 py-4">
+                  <span className="px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-xs font-bold border border-red-500/20">
+                    {row.pending} Pending
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
   /* ================== UI ================== */
   return (
     <section className="min-h-screen bg-gradient-to-br from-[#18130d] via-[#241b0a] to-[#11161c] text-white flex flex-col">
@@ -568,6 +685,7 @@ export default function AdminDashboard() {
               {[
                 { id: "nominations", label: "Nominations", icon: "🏆" },
                 { id: "status", label: "Status & Payment", icon: "💸" },
+                { id: "analytics", label: "Daily Analytics", icon: "📊" },
                 { id: "users", label: "Registered Users", icon: "👤" },
                 { id: "admins", label: "Admin Settings", icon: "🛡️" },
               ].map((tab) => (
@@ -598,70 +716,97 @@ export default function AdminDashboard() {
             </p>
           </header>
 
-          <div className="flex flex-wrap items-center gap-4 mb-8 bg-[#1a160a]/40 p-4 rounded-2xl border border-[#ffffff0d] backdrop-blur-md">
-            <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider">
-              Filter Status:
-            </span>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
-            >
-              {STATUS_FILTER_OPTIONS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-
-            <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider ml-2">
-              Type:
-            </span>
-            <select
-              value={participationTypeFilter}
-              onChange={(e) => setParticipationTypeFilter(e.target.value)}
-              className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
-            >
-              {PARTICIPATION_TYPE_FILTER_OPTIONS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-
-            <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider ml-2">
-              Location:
-            </span>
-            <select
-              value={locationFilter}
-              onChange={(e) => setLocationFilter(e.target.value)}
-              className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
-            >
-              {LOCATION_FILTER_OPTIONS.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-            <span className="text-xs text-[#ffd975] font-mono bg-[#d4af37]/10 px-3 py-1 rounded-full border border-[#d4af37]/20">
-              {filteredNominations.length} records
-            </span>
-            {error && (
-              <span className="ml-auto text-sm text-red-400 bg-red-900/20 px-3 py-1 rounded border border-red-500/30">
-                Error: {error}
+          {activeTab !== "analytics" && activeTab !== "admins" && (
+            <div className="flex flex-wrap items-center gap-4 mb-8 bg-[#1a160a]/40 p-4 rounded-2xl border border-[#ffffff0d] backdrop-blur-md">
+              <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider">
+                Filter Status:
               </span>
-            )}
-            {loading && (
-              <span className="ml-auto text-sm flex items-center gap-2 text-yellow-300">
-                <div className="w-2 h-2 rounded-full bg-yellow-400 animate-ping" />
-                Loading data...
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
+              >
+                {STATUS_FILTER_OPTIONS.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+
+              <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider ml-2">
+                Type:
               </span>
-            )}
-          </div>
+              <select
+                value={participationTypeFilter}
+                onChange={(e) => setParticipationTypeFilter(e.target.value)}
+                className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
+              >
+                {PARTICIPATION_TYPE_FILTER_OPTIONS.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+
+              <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider ml-2">
+                Location:
+              </span>
+              <select
+                value={locationFilter}
+                onChange={(e) => setLocationFilter(e.target.value)}
+                className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
+              >
+                {LOCATION_FILTER_OPTIONS.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+
+              <div className="flex-grow max-w-sm relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#edd14880]" size={16} />
+                <input
+                  type="text"
+                  placeholder="Search Name, Email, Mobile..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-[#1a160a] border border-[#edd14830] rounded-lg pl-10 pr-4 py-2 text-sm text-[#fbe376] placeholder-[#edd14840] focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition"
+                />
+              </div>
+
+              <span className="text-[#c7ba7e] font-semibold text-sm uppercase tracking-wider ml-2">
+                Sort:
+              </span>
+              <select
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+                className="bg-[#272316] border border-[#edd14850] rounded-lg px-4 py-2 text-[#fbe376] text-sm focus:outline-none focus:ring-2 focus:ring-[#d4af37] transition shadow-inner"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+              </select>
+
+              <span className="text-xs text-[#ffd975] font-mono bg-[#d4af37]/10 px-3 py-1 rounded-full border border-[#d4af37]/20">
+                {filteredNominations.length} records
+              </span>
+              {error && (
+                <span className="ml-auto text-sm text-red-400 bg-red-900/20 px-3 py-1 rounded border border-red-500/30">
+                  Error: {error}
+                </span>
+              )}
+              {loading && (
+                <span className="ml-auto text-sm flex items-center gap-2 text-yellow-300">
+                  <div className="w-2 h-2 rounded-full bg-yellow-400 animate-ping" />
+                  Loading data...
+                </span>
+              )}
+            </div>
+          )}
 
           <div className="w-full">
             {activeTab === "nominations" && renderNominationsTable()}
             {activeTab === "status" && renderStatusTab()}
+            {activeTab === "analytics" && renderAnalyticsTab()}
             {activeTab === "users" && renderUsersTab()}
             {activeTab === "admins" && renderAdminsTab()}
           </div>
