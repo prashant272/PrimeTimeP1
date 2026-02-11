@@ -8,6 +8,7 @@ import { nominationSchema, validate } from "../middleware/validators.js";
 
 import upload from "../middleware/uploadMiddleware.js";
 import s3Client from "../utils/s3Config.js";
+import { sendNominationSuccessEmail } from "../utils/emailService.js";
 
 const router = express.Router();
 
@@ -77,6 +78,14 @@ router.post("/", authenticate, upload.single("pdf"), nominationSchema, validate,
       ...payload,
       user: req.user.id,
     });
+
+    // Send confirmation email asynchronously
+    const targetEmail = nomination.contactEmail || nomination.email;
+    if (targetEmail) {
+      sendNominationSuccessEmail(targetEmail, nomination.nomineeName).catch(err => {
+        console.error("Delayed Notification Error:", err);
+      });
+    }
 
     return res.status(201).json(nomination);
   } catch (err) {

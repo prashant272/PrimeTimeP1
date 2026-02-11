@@ -43,6 +43,8 @@ async function request(path, { method = "GET", token, body } = {}) {
   return data;
 }
 
+const DEFAULT_BASE_URL = window.location.origin;
+
 /* ---------------- Auth ---------------- */
 export function registerUser(payload) {
   return request("/api/auth/register", { method: "POST", body: payload });
@@ -52,8 +54,24 @@ export function loginUser(payload) {
   return request("/api/auth/login", { method: "POST", body: payload });
 }
 
+export function verifyOTP(payload) {
+  return request("/api/auth/verify-otp", { method: "POST", body: payload });
+}
+
+export function resendOTP(payload) {
+  return request("/api/auth/resend-otp", { method: "POST", body: payload });
+}
+
 export function adminLogin(payload) {
   return request("/api/admin/login", { method: "POST", body: payload });
+}
+
+export function forgotPassword(payload) {
+  return request("/api/auth/forgot-password", { method: "POST", body: payload });
+}
+
+export function resetPassword(payload) {
+  return request("/api/auth/reset-password", { method: "POST", body: payload });
 }
 
 /* ---------------- Nominations (user) ---------------- */

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginUser, registerUser, adminLogin } from "../services/api.js";
+import { loginUser, registerUser, adminLogin, verifyOTP, resendOTP } from "../services/api.js";
 
 const AuthContext = createContext(null);
 
@@ -48,8 +48,18 @@ export function AuthProvider({ children }) {
 
   const register = async (name, email, password, secretCode) => {
     const data = await registerUser({ name, email, password, secretCode });
+    // Don't log in automatically yet, wait for OTP
+    return data;
+  };
+
+  const verifyEmail = async (email, otp) => {
+    const data = await verifyOTP({ email, otp });
     handleAuthSuccess(data);
     return data;
+  };
+
+  const resendVerificationOTP = async (email) => {
+    return await resendOTP({ email });
   };
 
   const loginAsAdmin = async (email, password) => {
@@ -71,6 +81,9 @@ export function AuthProvider({ children }) {
     isAuthenticated: Boolean(user && token),
     login,
     register,
+    verifyEmail,
+    resendVerificationOTP,
+    setExternalAuth: handleAuthSuccess,
     loginAsAdmin,
     logout,
   };

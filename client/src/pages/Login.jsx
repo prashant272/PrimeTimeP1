@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { FiMail, FiLock, FiArrowRight, FiHome } from "react-icons/fi";
+import { FcGoogle } from "react-icons/fc";
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, setExternalAuth, isAuthenticated, initialised } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -12,6 +13,14 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+
+  // 1. Auto-redirect if already logged in
+  useEffect(() => {
+    if (initialised && isAuthenticated) {
+      const from = location.state?.from?.pathname || "/nominate";
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, initialised, navigate, location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,10 +31,20 @@ export default function Login() {
       const from = location.state?.from?.pathname || "/nominate";
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.message || "Unable to login");
+      if (err.message.includes("verify your email") || err.message.includes("verified")) {
+        // Redirection logic for unverified users
+        navigate("/verify-email", { state: { email } });
+      } else {
+        setError(err.message || "Unable to login");
+      }
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const handleGoogleLogin = () => {
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    window.location.href = `${apiUrl}/api/auth/google`;
   };
 
   const goldGrad = "linear-gradient(90deg,#e9d781 0%,#dac24a 29.69%,#fee19a 70%,#bc9830 100%)";
@@ -51,7 +70,7 @@ export default function Login() {
           style={{ background: goldGrad }}
         />
 
-        <div className="w-full bg-white/[0.02] backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-6 sm:p-8 md:px-12 md:py-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
+        <div className="w-full bg-white/[0.02] backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-6 sm:p-8 md:px-12 md:py-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
           <div className="text-center mb-6">
             <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-b from-white via-white to-[#d4af37] bg-clip-text text-transparent tracking-tighter mb-3">
               Portal Login
@@ -70,11 +89,11 @@ export default function Login() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-3 group">
               <label className="flex items-center gap-2 text-xs md:text-sm font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
-                <FiMail /> Identity / Email
+                <FiMail /> Email
               </label>
               <input
                 type="email"
-                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white text-base placeholder:text-white/10 focus:outline-none focus:border-[#d4af37]/40 focus:bg-white/[0.06] transition-all"
+                className="w-full bg-white/[0.03] border border-[#d4af37]/20 rounded-2xl px-6 py-4 text-white text-base placeholder:text-white/40 focus:outline-none focus:border-[#d4af37] focus:bg-white/[0.06] focus:shadow-[0_0_15px_rgba(212,175,55,0.1)] transition-all"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -84,17 +103,25 @@ export default function Login() {
 
             <div className="space-y-3 group">
               <label className="flex items-center gap-2 text-xs md:text-sm font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
-                <FiLock /> Credentials / Password
+                <FiLock /> Password
               </label>
               <input
                 type="password"
-                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white text-base placeholder:text-white/10 focus:outline-none focus:border-[#d4af37]/40 focus:bg-white/[0.06] transition-all"
+                className="w-full bg-white/[0.03] border border-[#d4af37]/20 rounded-2xl px-6 py-4 text-white text-base placeholder:text-white/40 focus:outline-none focus:border-[#d4af37] focus:bg-white/[0.06] focus:shadow-[0_0_15px_rgba(212,175,55,0.1)] transition-all"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
                 autoComplete="current-password"
               />
+              <div className="flex justify-end pr-2">
+                <Link
+                  to="/forgot-password"
+                  className="text-[#d4af37]/60 hover:text-[#d4af37] text-[10px] font-black uppercase tracking-widest transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
             </div>
 
             <button
@@ -120,6 +147,24 @@ export default function Login() {
               </span>
             </button>
           </form>
+
+          <div className="mt-6">
+            <div className="relative flex items-center justify-center mb-6">
+              <div className="flex-grow border-t border-white/5"></div>
+              <span className="flex-shrink mx-4 text-gray-500 text-[10px] font-black uppercase tracking-[0.2em]">
+                Or Continue With
+              </span>
+              <div className="flex-grow border-t border-white/5"></div>
+            </div>
+
+            <button
+              onClick={handleGoogleLogin}
+              className="w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/[0.03] border border-white/10 text-white font-bold hover:bg-white/[0.06] transition-all active:scale-[0.98]"
+            >
+              <FcGoogle className="text-2xl" />
+              <span className="uppercase tracking-widest text-xs">Google Account</span>
+            </button>
+          </div>
 
           <div className="mt-8 pt-6 border-t border-white/5 text-center">
             <p className="text-gray-500 text-sm font-bold uppercase tracking-wider">

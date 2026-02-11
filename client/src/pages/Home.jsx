@@ -319,6 +319,7 @@ export default function Home() {
             <img
               src="/videos/hero-poster.jpg"
               alt="Award Ceremony"
+              loading="lazy"
               className="w-full h-full object-cover object-center"
             />
           </noscript>
@@ -416,12 +417,12 @@ export default function Home() {
                     border border-[#e1c26c]/25 hover:border-[#ffeb98] hover:shadow-[#d4af37]/40
                     transition-all duration-500 hover:-translate-y-2 hover:scale-[1.033] 
                     hover:shadow-[0_16px_60px_-14px_#ffd966cc]
-                    backdrop-blur-lg
+                    backdrop-blur-md
                     before:absolute before:inset-0 before:z-[-2] before:rounded-inherit before:bg-gradient-to-br before:from-[#d4af37]/10 before:via-transparent before:to-[#c69823]/10
                   "
                     style={{
                       background: "rgba(34, 17, 9, 0.48)",
-                      boxShadow: "0 4px 36px -8px #d4af3744, 0 0px 0 #fde68a09 inset",
+                      boxShadow: "0 4px 20px -8px #d4af3733, 0 0.5px 0 #fde68a09 inset",
                     }}
                   >
                     {/* PREMIUM CORNER ORNAMENTS */}
@@ -673,8 +674,8 @@ export default function Home() {
       <section className={`relative pt-6 pb-16 md:pb-24 overflow-hidden ${HIGHLIGHT_BG}`}>
         {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute top-0 right-1/4 w-[320px] sm:w-[420px] md:w-[500px] h-[320px] sm:h-[420px] md:h-[500px] bg-[#d4af37]/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 left-1/4 w-[320px] sm:w-[420px] md:w-[500px] h-[320px] sm:h-[420px] md:h-[500px] bg-[#c62828]/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
+          <div className="absolute top-0 right-1/4 w-[320px] sm:w-[420px] md:w-[500px] h-[320px] sm:h-[420px] md:h-[500px] bg-[#d4af37]/5 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute bottom-0 left-1/4 w-[320px] sm:w-[420px] md:w-[500px] h-[320px] sm:h-[420px] md:h-[500px] bg-[#c62828]/5 rounded-full blur-2xl animate-pulse delay-2000"></div>
         </div>
         {/* ...rest code unchanged... */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
