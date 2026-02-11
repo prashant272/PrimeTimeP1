@@ -102,7 +102,7 @@ export default function Register() {
 
             <div className="space-y-3 group">
               <label className="flex items-center gap-2 text-xs md:text-sm font-black uppercase tracking-widest text-[#d4af37]/70 group-focus-within:text-[#d4af37] transition-colors ml-1">
-                <FiLock /> Set Credentials
+                <FiLock /> Set Your Password
               </label>
               <input
                 type="password"
