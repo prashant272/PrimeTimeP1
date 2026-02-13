@@ -32,6 +32,7 @@ const ResetPassword = lazy(() => import("./pages/ResetPassword.jsx"));
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import WhatsAppButton from "./components/WhatsAppButton.jsx";
+import CallButton from "./components/CallButton.jsx";
 
 
 export default function App() {
@@ -120,7 +121,12 @@ export default function App() {
 
 
       {!location.pathname.startsWith("/admin") && <Footer />}
-      <WhatsAppButton />
+      {!location.pathname.startsWith("/admin") && (
+        <>
+          <WhatsAppButton />
+          <CallButton />
+        </>
+      )}
     </div >
   );
 }
