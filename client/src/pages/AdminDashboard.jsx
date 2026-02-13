@@ -6,7 +6,7 @@ import {
   deleteNomination,
 } from "../services/api.js";
 import { useAuth } from "../context/AuthContext.jsx";
-import { ShieldCheck, Edit2, Trash2, FileText, Search } from "lucide-react";
+import { ShieldCheck, Edit2, Trash2, FileText, Search, Eye } from "lucide-react";
 
 /* ------------------ Constants ------------------ */
 const goldGrad =
@@ -97,6 +97,7 @@ export default function AdminDashboard() {
   const [editingNomination, setEditingNomination] = useState(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [editForm, setEditForm] = useState({});
+  const [viewingNomination, setViewingNomination] = useState(null);
 
   const [activeTab, setActiveTab] = useState("nominations");
 
@@ -416,6 +417,13 @@ export default function AdminDashboard() {
                       <FileText size={16} />
                     </a>
                   )}
+                  <button
+                    onClick={() => setViewingNomination(n)}
+                    className="w-8 h-8 flex items-center justify-center border border-green-400/50 bg-[#102310]/60 text-green-400 rounded-full shadow transition hover:bg-gradient-to-tr hover:from-[#99fb99] hover:to-[#3ace3a] hover:text-[#102310]"
+                    title="View Details"
+                  >
+                    <Eye size={16} />
+                  </button>
                   <button
                     onClick={() => handleEdit(n)}
                     className="w-8 h-8 flex items-center justify-center border border-[#d4af37]/70 bg-[#2b2512]/70 text-[#d4af37] rounded-full shadow transition hover:bg-gradient-to-tr hover:from-[#fbe399] hover:to-[#ceb655] hover:text-[#221d10]"
@@ -816,31 +824,10 @@ export default function AdminDashboard() {
       {/* ================== EDIT MODAL ================== */}
       {editingNomination && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999] backdrop-blur-sm">
-          <div className="bg-gradient-to-tr from-[#2e2b18] via-[#18130e] to-[#18130e] border-2 border-[#eaca5faa] shadow-2xl shadow-[#d4af3780] p-8 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-2xl font-bold mb-4 text-[#ffe6a3]">Edit Nomination Details</h2>
+          <div className="bg-gradient-to-tr from-[#2e2b18] via-[#18130e] to-[#18130e] border-2 border-[#eaca5faa] shadow-2xl shadow-[#d4af3780] p-8 rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-6 text-[#ffe6a3]">Edit Nomination Details</h2>
             <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <label className="text-xs text-[#f6e589] font-semibold">Nominee Name</label>
-                <input
-                  className={inputClass}
-                  value={editForm.nomineeName || ""}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, nomineeName: e.target.value })
-                  }
-                  placeholder="Enter nominee name"
-                />
-              </div>
-              <div>
-                <label className="text-xs text-[#f6e589] font-semibold">Organization</label>
-                <input
-                  className={inputClass}
-                  value={editForm.organization || ""}
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, organization: e.target.value })
-                  }
-                  placeholder="Organization name"
-                />
-              </div>
+              {/* Participation Type */}
               <div>
                 <label className="text-xs text-[#f6e589] font-semibold">Participation Type</label>
                 <input
@@ -855,6 +842,8 @@ export default function AdminDashboard() {
                   placeholder="Type"
                 />
               </div>
+
+              {/* Category */}
               <div>
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Category (User Selected)
@@ -868,6 +857,34 @@ export default function AdminDashboard() {
                   placeholder="Category"
                 />
               </div>
+
+              {/* Sub Category */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Sub Category</label>
+                <input
+                  className={inputClass}
+                  value={editForm.subCategory || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, subCategory: e.target.value })
+                  }
+                  placeholder="Sub Category"
+                />
+              </div>
+
+              {/* Other Sub Category */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Other Sub Category</label>
+                <input
+                  className={inputClass}
+                  value={editForm.otherSubCategory || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, otherSubCategory: e.target.value })
+                  }
+                  placeholder="Custom category if applicable"
+                />
+              </div>
+
+              {/* Assigned Category */}
               <div>
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Assigned Category (Admin)
@@ -884,17 +901,86 @@ export default function AdminDashboard() {
                   placeholder="Assigned Category"
                 />
               </div>
+
+              {/* Nominee Name */}
               <div>
-                <label className="text-xs text-[#f6e589] font-semibold">Amount</label>
+                <label className="text-xs text-[#f6e589] font-semibold">Nominee Name</label>
                 <input
                   className={inputClass}
-                  placeholder="e.g. ₹25,000"
-                  value={editForm.amount || ""}
+                  value={editForm.nomineeName || ""}
                   onChange={(e) =>
-                    setEditForm({ ...editForm, amount: e.target.value })
+                    setEditForm({ ...editForm, nomineeName: e.target.value })
                   }
+                  placeholder="Enter nominee name"
                 />
               </div>
+
+              {/* Organization */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Organization</label>
+                <input
+                  className={inputClass}
+                  value={editForm.organization || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, organization: e.target.value })
+                  }
+                  placeholder="Organization name"
+                />
+              </div>
+
+              {/* Turnover */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Annual Turnover</label>
+                <input
+                  className={inputClass}
+                  value={editForm.turnover || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, turnover: e.target.value })
+                  }
+                  placeholder="e.g., 50 Cr / 10M USD"
+                />
+              </div>
+
+              {/* Designation (for simple form) */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Designation</label>
+                <input
+                  className={inputClass}
+                  value={editForm.designation || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, designation: e.target.value })
+                  }
+                  placeholder="Designation"
+                />
+              </div>
+
+              {/* Mobile (for simple form) */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Mobile</label>
+                <input
+                  className={inputClass}
+                  value={editForm.mobile || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, mobile: e.target.value })
+                  }
+                  placeholder="Mobile number"
+                />
+              </div>
+
+              {/* Email (for simple form) */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Email</label>
+                <input
+                  className={inputClass}
+                  value={editForm.email || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, email: e.target.value })
+                  }
+                  placeholder="Email address"
+                />
+              </div>
+
+              {/* Organization Head Name */}
               <div>
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Organization Head Name
@@ -908,6 +994,38 @@ export default function AdminDashboard() {
                   placeholder="Org Head Name"
                 />
               </div>
+
+              {/* Organization Head Designation */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">
+                  Organization Head Designation
+                </label>
+                <input
+                  className={inputClass}
+                  value={editForm.orgHeadDesignation || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, orgHeadDesignation: e.target.value })
+                  }
+                  placeholder="Designation"
+                />
+              </div>
+
+              {/* Organization Head Mobile */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">
+                  Organization Head Mobile
+                </label>
+                <input
+                  className={inputClass}
+                  value={editForm.orgHeadMobile || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, orgHeadMobile: e.target.value })
+                  }
+                  placeholder="Mobile"
+                />
+              </div>
+
+              {/* Organization Head Email */}
               <div>
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Organization Head Email
@@ -921,6 +1039,8 @@ export default function AdminDashboard() {
                   placeholder="Email"
                 />
               </div>
+
+              {/* Contact Name */}
               <div>
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Contact Name
@@ -934,6 +1054,23 @@ export default function AdminDashboard() {
                   placeholder="Contact Person"
                 />
               </div>
+
+              {/* Contact Designation */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">
+                  Contact Designation
+                </label>
+                <input
+                  className={inputClass}
+                  value={editForm.contactDesignation || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, contactDesignation: e.target.value })
+                  }
+                  placeholder="Designation"
+                />
+              </div>
+
+              {/* Contact Mobile */}
               <div>
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Contact Mobile
@@ -947,16 +1084,153 @@ export default function AdminDashboard() {
                   placeholder="Mobile"
                 />
               </div>
-              <div className="md:col-span-2">
-                <label className="text-xs text-[#f6e589] font-semibold">Address</label>
+
+              {/* Contact Email */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">
+                  Contact Email
+                </label>
                 <input
                   className={inputClass}
-                  value={`${editForm.street || ""}, ${editForm.city || ""}, ${editForm.state || ""
-                    } ${editForm.zip || ""}`}
-                  readOnly
-                  placeholder="Full address shown here"
+                  value={editForm.contactEmail || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, contactEmail: e.target.value })
+                  }
+                  placeholder="Email"
                 />
               </div>
+
+              {/* Website */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Website</label>
+                <input
+                  className={inputClass}
+                  value={editForm.website || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, website: e.target.value })
+                  }
+                  placeholder="https://example.com"
+                />
+              </div>
+
+              {/* Facebook */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Facebook</label>
+                <input
+                  className={inputClass}
+                  value={editForm.facebook || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, facebook: e.target.value })
+                  }
+                  placeholder="Facebook profile/page link"
+                />
+              </div>
+
+              {/* Instagram */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Instagram</label>
+                <input
+                  className={inputClass}
+                  value={editForm.instagram || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, instagram: e.target.value })
+                  }
+                  placeholder="Instagram profile link"
+                />
+              </div>
+
+              {/* YouTube */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">YouTube</label>
+                <input
+                  className={inputClass}
+                  value={editForm.youtube || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, youtube: e.target.value })
+                  }
+                  placeholder="YouTube channel link"
+                />
+              </div>
+
+              {/* Street */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Street Address</label>
+                <input
+                  className={inputClass}
+                  value={editForm.street || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, street: e.target.value })
+                  }
+                  placeholder="Street address"
+                />
+              </div>
+
+              {/* City */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">City</label>
+                <input
+                  className={inputClass}
+                  value={editForm.city || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, city: e.target.value })
+                  }
+                  placeholder="City"
+                />
+              </div>
+
+              {/* State */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">State</label>
+                <input
+                  className={inputClass}
+                  value={editForm.state || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, state: e.target.value })
+                  }
+                  placeholder="State"
+                />
+              </div>
+
+              {/* ZIP */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">ZIP Code</label>
+                <input
+                  className={inputClass}
+                  value={editForm.zip || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, zip: e.target.value })
+                  }
+                  placeholder="ZIP/Postal code"
+                />
+              </div>
+
+              {/* Amount */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Amount</label>
+                <input
+                  className={inputClass}
+                  placeholder="e.g. ₹25,000"
+                  value={editForm.amount || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, amount: e.target.value })
+                  }
+                />
+              </div>
+
+              {/* Preferred Location */}
+              <div>
+                <label className="text-xs text-[#f6e589] font-semibold">Preferred Location</label>
+                <input
+                  className={inputClass}
+                  value={Array.isArray(editForm.preferredLocation) ? editForm.preferredLocation.join(", ") : editForm.preferredLocation || ""}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, preferredLocation: e.target.value })
+                  }
+                  placeholder="Preferred location(s)"
+                />
+              </div>
+
+              {/* Public Remarks */}
               <div className="md:col-span-2">
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Public Remarks (User also sees)
@@ -970,6 +1244,8 @@ export default function AdminDashboard() {
                   placeholder="Remark for user (visible)"
                 />
               </div>
+
+              {/* Admin Remark */}
               <div className="md:col-span-2">
                 <label className="text-xs text-[#f6e589] font-semibold">
                   Admin Remark (Internal only)
@@ -1025,6 +1301,327 @@ export default function AdminDashboard() {
                 className="bg-gradient-to-tr from-[#f43e2c] to-[#7a1b0a] text-[#ffebd2] px-8 py-2 rounded-lg font-extrabold shadow-md hover:from-[#d42121] hover:to-[#772014]"
               >
                 Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ================== VIEW MODAL ================== */}
+      {viewingNomination && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[9999] backdrop-blur-sm p-4">
+          <div className="bg-gradient-to-tr from-[#2e2b18] via-[#18130e] to-[#18130e] border-2 border-[#eaca5faa] shadow-2xl shadow-[#d4af3780] p-8 rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-[#ffe6a3]">Nomination Details</h2>
+              <button
+                onClick={() => setViewingNomination(null)}
+                className="text-[#f6e589] hover:text-white transition"
+              >
+                <span className="text-2xl">✕</span>
+              </button>
+            </div>
+
+            {/* Timestamps Section */}
+            <div className="mb-6 p-4 bg-[#1a160a]/60 border border-[#d4af37]/30 rounded-xl">
+              <h3 className="text-lg font-bold text-[#d4af37] mb-3">📅 Timeline Information</h3>
+              <div className="grid md:grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-[#c7ba7e] font-semibold">Submitted On:</span>
+                  <p className="text-white font-mono mt-1">
+                    {viewingNomination.createdAt
+                      ? new Date(viewingNomination.createdAt).toLocaleString('en-IN', {
+                        dateStyle: 'full',
+                        timeStyle: 'medium'
+                      })
+                      : 'N/A'}
+                  </p>
+                </div>
+                <div>
+                  <span className="text-[#c7ba7e] font-semibold">Last Updated:</span>
+                  <p className="text-white font-mono mt-1">
+                    {viewingNomination.updatedAt
+                      ? new Date(viewingNomination.updatedAt).toLocaleString('en-IN', {
+                        dateStyle: 'full',
+                        timeStyle: 'medium'
+                      })
+                      : 'N/A'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Main Details */}
+            <div className="grid md:grid-cols-2 gap-6 text-sm">
+              {/* Participation Type */}
+              <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                <label className="text-[#c7ba7e] font-semibold text-xs">Participation Type</label>
+                <p className="text-white mt-1">{viewingNomination.participationType || '—'}</p>
+              </div>
+
+              {/* Category */}
+              <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                <label className="text-[#c7ba7e] font-semibold text-xs">Category</label>
+                <p className="text-white mt-1">{viewingNomination.category || '—'}</p>
+              </div>
+
+              {/* Sub Category */}
+              <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                <label className="text-[#c7ba7e] font-semibold text-xs">Sub Category</label>
+                <p className="text-white mt-1">{viewingNomination.subCategory || '—'}</p>
+              </div>
+
+              {/* Other Sub Category */}
+              {viewingNomination.otherSubCategory && (
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Other Sub Category</label>
+                  <p className="text-white mt-1">{viewingNomination.otherSubCategory}</p>
+                </div>
+              )}
+
+              {/* Nominee Name */}
+              <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                <label className="text-[#c7ba7e] font-semibold text-xs">Nominee Name</label>
+                <p className="text-white mt-1 font-semibold">{viewingNomination.nomineeName || '—'}</p>
+              </div>
+
+              {/* Organization */}
+              <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                <label className="text-[#c7ba7e] font-semibold text-xs">Organization</label>
+                <p className="text-white mt-1">{viewingNomination.organization || '—'}</p>
+              </div>
+
+              {/* Turnover */}
+              {viewingNomination.turnover && (
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Annual Turnover</label>
+                  <p className="text-white mt-1">{viewingNomination.turnover}</p>
+                </div>
+              )}
+
+              {/* Designation */}
+              {viewingNomination.designation && (
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Designation</label>
+                  <p className="text-white mt-1">{viewingNomination.designation}</p>
+                </div>
+              )}
+
+              {/* Mobile */}
+              {viewingNomination.mobile && (
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Mobile</label>
+                  <p className="text-white mt-1 font-mono">{viewingNomination.mobile}</p>
+                </div>
+              )}
+
+              {/* Email */}
+              {viewingNomination.email && (
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Email</label>
+                  <p className="text-white mt-1">{viewingNomination.email}</p>
+                </div>
+              )}
+            </div>
+
+            {/* Organization Head Details */}
+            {(viewingNomination.orgHeadName || viewingNomination.orgHeadEmail || viewingNomination.orgHeadMobile || viewingNomination.orgHeadDesignation) && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">👤 Organization Head Details</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {viewingNomination.orgHeadName && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Name</label>
+                      <p className="text-white mt-1">{viewingNomination.orgHeadName}</p>
+                    </div>
+                  )}
+                  {viewingNomination.orgHeadDesignation && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Designation</label>
+                      <p className="text-white mt-1">{viewingNomination.orgHeadDesignation}</p>
+                    </div>
+                  )}
+                  {viewingNomination.orgHeadMobile && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Mobile</label>
+                      <p className="text-white mt-1 font-mono">{viewingNomination.orgHeadMobile}</p>
+                    </div>
+                  )}
+                  {viewingNomination.orgHeadEmail && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Email</label>
+                      <p className="text-white mt-1">{viewingNomination.orgHeadEmail}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Contact Person Details */}
+            {(viewingNomination.contactName || viewingNomination.contactEmail || viewingNomination.contactMobile || viewingNomination.contactDesignation) && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">📞 Contact Person Details</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {viewingNomination.contactName && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Name</label>
+                      <p className="text-white mt-1">{viewingNomination.contactName}</p>
+                    </div>
+                  )}
+                  {viewingNomination.contactDesignation && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Designation</label>
+                      <p className="text-white mt-1">{viewingNomination.contactDesignation}</p>
+                    </div>
+                  )}
+                  {viewingNomination.contactMobile && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Mobile</label>
+                      <p className="text-white mt-1 font-mono">{viewingNomination.contactMobile}</p>
+                    </div>
+                  )}
+                  {viewingNomination.contactEmail && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Email</label>
+                      <p className="text-white mt-1">{viewingNomination.contactEmail}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Social Media */}
+            {(viewingNomination.website || viewingNomination.facebook || viewingNomination.instagram || viewingNomination.youtube) && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">🌐 Social Media & Website</h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {viewingNomination.website && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Website</label>
+                      <p className="text-blue-400 mt-1 break-all">
+                        <a href={viewingNomination.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          {viewingNomination.website}
+                        </a>
+                      </p>
+                    </div>
+                  )}
+                  {viewingNomination.facebook && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Facebook</label>
+                      <p className="text-blue-400 mt-1 break-all">
+                        <a href={viewingNomination.facebook} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          {viewingNomination.facebook}
+                        </a>
+                      </p>
+                    </div>
+                  )}
+                  {viewingNomination.instagram && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">Instagram</label>
+                      <p className="text-blue-400 mt-1 break-all">
+                        <a href={viewingNomination.instagram} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          {viewingNomination.instagram}
+                        </a>
+                      </p>
+                    </div>
+                  )}
+                  {viewingNomination.youtube && (
+                    <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                      <label className="text-[#c7ba7e] font-semibold text-xs">YouTube</label>
+                      <p className="text-blue-400 mt-1 break-all">
+                        <a href={viewingNomination.youtube} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                          {viewingNomination.youtube}
+                        </a>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Address */}
+            {(viewingNomination.street || viewingNomination.city || viewingNomination.state || viewingNomination.zip) && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">📍 Address</h3>
+                <div className="p-4 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <p className="text-white">
+                    {[viewingNomination.street, viewingNomination.city, viewingNomination.state, viewingNomination.zip]
+                      .filter(Boolean)
+                      .join(', ') || '—'}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Preferred Location */}
+            {viewingNomination.preferredLocation && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">🎯 Preferred Location</h3>
+                <div className="p-4 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <p className="text-white">
+                    {Array.isArray(viewingNomination.preferredLocation)
+                      ? viewingNomination.preferredLocation.join(', ')
+                      : viewingNomination.preferredLocation}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Remarks */}
+            {viewingNomination.remarks && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">💬 Public Remarks</h3>
+                <div className="p-4 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <p className="text-white whitespace-pre-wrap">{viewingNomination.remarks}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Admin Remark */}
+            {viewingNomination.adminRemark && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">🔒 Admin Remark (Internal)</h3>
+                <div className="p-4 bg-[#1a160a]/40 rounded-lg border border-red-500/30">
+                  <p className="text-white whitespace-pre-wrap">{viewingNomination.adminRemark}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Status & Payment Info */}
+            <div className="mt-6">
+              <h3 className="text-lg font-bold text-[#d4af37] mb-3">📊 Status & Payment</h3>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Status</label>
+                  <p className="text-white mt-1">{viewingNomination.status || 'nominated'}</p>
+                </div>
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Payment Status</label>
+                  <p className="text-white mt-1">{viewingNomination.paymentStatus || 'not_paid'}</p>
+                </div>
+                <div className="p-3 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <label className="text-[#c7ba7e] font-semibold text-xs">Amount</label>
+                  <p className="text-white mt-1">{viewingNomination.amount || '—'}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Submitted By */}
+            {viewingNomination.user?.email && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-[#d4af37] mb-3">👨‍💼 Submitted By</h3>
+                <div className="p-4 bg-[#1a160a]/40 rounded-lg border border-[#d4af37]/20">
+                  <p className="text-white">{viewingNomination.user.email}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Close Button */}
+            <div className="flex justify-end mt-8">
+              <button
+                onClick={() => setViewingNomination(null)}
+                className="bg-gradient-to-r from-[#ecd26c] to-[#d49d28] text-[#232012] border border-[#d4af37a8] px-8 py-2.5 rounded-lg text-md font-extrabold shadow-lg tracking-wider hover:from-[#fdf0bc] hover:to-[#fae36e] transition"
+              >
+                Close
               </button>
             </div>
           </div>
