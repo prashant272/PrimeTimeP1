@@ -167,17 +167,6 @@ export default function Login() {
             </button>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-white/5 text-center">
-            <p className="text-gray-500 text-sm font-bold uppercase tracking-wider">
-              No account yet?{" "}
-              <Link
-                to="/register"
-                className="text-white hover:text-[#d4af37] transition-colors ml-2 underline decoration-[#d4af37]/30"
-              >
-                Create Account
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </section>

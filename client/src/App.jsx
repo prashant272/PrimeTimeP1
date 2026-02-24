@@ -15,7 +15,6 @@ const PreviousEditions = lazy(() => import("./pages/PreviousEditions"));
 const Media = lazy(() => import("./pages/Media.jsx"));
 const EditionDetail = lazy(() => import("./pages/EditionDetail.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
-const Register = lazy(() => import("./pages/Register.jsx"));
 const NominationForm = lazy(() => import("./pages/NominationForm.jsx"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard.jsx"));
 const NominationDetails = lazy(() => import("./pages/NominationDetails.jsx"));
@@ -55,7 +54,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Login />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/auth-callback" element={<AuthCallback />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -71,29 +70,11 @@ export default function App() {
             <Route path="/media" element={<Media />} />
             <Route path="/editions/:year" element={<EditionDetail />} />
             <Route path="/faq" element={<FAQ />} />
-            <Route
-              path="/nominate"
-              element={
-                <ProtectedRoute allowedRoles={["user"]}>
-                  <NominationForm />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/nominate/:id"
-              element={
-                <ProtectedRoute allowedRoles={["user"]}>
-                  <NominationForm />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/nominate" element={<NominationForm />} />
+            <Route path="/nominate/:id" element={<NominationForm />} />
             <Route
               path="/nomination/:id"
-              element={
-                <ProtectedRoute allowedRoles={["user"]}>
-                  <NominationDetails />
-                </ProtectedRoute>
-              }
+              element={<NominationDetails />}
             />
             <Route path="/success" element={<SuccessPage />} />
             <Route

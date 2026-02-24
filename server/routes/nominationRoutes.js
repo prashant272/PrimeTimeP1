@@ -3,12 +3,16 @@ import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import Nomination from "../models/Nomination.js";
+import User from "../models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { authenticate } from "../middleware/authMiddleware.js";
 import { nominationSchema, validate } from "../middleware/validators.js";
-
 import upload from "../middleware/uploadMiddleware.js";
 import s3Client from "../utils/s3Config.js";
-import { sendNominationSuccessEmail } from "../utils/emailService.js";
+import { sendNominationSuccessEmail, sendNominationCredentialsEmail } from "../utils/emailService.js";
+
+const JWT_SECRET = process.env.JWT_SECRET || "dev_primetime_secret_change_me";
 
 const router = express.Router();
 
@@ -52,10 +56,68 @@ const getSignedPdfUrl = async (key) => {
   }
 };
 
-// Create a nomination (logged-in user)
-router.post("/", authenticate, upload.single("pdf"), nominationSchema, validate, async (req, res, next) => {
+// Helper to generate a random password
+const generateRandomPassword = (length = 10) => {
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+  let retVal = "";
+  for (let i = 0, n = charset.length; i < length; ++i) {
+    retVal += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return retVal;
+};
+
+// Create a nomination (logged-in user or guest)
+router.post("/", (req, res, next) => {
+  // Manual "Soft" authentication: Try to get user if token exists, but don't fail if not
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+      req.user = decoded;
+    } catch (err) {
+      // If token is invalid/expired, we just treat them as guest
+      console.log("Nomination: Invalid token provided, proceeding as guest.");
+    }
+  }
+  next();
+}, upload.single("pdf"), nominationSchema, validate, async (req, res, next) => {
   try {
     const payload = req.body || {};
+    let userId = req.user ? req.user.id : null;
+    let autoCreated = false;
+    let rawPassword = null;
+
+    // If not logged in, we try to find or create a user based on contactEmail or email
+    if (!userId) {
+      const targetEmail = (payload.contactEmail || payload.email || "").toLowerCase();
+      if (!targetEmail) {
+        return res.status(400).json({ message: "Email is required for nomination" });
+      }
+
+      let user = await User.findOne({ email: targetEmail });
+
+      if (!user) {
+        // Create a new user automatically
+        rawPassword = generateRandomPassword();
+        const salt = await bcrypt.genSalt(10);
+        const passwordHash = await bcrypt.hash(rawPassword, salt);
+
+        user = await User.create({
+          name: payload.contactName || payload.nomineeName || "User",
+          email: targetEmail,
+          passwordHash,
+          isVerified: true, // Auto-verified since they are submitting a nomination
+          role: "user"
+        });
+
+        autoCreated = true;
+        console.log(`👤 Auto-creating user: ${user.email}`);
+        // We will send credentials bundled with the success email below
+      }
+
+      userId = user._id;
+    }
 
     // Handle file upload if present - Store the KEY instead of the location
     if (req.file && req.file.key) {
@@ -76,18 +138,25 @@ router.post("/", authenticate, upload.single("pdf"), nominationSchema, validate,
 
     const nomination = await Nomination.create({
       ...payload,
-      user: req.user.id,
+      user: userId,
     });
 
-    // Send confirmation email asynchronously
+    // Send confirmation email asynchronously with a small delay to avoid SMTP throttling
     const targetEmail = nomination.contactEmail || nomination.email;
     if (targetEmail) {
-      sendNominationSuccessEmail(targetEmail, nomination.nomineeName).catch(err => {
-        console.error("Delayed Notification Error:", err);
-      });
+      const credentials = autoCreated ? { email: targetEmail, password: rawPassword } : null;
+      setTimeout(() => {
+        console.log(`📧 Sending nomination success email (with credentials: ${autoCreated}) to ${targetEmail}...`);
+        sendNominationSuccessEmail(targetEmail, nomination.nomineeName, credentials).catch(err => {
+          console.error("❌ Delayed Notification Error:", err);
+        });
+      }, 2000); // 2 second delay
     }
 
-    return res.status(201).json(nomination);
+    return res.status(201).json({
+      ...nomination.toObject ? nomination.toObject() : nomination,
+      autoCreated // Let frontend know if an account was created
+    });
   } catch (err) {
     console.error("DEBUG: Create Nomination Error:", err);
     next(err);

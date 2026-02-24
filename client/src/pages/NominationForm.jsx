@@ -483,8 +483,12 @@ export default function NominationForm() {
         await updateUserNomination(id, formData, token);
         navigate(`/dashboard`);
       } else {
-        await createNomination(formData, token);
-        navigate("/success");
+        const response = await createNomination(formData, token);
+        if (response?.autoCreated) {
+          navigate("/success", { state: { autoCreated: true, email: form.contactEmail || form.email } });
+        } else {
+          navigate("/success");
+        }
       }
     } catch (err) {
       setError(err?.response?.data?.message || err.message || "Submission failed");

@@ -1,7 +1,11 @@
-import { FiCheckCircle, FiPhoneCall } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { FiCheckCircle, FiPhoneCall, FiMail } from "react-icons/fi";
+import { Link, useLocation } from "react-router-dom";
 
 export default function SuccessPage() {
+    const location = useLocation();
+    const autoCreated = location.state?.autoCreated;
+    const email = location.state?.email;
+
     return (
         <div className="min-h-screen bg-[#3a1418] flex items-center justify-center p-4 pt-24 sm:pt-32 overflow-hidden relative">
             {/* Background Orbs */}
@@ -23,6 +27,19 @@ export default function SuccessPage() {
                     Your nomination has been successfully received. Our team will connect with you
                     after reviewing the profile.
                 </p>
+
+                {autoCreated && (
+                    <div className="bg-[#d4af37]/10 rounded-xl p-5 mb-8 border border-[#d4af37]/30 text-left">
+                        <div className="flex items-center gap-3 mb-2">
+                            <FiMail className="text-[#d4af37] w-6 h-6" />
+                            <h3 className="text-[#d4af37] font-bold">Account Created Automatically</h3>
+                        </div>
+                        <p className="text-gray-300 text-sm leading-relaxed">
+                            Since you were not logged in, we have created an account for you using <strong className="text-white">{email}</strong>.
+                            Your login credentials have been sent to this email address.
+                        </p>
+                    </div>
+                )}
 
                 <div className="bg-white/5 rounded-xl p-6 mb-8 border border-white/10">
                     <h2 className="text-[#d4af37] font-semibold mb-4 text-xl flex items-center justify-center gap-2">

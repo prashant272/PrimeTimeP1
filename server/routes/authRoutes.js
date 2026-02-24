@@ -203,6 +203,8 @@ router.post("/forgot-password", async (req, res, next) => {
     user.otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
     await user.save();
 
+    console.log(`🔑 Generated OTP for ${user.email}: ${otp}`);
+    console.log(`📧 Calling sendPasswordResetEmail for ${user.email}...`);
     await sendPasswordResetEmail(user.email, otp);
 
     return res.json({ message: "If an account exists with this email, a reset code has been sent." });
