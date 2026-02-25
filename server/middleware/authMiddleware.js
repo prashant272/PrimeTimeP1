@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import config from "../config/config.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev_primetime_secret_change_me";
+const JWT_SECRET = config.JWT_SECRET;
 
 export function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;

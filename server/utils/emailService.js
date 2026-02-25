@@ -1,25 +1,13 @@
 import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-// const transporter = nodemailer.createTransport({
-//   host: process.env.BREVO_SMTP_HOST,
-//   port: process.env.BREVO_SMTP_PORT,
-//   secure: false, // TLS
-//   auth: {
-//     user: process.env.BREVO_SMTP_USER, // apikey
-//     pass: process.env.BREVO_SMTP_PASS, // xsmtpsib-...
-//   },
-// });
+import config from "../config/config.js";
 
 const transporter = nodemailer.createTransport({
-    host: process.env.BREVO_SMTP_HOST || "smtp-relay.brevo.com",
-    port: process.env.BREVO_SMTP_PORT || 587,
+    host: config.EMAIL.HOST,
+    port: config.EMAIL.PORT,
     secure: false,
     auth: {
-        user: process.env.BREVO_SMTP_USER || "apikey",
-        pass: process.env.BREVO_SMTP_PASS,
+        user: config.EMAIL.USER,
+        pass: config.EMAIL.PASS,
     },
 });
 
@@ -37,7 +25,7 @@ transporter.verify((err, success) => {
  */
 export const sendOTPEmail = async (email, otp) => {
     const mailOptions = {
-        from: `"Global Healthcare Awards" <${process.env.BREVO_FROM_EMAIL}>`,
+        from: `"Global Healthcare Awards" <${config.EMAIL.FROM}>`,
         to: email,
         subject: "Verify Your Email - Global Healthcare Awards",
         html: `
@@ -79,14 +67,14 @@ export const sendNominationSuccessEmail = async (email, nomineeName, credentials
                 We have created this account so you can track your nomination status.
             </p>
             <div style="text-align: center; margin-top: 15px;">
-                <a href="${process.env.FRONTEND_URL || 'https://education-awards.primetimemedia.in'}/login" style="background-color: #d4af37; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Login Now</a>
+                <a href="${config.FRONTEND_URL}/login" style="background-color: #d4af37; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Login Now</a>
             </div>
         </div>
         `;
     }
 
     const mailOptions = {
-        from: `"Global Healthcare Awards" <${process.env.BREVO_FROM_EMAIL}>`,
+        from: `"Global Healthcare Awards" <${config.EMAIL.FROM}>`,
         to: email,
         subject: credentials ? "Nomination Received & Account Created - Global Healthcare Awards 2026" : "Nomination Received - Global Healthcare Awards 2026",
         html: `
@@ -151,7 +139,7 @@ export const sendNominationSuccessEmail = async (email, nomineeName, credentials
  */
 export const sendPasswordResetEmail = async (email, otp) => {
     const mailOptions = {
-        from: `"Global Healthcare Awards" <${process.env.BREVO_FROM_EMAIL}>`,
+        from: `"Global Healthcare Awards" <${config.EMAIL.FROM}>`,
         to: email,
         subject: "Password Reset Code - Global Healthcare Awards",
         html: `
@@ -183,7 +171,7 @@ export const sendPasswordResetEmail = async (email, otp) => {
  */
 export const sendNominationCredentialsEmail = async (email, name, password) => {
     const mailOptions = {
-        from: `"Global Healthcare Awards" <${process.env.BREVO_FROM_EMAIL}>`,
+        from: `"Global Healthcare Awards" <${config.EMAIL.FROM}>`,
         to: email,
         subject: "Your Account Credentials - Global Healthcare Awards 2026",
         html: `
@@ -209,7 +197,7 @@ export const sendNominationCredentialsEmail = async (email, name, password) => {
         </p>
         
         <div style="text-align: center; margin-top: 30px;">
-            <a href="${process.env.FRONTEND_URL || 'https://education-awards.primetimemedia.in'}/login" style="background-color: #d4af37; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Login Now</a>
+            <a href="${config.FRONTEND_URL}/login" style="background-color: #d4af37; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Login Now</a>
         </div>
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">

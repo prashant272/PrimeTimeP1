@@ -7,10 +7,11 @@ import User from "../models/User.js";
 import Nomination from "../models/Nomination.js";
 import { authenticate, requireAdmin, signToken } from "../middleware/authMiddleware.js";
 import s3Client from "../utils/s3Config.js";
+import config from "../config/config.js";
 
 const router = express.Router();
 
-const BUCKET_NAME = process.env.AWS_S3_BUCKET || "pdf-storage-prime";
+const BUCKET_NAME = config.AWS.BUCKET_NAME;
 
 // Helper to generate signed URL
 const getSignedPdfUrl = async (key) => {

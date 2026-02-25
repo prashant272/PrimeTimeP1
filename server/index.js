@@ -1,7 +1,7 @@
+import config from "./config/config.js";
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
 
 import helmet from "helmet";
 import morgan from "morgan";
@@ -17,9 +17,28 @@ import session from "express-session";
 import "./config/passport.js";
 import { signToken } from "./middleware/authMiddleware.js";
 
-dotenv.config();
-
 const app = express();
+
+// DEBUG: Log all requests and capture 401 responses to identify the source
+app.use((req, res, next) => {
+  console.log(`[DEBUG] 📡 ${req.method} ${req.url}`);
+  const originalJson = res.json;
+  res.json = function (data) {
+    if (res.statusCode === 401) {
+      console.log(`[DEBUG] 🛑 401 UNAUTHORIZED for ${req.url}:`, JSON.stringify(data));
+    }
+    return originalJson.call(this, data);
+  };
+  next();
+});
+
+console.log("🛠️ Server Config Check:", {
+  PORT: config.PORT,
+  MONGO_URI: config.MONGO_URI ? "LOADED" : "MISSING",
+  JWT_SECRET: config.JWT_SECRET === "dev_primetime_secret_change_me" ? "DEFAULT" : "LOADED FROM ENV",
+  AWS_BUCKET: config.AWS.BUCKET_NAME,
+  FRONTEND: config.FRONTEND_URL
+});
 
 // Security and Logging
 app.use(helmet());
@@ -27,12 +46,12 @@ app.use(compression());
 app.use(morgan("dev"));
 app.use(cors({
   origin: [
-    "https://www.globalhealthcareawards.com",
+    config.FRONTEND_URL,
     "https://globalhealthcareawards.com",
     "http://localhost:5173",
     "http://localhost:5174",
   ],
-  methods: ["GET", "POST", "PUT", "DELETE" ,"PATCH", "OPTIONS"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
@@ -42,10 +61,10 @@ app.use(express.json());
 // Session Middleware (Required for Google OAuth state)
 app.use(
   session({
-    secret: process.env.JWT_SECRET || "google-auth-session-secret",
+    secret: config.JWT_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: process.env.NODE_ENV === "production" },
+    cookie: { secure: config.NODE_ENV === "production" },
   })
 );
 
@@ -55,17 +74,14 @@ app.use(passport.session());
 
 // Rate Limiting
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: { message: "Too many requests from this IP, please try again after 15 minutes" },
 });
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1/primetime_awards";
-const PORT = process.env.PORT || 5000;
-
 mongoose
-  .connect(MONGO_URI, {
-    dbName: process.env.MONGO_DB_NAME || undefined,
+  .connect(config.MONGO_URI, {
+    dbName: config.MONGO_DB_NAME || undefined,
   })
   .then(() => {
     console.log("Connected to MongoDB");
@@ -89,10 +105,8 @@ app.get(
     const user = req.user;
     const token = signToken({ id: user._id, email: user.email, role: user.role, name: user.name });
 
-    const frontendUrl = process.env.FRONTEND_URL || "https://www.globalhealthcareawards.com";
-
-    // Redirect to frontend /auth-callback with data, which will then seamlessly navigate to /nominate
-    res.redirect(`${frontendUrl}/auth-callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+    // Redirect to frontend /auth-callback with data
+    res.redirect(`${config.FRONTEND_URL}/auth-callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
       id: user._id,
       name: user.name,
       email: user.email,
@@ -102,7 +116,7 @@ app.get(
   }
 );
 
-// Backward compatibility or alternative path
+// Backward compatibility
 app.get("/api/auth/google/callback", (req, res) => {
   res.redirect(307, `/auth/google/callback?${new URLSearchParams(req.query).toString()}`);
 });
@@ -114,4 +128,4 @@ app.use("/api/admin", adminRoutes);
 // Global Error Handler
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(config.PORT, () => console.log(`Server running on port ${config.PORT}`));

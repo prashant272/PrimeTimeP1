@@ -11,12 +11,11 @@ import { nominationSchema, validate } from "../middleware/validators.js";
 import upload from "../middleware/uploadMiddleware.js";
 import s3Client from "../utils/s3Config.js";
 import { sendNominationSuccessEmail, sendNominationCredentialsEmail } from "../utils/emailService.js";
-
-const JWT_SECRET = process.env.JWT_SECRET || "dev_primetime_secret_change_me";
+import config from "../config/config.js";
 
 const router = express.Router();
-
-const BUCKET_NAME = process.env.AWS_S3_BUCKET || "pdf-storage-prime";
+const JWT_SECRET = config.JWT_SECRET;
+const BUCKET_NAME = config.AWS.BUCKET_NAME;
 
 // Helper to generate signed URL
 const getSignedPdfUrl = async (key) => {

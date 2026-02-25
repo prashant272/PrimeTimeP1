@@ -5,6 +5,7 @@ import { signToken } from "../middleware/authMiddleware.js";
 import { registerSchema, loginSchema, validate } from "../middleware/validators.js";
 import { sendOTPEmail, sendPasswordResetEmail } from "../utils/emailService.js";
 import passport from "passport";
+import config from "../config/config.js";
 
 const router = express.Router();
 
@@ -40,8 +41,8 @@ router.post("/register", registerSchema, validate, async (req, res, next) => {
     } else {
       const role =
         secretCode &&
-          process.env.ADMIN_CREATE_SECRET &&
-          secretCode === process.env.ADMIN_CREATE_SECRET
+          config.ADMIN.CREATE_SECRET &&
+          secretCode === config.ADMIN.CREATE_SECRET
           ? "admin"
           : "user";
 
