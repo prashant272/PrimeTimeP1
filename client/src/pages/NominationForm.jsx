@@ -584,11 +584,12 @@ export default function NominationForm() {
             {/* Participation Choice */}
             <div className="md:col-span-2 space-y-6">
               <label className="text-sm font-bold text-[#d4af37] uppercase tracking-widest pl-1">
-                Choose Your Presence Role
+                APPLY AS
               </label>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 pt-4">
                 {[
-                  { id: "nominated as award", prefix: "Nominated as", highlight: "Awarded", primary: true },
+                  { id: "nominated as award", prefix: "Apply for", highlight: "Awarded", primary: true },
                   { id: "attend as speaker", prefix: "Attend as", highlight: "Speaker", primary: false },
                   { id: "attend as exhibitor", prefix: "Attend as", highlight: "Exhibitor", primary: false },
                   { id: "attend as sponsor", prefix: "Attend as", highlight: "Sponsor", primary: false },
@@ -637,7 +638,7 @@ export default function NominationForm() {
                 <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/5">
                   <div className="sm:col-span-2 mb-2">
                     <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Award Classification
+                      <span className="h-2 w-2 rounded-full bg-[#d4af37]"></span> Category
                     </h3>
                   </div>
 
@@ -891,7 +892,7 @@ export default function NominationForm() {
               </div>
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                {["New Delhi", "Dubai", "USA", "London"].map((loc) => (
+                { ["Dubai", "USA", "London", "New Delhi"].map((loc) => (
                   <label
                     key={loc}
                     className={`flex items-center justify-center p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer text-center
