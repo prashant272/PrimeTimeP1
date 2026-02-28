@@ -1,8 +1,18 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { EDITIONS } from "../data/editions.js";
+import { fetchPreviousEditions } from "../services/api.js";
 
 export default function EditionYearSwitcher({ currentYear }) {
-  const years = EDITIONS.map((e) => e.year).sort((a, b) => b - a);
+  const [years, setYears] = useState([]);
+
+  useEffect(() => {
+    fetchPreviousEditions()
+      .then(res => {
+        const fetchedYears = (res.data || []).map(e => e.year).sort((a, b) => b - a);
+        setYears(fetchedYears);
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
@@ -19,11 +29,10 @@ export default function EditionYearSwitcher({ currentYear }) {
           <Link
             key={year}
             to={`/editions/${year}`}
-            className={`px-3 py-1 rounded-full border transition ${
-              year === currentYear
+            className={`px-3 py-1 rounded-full border transition ${year === currentYear
                 ? "border-[#d4af37] bg-[#d4af37]/15 text-[#ffe9b3] font-semibold"
                 : "border-white/20 text-gray-200 hover:bg-white hover:text-black"
-            }`}
+              }`}
           >
             {year}
           </Link>

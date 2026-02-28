@@ -17,8 +17,10 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext.jsx";
+import { fetchPreviousEditions } from "../services/api.js";
 
 export default function Navbar() {
+  const [editions, setEditions] = useState([]);
   const [showPill, setShowPill] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
@@ -32,6 +34,10 @@ export default function Navbar() {
   const isAdminUser = user?.role === "admin";
   // Ref for scrolling trick on tab change
   const headerRef = useRef();
+
+  useEffect(() => {
+    fetchPreviousEditions().then(res => setEditions(res.data || [])).catch(console.error);
+  }, []);
 
   // Fix: Scroll to top ONLY relative to header on route (tab) change, but only scroll if not already near top
   useEffect(() => {
@@ -169,7 +175,7 @@ export default function Navbar() {
             </div>
             <nav className="bg-transparent h-12">
               <div className="max-w-7xl mx-auto px-6 h-full flex justify-center items-center gap-6 text-sm">
-                {menuLinks("white", undefined, headerRef, isUser, false)}
+                {menuLinks("white", undefined, headerRef, isUser, false, editions)}
               </div>
             </nav>
           </header>
@@ -186,7 +192,7 @@ export default function Navbar() {
                   className="h-7 w-auto object-contain"
                 />
               </div>
-              <div className="flex gap-5">{menuLinks("black", undefined, headerRef, isUser, false)}</div>
+              <div className="flex gap-5">{menuLinks("black", undefined, headerRef, isUser, false, editions)}</div>
             </div>
           </div>
         )}
@@ -247,6 +253,7 @@ export default function Navbar() {
           handleLoginClick={handleLoginClick}
           headerRef={headerRef}
           isUser={isUser}
+          editions={editions}
         />
       </div>
     </>
@@ -257,7 +264,7 @@ export default function Navbar() {
 
 // onClick will be used to close drawer, headerRef for scroll fix on tab switch.
 // Added showDashboard param to control visibility of "My Nominations" link
-const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true) => {
+const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true, editions = []) => {
   // Will scroll page to just under header if in mobile and not at top
   const createNavHandler = (routeHandler) => (e) => {
     if (onClick) onClick();
@@ -279,7 +286,11 @@ const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true) => {
       <NavItem to="/terms" icon={<FaFileContract />} label="T&C" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/contact" icon={<FaEnvelope />} label="Contact Us" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/media" icon={<FaTrophy />} label="Media" color={color} onClick={createNavHandler(onClick)} />
-      <NavItem to="/previous-editions" icon={<FaHistory />} label="Previous Editions" color={color} onClick={createNavHandler(onClick)} />
+      {editions.length > 0 ? (
+        <NavDropdown icon={<FaHistory />} label="Previous Editions" color={color} options={editions} onClick={createNavHandler(onClick)} />
+      ) : (
+        <NavItem to="/previous-editions" icon={<FaHistory />} label="Previous Editions" color={color} onClick={createNavHandler(onClick)} />
+      )}
       <NavItem to="/faq" icon={<FaQuestionCircle />} label="FAQ" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/nominate" icon={<FaRegEdit />} label="Nominate Now" color={color} onClick={createNavHandler(onClick)} />
       {isUser && showDashboard && (
@@ -324,7 +335,8 @@ function MobileMenuDrawer({
   isAuthenticated,
   handleLoginClick,
   headerRef,
-  isUser
+  isUser,
+  editions
 }) {
   // Esc key or overlay for closing drawer
   useEffect(() => {
@@ -383,7 +395,7 @@ function MobileMenuDrawer({
           <nav className="flex flex-col gap-3 mt-6 px-4">
             {/* Give headerRef & isUser to menuLinks for scroll fix and user-related links */}
             {/* Pass true for showDashboard to show My Nominations in mobile drawer */}
-            {menuLinks("white", onClose, headerRef, isUser, true)}
+            {menuLinks("white", onClose, headerRef, isUser, true, editions)}
           </nav>
           <div className="mt-6 border-t border-white/10 px-4 py-4 flex flex-col gap-2">
             {user && (
@@ -404,5 +416,69 @@ function MobileMenuDrawer({
         </div>
       </aside>
     </>
+  );
+}
+
+function NavDropdown({ icon, label, color, options, onClick }) {
+  const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Check if any of the options form an active path
+  const isActiveGroup = options.some(opt => {
+    const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    return location.pathname === `/${formattedTitle}`;
+  });
+
+  return (
+    <div
+      className="relative group"
+      ref={dropdownRef}
+      onMouseEnter={() => window.innerWidth >= 768 && setOpen(true)}
+      onMouseLeave={() => window.innerWidth >= 768 && setOpen(false)}
+    >
+      <button
+        onClick={(e) => { e.preventDefault(); setOpen(!open); }}
+        className={`flex items-center gap-1 transition-colors ${color === "white"
+          ? (isActiveGroup ? "text-[#d4af37] font-semibold" : "opacity-80 hover:opacity-100 text-white")
+          : (isActiveGroup ? "text-[#d4af37] font-semibold" : "text-gray-700 hover:text-black")
+          }`}
+      >
+        <span className="text-[11px]">{icon}</span>
+        <span>{label}</span>
+      </button>
+
+      <div
+        className={`md:absolute top-[100%] left-0 pt-2 z-50 transition-all duration-200 ${open ? "md:opacity-100 md:visible md:translate-y-0 flex" : "md:opacity-0 md:invisible hidden"
+          } ${window.innerWidth < 768 && !open ? 'hidden' : ''}`}
+      >
+        <div className="min-w-[240px] bg-[#1a160a] border border-[#d4af37]/30 rounded-xl shadow-2xl py-3 flex flex-col">
+          {options.map((opt) => {
+            const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+            const isAct = location.pathname === `/${formattedTitle}`;
+            return (
+              <NavLink
+                key={opt.year}
+                to={`/${formattedTitle}`}
+                onClick={() => { setOpen(false); if (onClick) onClick(); }}
+                className={`px-5 py-2.5 text-sm transition-colors ${isAct ? 'bg-[#d4af37]/10 font-bold border-l-4 border-[#d4af37] text-white' : 'text-[#fbe376] hover:bg-[#d4af37]/20 hover:text-white border-l-4 border-transparent'}`}
+              >
+                {opt.title} ({opt.year})
+              </NavLink>
+            );
+          })}
+        </div>
+      </div>
+    </div>
   );
 }

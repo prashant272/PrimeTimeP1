@@ -27,6 +27,7 @@ const VerifyEmail = lazy(() => import("./pages/VerifyEmail.jsx"));
 const AuthCallback = lazy(() => import("./pages/AuthCallback.jsx"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword.jsx"));
+const DeveloperAuth = lazy(() => import("./pages/DeveloperAuth.jsx"));
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
@@ -69,6 +70,7 @@ export default function App() {
             <Route path="/previous-editions" element={<PreviousEditions />} />
             <Route path="/media" element={<Media />} />
             <Route path="/editions/:year" element={<EditionDetail />} />
+            <Route path="/:slug" element={<EditionDetail />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/nominate" element={<NominationForm />} />
             <Route path="/nominate/:id" element={<NominationForm />} />
@@ -87,6 +89,7 @@ export default function App() {
             />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/register" element={<AdminRegister />} />
+            <Route path="/developer" element={<DeveloperAuth />} />
             <Route
               path="/admin"
               element={

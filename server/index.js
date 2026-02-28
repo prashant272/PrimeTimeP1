@@ -11,6 +11,8 @@ import compression from "compression";
 import authRoutes from "./routes/authRoutes.js";
 import nominationRoutes from "./routes/nominationRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import previousEditionRoutes from "./routes/previousEditionRoutes.js";
+import developerRoutes from "./routes/developerRoutes.js";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import passport from "passport";
 import session from "express-session";
@@ -121,9 +123,11 @@ app.get("/api/auth/google/callback", (req, res) => {
   res.redirect(307, `/auth/google/callback?${new URLSearchParams(req.query).toString()}`);
 });
 
-app.use("/api/auth", authLimiter, authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/nominations", nominationRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/previous-editions", previousEditionRoutes);
+app.use("/api/developer", developerRoutes);
 
 // Global Error Handler
 app.use(errorHandler);

@@ -1,17 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getEditionByYear } from "../data/editions.js";
+import { fetchPreviousEditionByYear } from "../services/api.js";
+import VideoGallery from "../components/VideoGallery.jsx"; // Added this import
 import EditionYearSwitcher from "../components/EditionYearSwitcher.jsx";
-
-// Helper to check if an image exists
-const checkImage = (url) => {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = url;
-  });
-};
 
 // Banner slider with auto-scroll and modern UI
 function BannerSlider({ images, year }) {
@@ -94,7 +85,7 @@ function EventGallery({ images }) {
     <div className="mb-16 sm:mb-24 overflow-hidden">
       <h3 className="text-2xl sm:text-3xl font-black text-[#fbd24e] mb-6 sm:mb-10 tracking-wide flex items-center gap-3 sm:gap-4">
         <span className="w-8 sm:w-12 h-1 bg-[#d4af37] rounded-full"></span>
-        Event Highlights
+        Media Gallery
       </h3>
 
       <div className="relative group">
@@ -119,44 +110,56 @@ function EventGallery({ images }) {
 }
 
 export default function EditionDetail() {
-  const { year } = useParams();
-  const edition = useMemo(() => getEditionByYear(year), [year]);
+  const { year, slug } = useParams();
+  const identifier = slug || year;
+  const [edition, setEdition] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const isCovidYear = year === "2020" || year === "2021";
+  // Still checking Covid year to show the special UI if they haven't explicitly added it, or we just rely on the edition
+  const isCovidYear = identifier === "2020" || identifier === "2021";
 
   useEffect(() => {
-    if (isCovidYear) {
-      setImages([]);
-      setLoading(false);
-      return;
-    }
-
-    async function discover() {
+    async function loadData() {
+      if (isCovidYear && !edition) {
+        // If it's a covid year, we can just show the static UI, but first try to see if admin added it.
+        // For simplicity, we fetch from API. If API has it, we use API. Else we fallback to static if Covid.
+      }
       setLoading(true);
-      const potentialPaths = Array.from({ length: 30 }, (_, i) => `/${year}/${i + 1}.jpg`);
-
-      const results = await Promise.all(
-        potentialPaths.map(async (url) => {
-          const exists = await checkImage(url);
-          return exists ? url : null;
-        })
-      );
-
-      const found = results.filter((url) => url !== null);
-      setImages(found);
-      setLoading(false);
+      try {
+        const res = await fetchPreviousEditionByYear(identifier);
+        if (res.data) {
+          setEdition(res.data);
+          setImages(res.data.images || []);
+        } else {
+          setEdition(null);
+          setImages([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch edition:", err);
+        setEdition(null);
+        setImages([]);
+      } finally {
+        setLoading(false);
+      }
     }
-    discover();
-  }, [year, isCovidYear]);
+    loadData();
+  }, [identifier]);
 
-  if (!edition) {
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0f0a07] text-white flex items-center justify-center p-6">
+        <div className="w-12 h-12 border-4 border-[#d4af37]/20 border-t-[#d4af37] rounded-full animate-spin mb-4" />
+      </div>
+    );
+  }
+
+  if (!edition && !isCovidYear) {
     return (
       <div className="min-h-screen bg-[#0f0a07] text-white flex items-center justify-center p-6">
         <div className="text-center">
           <h1 className="text-4xl font-black text-[#ffd966] mb-4">Edition Not Found</h1>
-          <p className="text-[#ffeab080] mb-8">We couldn't find the information for the year {year}.</p>
+          <p className="text-[#ffeab080] mb-8">We couldn't find the information for the edition: {identifier}.</p>
           <Link to="/previous-editions" className="bg-[#ffd966] text-black px-8 py-3 rounded-full font-bold hover:bg-white transition-all">
             Browse All Editions
           </Link>
@@ -165,17 +168,19 @@ export default function EditionDetail() {
     );
   }
 
+  const displayYear = edition ? edition.year : identifier;
+
   return (
     <section className="bg-[#0f0a07] text-white min-h-screen pt-24 sm:pt-32 pb-16 px-4 sm:px-8 md:px-12 lg:px-16 overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
-        <EditionYearSwitcher currentYear={parseInt(year)} />
+        <EditionYearSwitcher currentYear={parseInt(displayYear)} />
 
-        {isCovidYear ? (
+        {!edition && isCovidYear ? (
           <div className="relative w-full h-[300px] sm:h-[450px] mb-12 rounded-[2rem] overflow-hidden bg-gradient-to-br from-[#1a130d] to-[#0f0a07] border-2 border-[#d4af37]/20 flex flex-col items-center justify-center text-center p-8 shadow-2xl">
             <div className="absolute inset-0 bg-white/[0.02] bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:20px_20px] opacity-20" />
             <div className="text-6xl mb-6">😷</div>
             <h2 className="text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ffd966] to-[#b2872d] mb-4">
-              Edition {year}
+              Edition {displayYear}
             </h2>
             <div className="bg-[#ffd966]/10 px-6 py-2 rounded-full border border-[#ffd966]/30 animate-pulse">
               <p className="text-[#ffd788] font-black text-lg sm:text-2xl uppercase tracking-tighter">
@@ -188,36 +193,41 @@ export default function EditionDetail() {
           </div>
         ) : (
           <>
-            <BannerSlider images={images} year={year} />
+            <BannerSlider images={images} year={displayYear} />
+
+            {/* Media Gallery (previously just "Gallery") */}
             <EventGallery images={images} />
+
+            {/* Video Gallery */}
+            <VideoGallery videoLinks={edition.videoLinks} />
           </>
         )}
 
         <div className="space-y-16 sm:space-y-24">
           <header className="max-w-4xl text-center sm:text-left">
             <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] mb-4 sm:mb-6">
-              ✨ {edition.editionLabel}
+              ✨ {edition?.editionLabel}
             </div>
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 sm:mb-8 leading-[1.1] tracking-tight">
-              {year} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffd966] via-[#f7c53a] to-[#b2872d]">Healthcare Awards</span>
+               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffd966] via-[#f7c53a] to-[#b2872d]">GLOBAL Healthcare Awards</span>  {displayYear}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-[#ffeab0a0] leading-relaxed max-w-2xl mx-auto sm:mx-0">
-              {edition.hero || `The ${year} Global Healthcare Excellence Awards celebrated the visionaries, institutions, and clinical leaders who redefined medical standards.`}
+            <p className="text-base sm:text-lg md:text-xl text-[#ffeab0a0] leading-relaxed max-w-2xl mx-auto sm:mx-0 whitespace-pre-line">
+              {edition?.hero || `The ${displayYear} Global Healthcare Excellence Awards celebrated the visionaries, institutions, and clinical leaders who redefined medical standards.`}
             </p>
           </header>
 
-          {!isCovidYear && (
+          {edition && (
             <div className="grid lg:grid-cols-2 gap-10 sm:gap-16">
               <section className="space-y-6 sm:space-y-8">
                 <div className="bg-gradient-to-br from-white/5 to-transparent p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] border border-white/10 backdrop-blur-md relative overflow-hidden group">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#d4af37]/10 blur-3xl rounded-full group-hover:bg-[#d4af37]/20 transition-colors" />
                   <h2 className="text-2xl sm:text-3xl font-black text-[#ffe19f] mb-4 sm:mb-6 flex items-center gap-3 sm:gap-4">
                     <span className="text-3xl sm:text-4xl">📌</span>
-                    The {year} Legacy
+                    The {displayYear} Legacy
                   </h2>
                   <div className="text-base sm:text-lg text-[#fffaddcc] leading-relaxed space-y-4 sm:space-y-6">
                     <p>
-                      Organized by <strong className="text-[#ffd966]">Prime Time Research Media Pvt. Ltd.</strong>, the {year} ceremony in <strong className="text-[#ffd966]">{edition.locations.join(", ")}</strong> served as a powerful platform for networking and recognition.
+                      Organized by <strong className="text-[#ffd966]">Prime Time Research Media Pvt. Ltd.</strong>, the {displayYear} ceremony in <strong className="text-[#ffd966]">{edition.locations?.join(", ") || edition.locations}</strong> served as a powerful platform for networking and recognition.
                     </p>
                     <p>
                       From specialized clinics to multi-specialty conglomerates, we identified leaders who prioritize patient safety, ethical practice, and technological advancement.
@@ -231,7 +241,7 @@ export default function EditionDetail() {
                   { label: "500+", sub: "Nominations Received" },
                   { label: "40+", sub: "Award Categories" },
                   { label: "100+", sub: "Hospitals Represented" },
-                  { label: edition.editionLabel.split(" ")[0], sub: "Successful Edition" }
+                  { label: edition.editionLabel?.split(" ")[0] || "Past", sub: "Successful Edition" }
                 ].map((item, i) => (
                   <div key={i} className="bg-[#1a130d] p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] border border-[#d4af37]/10 flex flex-col justify-center text-center group hover:border-[#d4af37]/30 transition-all">
                     <div className="text-3xl sm:text-4xl text-[#ffd966] font-black mb-1 sm:mb-2">{item.label}</div>

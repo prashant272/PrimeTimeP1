@@ -1,7 +1,12 @@
 
 
 export function getBaseUrl() {
-  // Prefer explicit API base URL if provided
+  // Use production API URL explicitly when running in production mode
+  if (import.meta.env?.PROD) {
+    return "https://api.globalhealthcareawards.com";
+  }
+
+  // Prefer explicit API base URL if provided in .env
   const fromEnv =
     typeof import.meta !== "undefined"
       ? import.meta.env?.VITE_API_BASE_URL || import.meta.env?.VITE_API_URL
@@ -120,3 +125,31 @@ export function deleteNomination(id, token) {
   return request(`/api/admin/nominations/${id}`, { method: "DELETE", token });
 }
 
+/* ---------------- Previous Editions ---------------- */
+export function fetchPreviousEditions() {
+  return request("/api/previous-editions", { method: "GET" });
+}
+
+export function fetchPreviousEditionByYear(year) {
+  return request(`/api/previous-editions/${year}`, { method: "GET" });
+}
+
+export function createPreviousEdition(payload, token) {
+  return request("/api/previous-editions", {
+    method: "POST",
+    body: payload,
+    token,
+  });
+}
+
+export function updatePreviousEdition(id, payload, token) {
+  return request(`/api/previous-editions/${id}`, {
+    method: "PUT",
+    body: payload,
+    token,
+  });
+}
+
+export function deletePreviousEdition(id, token) {
+  return request(`/api/previous-editions/${id}`, { method: "DELETE", token });
+}
