@@ -6,6 +6,7 @@ export default function FAQ() {
       q: "What is Global Healthcare Awards 2026?",
       a: "Global Healthcare Awards 2026 is an international recognition platform that honours hospitals, doctors, clinics, healthcare organisations, and healthtech companies for excellence, innovation, and quality patient care.",
     },
+    //hhh
     {
       q: "Who can apply for nomination?",
       a: "Hospitals and multi-specialty healthcare institutions, clinics and diagnostic centres, individual doctors and medical professionals, healthcare startups and healthtech companies, and medical or wellness organisations can apply for nomination.",
