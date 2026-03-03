@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AdminPreviousEditions from "../components/AdminPreviousEditions.jsx";
 import { Lock } from "lucide-react";
+import { getBaseUrl } from "../services/api.js";
 
 export default function DeveloperAuth() {
     const [password, setPassword] = useState("");
@@ -22,7 +23,7 @@ export default function DeveloperAuth() {
         setLoading(true);
 
         try {
-            const res = await fetch("http://localhost:5000/api/developer/login", {
+            const res = await fetch(`${getBaseUrl()}/api/developer/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ password })

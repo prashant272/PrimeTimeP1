@@ -238,9 +238,22 @@ export default function AdminPreviousEditions({ customToken }) {
                                     type="file"
                                     multiple
                                     accept="image/*"
-                                    onChange={e => setImages(Array.from(e.target.files))}
+                                    onChange={e => setImages(prev => [...prev, ...Array.from(e.target.files)])}
                                     className="w-full text-sm text-[#c7ba7e] file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-[#d4af37]/10 file:text-[#d4af37] hover:file:bg-[#d4af37]/20"
                                 />
+                                {images.length > 0 && (
+                                    <div className="mt-2 text-xs text-[#c7ba7e]">
+                                        <p className="mb-2">Selected New Images ({images.length}):</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {images.map((file, i) => (
+                                                <div key={i} className="relative w-16 h-16 rounded overflow-hidden border border-[#d4af37]/30 group">
+                                                    <img src={URL.createObjectURL(file)} alt="New upload" className="w-full h-full object-cover" />
+                                                    <button type="button" onClick={() => setImages(prev => prev.filter((_, idx) => idx !== i))} className="absolute top-0 right-0 bg-red-500 text-white w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition rounded-bl">×</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex justify-end gap-3 pt-4 border-t border-[#d4af37]/20">
