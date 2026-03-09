@@ -25,10 +25,6 @@ export const createEdition = async (req, res) => {
 
         const parsedYear = Number(year);
 
-        const existing = await PreviousEdition.findOne({ year: parsedYear });
-        if (existing) {
-            return res.status(400).json({ success: false, message: "Edition for this year already exists" });
-        }
 
         const edition = new PreviousEdition({
             year: parsedYear,

@@ -5,7 +5,6 @@ const previousEditionSchema = new mongoose.Schema(
         year: {
             type: Number,
             required: true,
-            unique: true,
         },
         title: {
             type: String,
