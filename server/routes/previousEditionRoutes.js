@@ -7,7 +7,7 @@ import {
     deleteEdition,
 } from "../controllers/previousEditionController.js";
 import { authenticate, requireAdmin } from "../middleware/authMiddleware.js";
-import imageUpload from "../middleware/imageUploadMiddleware.js";
+import uploadAndCompress from "../middleware/imageUploadMiddleware.js";
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.post(
     "/",
     authenticate,
     requireAdmin,
-    imageUpload.array("images", 30), // Allow up to 30 images per upload
+    ...uploadAndCompress("images", 100), // Allow up to 100 images per upload
     createEdition
 );
 
@@ -28,7 +28,7 @@ router.put(
     "/:id",
     authenticate,
     requireAdmin,
-    imageUpload.array("newImages", 30), // Allow uploading additional images during edit
+    ...uploadAndCompress("newImages", 100), // Allow uploading additional images during edit
     updateEdition
 );
 

@@ -20,6 +20,23 @@ import "./config/passport.js";
 import { signToken } from "./middleware/authMiddleware.js";
 
 const app = express();
+app.use(cors({
+  origin: [
+    config.FRONTEND_URL,
+    "https://globalhealthcareawards.com",
+    "https://www.globalhealthcareawards.com",
+    "http://localhost:5173",
+    "http://localhost:5174",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+// Security and Logging
+app.use(helmet());
+app.use(compression());
+app.use(morgan("dev"));
 
 // DEBUG: Log all requests and capture 401 responses to identify the source
 app.use((req, res, next) => {
@@ -41,22 +58,6 @@ console.log("🛠️ Server Config Check:", {
   AWS_BUCKET: config.AWS.BUCKET_NAME,
   FRONTEND: config.FRONTEND_URL
 });
-
-// Security and Logging
-app.use(helmet());
-app.use(compression());
-app.use(morgan("dev"));
-app.use(cors({
-  origin: [
-    config.FRONTEND_URL,
-    "https://globalhealthcareawards.com",
-    "http://localhost:5173",
-    "http://localhost:5174",
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -133,4 +134,5 @@ app.use("/api/developer", developerRoutes);
 // Global Error Handler
 app.use(errorHandler);
 
-app.listen(config.PORT, () => console.log(`Server running on port ${config.PORT}`));
+const server = app.listen(config.PORT, () => console.log(`Server running on port ${config.PORT}`));
+server.timeout = 600000; // 10 minutes for large photo uploads

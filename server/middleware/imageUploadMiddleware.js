@@ -1,23 +1,15 @@
 import multer from "multer";
-import multerS3 from "multer-s3";
+import sharp from "sharp";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import s3Client from "../utils/s3Config.js";
 import path from "path";
 import config from "../config/config.js";
 
-const imageUpload = multer({
-    storage: multerS3({
-        s3: s3Client,
-        bucket: config.AWS.BUCKET_NAME,
-        metadata: function (req, file, cb) {
-            cb(null, { fieldName: file.fieldname });
-        },
-        key: function (req, file, cb) {
-            const folder = "editions"; // Store in S3 an "editions/" folder
-            const fileName = `${Date.now()}_${path.basename(file.originalname)}`;
-            const fullPath = `${folder}/${fileName}`;
-            cb(null, fullPath);
-        },
-    }),
+// Step 1: Multer Memory Storage (keep the file in memory buffer)
+const storage = multer.memoryStorage();
+
+const upload = multer({
+    storage,
     fileFilter: (req, file, cb) => {
         if (file.mimetype.startsWith("image/")) {
             cb(null, true);
@@ -26,8 +18,58 @@ const imageUpload = multer({
         }
     },
     limits: {
-        fileSize: 10 * 1024 * 1024, // 10MB limit per image
+        fileSize: 10 * 1024 * 1024, // 10MB limit per image (uncompressed)
     },
 });
 
-export default imageUpload;
+// Step 2: Custom middleware to compress and upload to S3
+/**
+ * @param {string} fieldName - The field name in the multipart form
+ * @param {number} maxCount - Max number of files
+ */
+export const uploadAndCompress = (fieldName, maxCount = 30) => {
+    return [
+        upload.array(fieldName, maxCount),
+        async (req, res, next) => {
+            if (!req.files || req.files.length === 0) {
+                return next();
+            }
+
+            try {
+                const uploadPromises = req.files.map(async (file) => {
+                    const fileName = `${Date.now()}_${path.parse(file.originalname).name}.webp`;
+                    const fullPath = `editions/${fileName}`;
+
+                    // Compress using Sharp
+                    const compressedBuffer = await sharp(file.buffer)
+                        .resize({ width: 1200, withoutEnlargement: true }) // Resize if larger than 1200px
+                        .webp({ quality: 80 })
+                        .toBuffer();
+
+                    // Upload to S3
+                    const command = new PutObjectCommand({
+                        Bucket: config.AWS.BUCKET_NAME,
+                        Key: fullPath,
+                        Body: compressedBuffer,
+                        ContentType: "image/webp",
+                    });
+
+                    await s3Client.send(command);
+
+                    // Attach the final S3 URL back to the file object for the controller
+                    // Original multer-s3 attaches it to .location
+                    file.location = `https://${config.AWS.BUCKET_NAME}.s3.${config.AWS.REGION}.amazonaws.com/${fullPath}`;
+                    return file;
+                });
+
+                await Promise.all(uploadPromises);
+                next();
+            } catch (err) {
+                console.error("Compression/Upload Error:", err);
+                return res.status(500).json({ success: false, message: "Error processing/uploading images: " + err.message });
+            }
+        },
+    ];
+};
+
+export default uploadAndCompress;
