@@ -1,10 +1,8 @@
-import EditionYearSwitcher from "./EditionYearSwitcher.jsx";
 
 export default function EditionLoader({ year }) {
     return (
         <section className="bg-[#23140f] text-white min-h-screen py-16 px-2 sm:px-6">
             <div className="max-w-6xl mx-auto">
-                <EditionYearSwitcher currentYear={year} />
 
                 <div className="flex flex-col items-center justify-center min-h-[50vh] gap-6">
                     <div className="relative w-24 h-24">

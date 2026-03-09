@@ -93,11 +93,13 @@ export default function Navbar() {
       <header className="fixed top-0 w-full z-50 bg-[#020617] text-white border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between text-sm">
           <div className="flex items-center gap-3">
-            <img
-              src="/images/primetimelogo.gif"
-              alt="PrimeTime Logo"
-              className="h-8 w-auto object-contain"
-            />
+            <a href="https://www.primetimemedia.in/" target="_blank" rel="noopener noreferrer">
+              <img
+                src="/images/primetimelogo.gif"
+                alt="PrimeTime Logo"
+                className="h-8 w-auto object-contain cursor-pointer"
+              />
+            </a>
             <div className="flex flex-col leading-tight">
               <span className="font-semibold">Admin Dashboard</span>
               <span className="text-[11px] text-gray-300">
@@ -136,11 +138,13 @@ export default function Navbar() {
               <div className="max-w-7xl mx-auto px-6 h-full flex items-center text-sm">
                 <div className="flex items-center gap-3">
                   <div className="relative w-24 h-10 flex items-center justify-center">
-                    <img
-                      src="/images/primetimelogo.gif"
-                      alt="PrimeTime Logo"
-                      className="absolute top-[-10px] left-[-30px] h-[100px] w-auto max-w-none object-contain z-50 drop-shadow-md"
-                    />
+                    <a href="https://www.primetimemedia.in/" target="_blank" rel="noopener noreferrer">
+                      <img
+                        src="/images/primetimelogo.gif"
+                        alt="PrimeTime Logo"
+                        className="absolute top-[-10px] left-[-30px] h-[100px] w-auto max-w-none object-contain z-50 drop-shadow-md cursor-pointer"
+                      />
+                    </a>
                   </div>
                   <div className="flex gap-2 font-semibold whitespace-nowrap">
                     <span>Prime Time Research Media Pvt. Ltd. </span>
@@ -186,11 +190,13 @@ export default function Navbar() {
           <div className="fixed top-4 w-full z-50 flex justify-center">
             <div className="bg-white text-black rounded-full shadow-lg px-6 py-3 flex items-center gap-8 text-sm">
               <div className="flex items-center gap-3 font-semibold">
-                <img
-                  src="/images/primetimelogo.gif"
-                  alt="Logo"
-                  className="h-7 w-auto object-contain"
-                />
+                <a href="https://www.primetimemedia.in/" target="_blank" rel="noopener noreferrer">
+                  <img
+                    src="/images/primetimelogo.gif"
+                    alt="Logo"
+                    className="h-7 w-auto object-contain cursor-pointer"
+                  />
+                </a>
               </div>
               <div className="flex gap-5">{menuLinks("black", undefined, headerRef, isUser, false, editions)}</div>
             </div>
@@ -209,12 +215,14 @@ export default function Navbar() {
         >
           {/* LOGO + app title (left side) */}
           <div className="flex items-center gap-2">
-            <img
-              src="/images/primetimelogo.gif"
-              alt="PrimeTime Logo"
-              className="h-9 w-auto object-contain"
-              style={{ maxWidth: 40 }}
-            />
+            <a href="https://www.primetimemedia.in/" target="_blank" rel="noopener noreferrer">
+              <img
+                src="/images/primetimelogo.gif"
+                alt="PrimeTime Logo"
+                className="h-9 w-auto object-contain"
+                style={{ maxWidth: 40 }}
+              />
+            </a>
             <span className="text-[13px] font-semibold whitespace-nowrap text-white">Prime Time Research Media Pvt. Ltd.</span>
           </div>
           {/* Welcome & logout/login */}
@@ -376,11 +384,13 @@ function MobileMenuDrawer({
         {/* Drawer header with logo */}
         <div className="flex items-center justify-between px-4 h-14 border-b border-white/10">
           <div className="flex items-center gap-2">
-            <img
-              src="/images/primetimelogo.gif"
-              alt="PrimeTime Logo"
-              className="h-8 w-auto object-contain"
-            />
+            <a href="https://www.primetimemedia.in/" target="_blank" rel="noopener noreferrer">
+              <img
+                src="/images/primetimelogo.gif"
+                alt="PrimeTime Logo"
+                className="h-8 w-auto object-contain cursor-pointer"
+              />
+            </a>
             <span className="font-semibold text-sm text-white">Prime Time Research Media Pvt. Ltd.</span>
           </div>
           <button

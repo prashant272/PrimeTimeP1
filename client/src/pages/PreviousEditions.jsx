@@ -92,11 +92,13 @@ export default function PreviousEditions() {
 
               {/* Edition Photo Section */}
               <div className="mt-1 mb-5 w-full flex flex-col items-center z-20">
-                <div className="w-full h-[220px] rounded-xl border-[3px] border-[#ffe391d5] bg-[#fff8e3cc] shadow-lg overflow-hidden flex items-center justify-center relative group-hover:border-[#ffd700] transition-colors duration-300">
+                <div className="w-full h-[220px] rounded-xl border-[3px] border-[#ffe391d5] bg-white/5 shadow-lg overflow-hidden flex items-center justify-center relative group-hover:border-[#ffd700] transition-colors duration-300">
+                  {/* Skeleton Shimmer */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer -translate-x-full" />
                   <img
                     src={`/${e.year}/1.jpg`}
                     alt={`${e.year} Edition`}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 relative z-10"
                     loading="lazy"
                     onError={(event) => {
                       // If 1.jpg fails, try the coverImage from editions.js
@@ -109,7 +111,7 @@ export default function PreviousEditions() {
                     }}
                   />
                   {/* Overlay for better text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />
 
                   {/* Award not organized badge for COVID years */}
                   {(e.year === 2020 || e.year === 2021) && (

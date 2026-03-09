@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { fetchPreviousEditionByYear } from "../services/api.js";
 import VideoGallery from "../components/VideoGallery.jsx"; // Added this import
-import EditionYearSwitcher from "../components/EditionYearSwitcher.jsx";
 
 // Banner slider with auto-scroll and modern UI
 function BannerSlider({ images, year }) {
@@ -90,15 +89,17 @@ function EventGallery({ images }) {
 
       <div className="relative group">
         <div className="flex gap-4 sm:gap-6 animate-marquee hover:[animation-play-state:paused]">
-          {[...images, ...images, ...images].map((img, i) => (
+          {[...images, ...images].map((img, i) => (
             <div
               key={i}
-              className="shrink-0 w-[240px] h-[160px] sm:w-[350px] sm:h-[240px] md:w-[400px] md:h-[260px] rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-white/10 shadow-xl transition-all duration-500 hover:scale-[1.05] hover:border-[#ffd966]/50"
+              className="shrink-0 w-[240px] h-[160px] sm:w-[350px] sm:h-[240px] md:w-[400px] md:h-[260px] rounded-2xl sm:rounded-3xl overflow-hidden border-2 border-white/10 shadow-xl transition-all duration-500 hover:scale-[1.05] hover:border-[#ffd966]/50 bg-white/5 relative"
             >
+              {/* Skeleton Shimmer */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer -translate-x-full" />
               <img
                 src={img}
                 alt={`Highlight ${i}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover relative z-10"
                 loading="lazy"
               />
             </div>
@@ -173,7 +174,6 @@ export default function EditionDetail() {
   return (
     <section className="bg-[#0f0a07] text-white min-h-screen pt-24 sm:pt-32 pb-16 px-4 sm:px-8 md:px-12 lg:px-16 overflow-x-hidden">
       <div className="max-w-7xl mx-auto">
-        <EditionYearSwitcher currentYear={parseInt(displayYear)} />
 
         {!edition && isCovidYear ? (
           <div className="relative w-full h-[300px] sm:h-[450px] mb-12 rounded-[2rem] overflow-hidden bg-gradient-to-br from-[#1a130d] to-[#0f0a07] border-2 border-[#d4af37]/20 flex flex-col items-center justify-center text-center p-8 shadow-2xl">
@@ -209,7 +209,7 @@ export default function EditionDetail() {
               ✨ {edition?.editionLabel}
             </div>
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6 sm:mb-8 leading-[1.1] tracking-tight">
-               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffd966] via-[#f7c53a] to-[#b2872d]">GLOBAL Healthcare Awards</span>  {displayYear}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ffd966] via-[#f7c53a] to-[#b2872d]">GLOBAL Healthcare Awards</span>  {displayYear}
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-[#ffeab0a0] leading-relaxed max-w-2xl mx-auto sm:mx-0 whitespace-pre-line">
               {edition?.hero || `The ${displayYear} Global Healthcare Excellence Awards celebrated the visionaries, institutions, and clinical leaders who redefined medical standards.`}
