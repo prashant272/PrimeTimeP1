@@ -75,7 +75,7 @@ const categoryMap = {
       "Best Orthopedic Doctor",
       "Best Gynecologist & Obstetrician",
       "Best Pediatrician",
-      "Psychotherapist",
+      "Best Physiotherapist",
       "Best Neurologist",
       "Best Oncologist",
       "Best Dermatologist",
