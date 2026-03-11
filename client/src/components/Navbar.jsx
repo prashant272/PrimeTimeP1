@@ -401,8 +401,8 @@ function MobileMenuDrawer({
             <FaTimes />
           </button>
         </div>
-        <div className="flex-1 flex flex-col justify-between">
-          <nav className="flex flex-col gap-3 mt-6 px-4">
+        <div className="flex-1 flex flex-col justify-between overflow-y-auto gold-scrollbar">
+            <nav className="flex flex-col gap-3 mt-6 px-4">
             {/* Give headerRef & isUser to menuLinks for scroll fix and user-related links */}
             {/* Pass true for showDashboard to show My Nominations in mobile drawer */}
             {menuLinks("white", onClose, headerRef, isUser, true, editions)}
@@ -447,8 +447,8 @@ function NavDropdown({ icon, label, color, options, onClick }) {
   // Check if any of the options form an active path
   const isActiveGroup = options.some(opt => {
     const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    return location.pathname === `/${formattedTitle}`;
-  });
+    return location.pathname === `/${opt.year}/${formattedTitle}`;
+  }) || location.pathname === "/previous-editions";
 
   return (
     <div
@@ -457,8 +457,13 @@ function NavDropdown({ icon, label, color, options, onClick }) {
       onMouseEnter={() => window.innerWidth >= 768 && setOpen(true)}
       onMouseLeave={() => window.innerWidth >= 768 && setOpen(false)}
     >
-      <button
-        onClick={(e) => { e.preventDefault(); setOpen(!open); }}
+      <NavLink
+        to="/previous-editions"
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen(!open);
+          if (onClick) onClick();
+        }}
         className={`flex items-center gap-1 transition-colors ${color === "white"
           ? (isActiveGroup ? "text-[#d4af37] font-semibold" : "opacity-80 hover:opacity-100 text-white")
           : (isActiveGroup ? "text-[#d4af37] font-semibold" : "text-gray-700 hover:text-black")
@@ -466,28 +471,30 @@ function NavDropdown({ icon, label, color, options, onClick }) {
       >
         <span className="text-[11px]">{icon}</span>
         <span>{label}</span>
-      </button>
+      </NavLink>
 
       <div
         className={`md:absolute top-[100%] left-0 pt-2 z-50 transition-all duration-200 ${open ? "md:opacity-100 md:visible md:translate-y-0 flex" : "md:opacity-0 md:invisible hidden"
           } ${window.innerWidth < 768 && !open ? 'hidden' : ''}`}
       >
-        <div className="min-w-[240px] bg-[#1a160a] border border-[#d4af37]/30 rounded-xl shadow-2xl py-3 flex flex-col">
+        <div className="min-w-[240px] max-h-[70vh] overflow-y-auto gold-scrollbar bg-[#1a160a] border border-[#d4af37]/30 rounded-xl shadow-2xl py-3 flex flex-col">
           {options.map((opt) => {
             const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
             const isAct = location.pathname === `/${formattedTitle}`;
-            return (
-              <NavLink
-                key={opt.year}
-                to={`/${formattedTitle}`}
-                onClick={() => { setOpen(false); if (onClick) onClick(); }}
-                className={`px-5 py-2.5 text-sm transition-colors ${isAct ? 'bg-[#d4af37]/10 font-bold border-l-4 border-[#d4af37] text-white' : 'text-[#fbe376] hover:bg-[#d4af37]/20 hover:text-white border-l-4 border-transparent'}`}
-              >
-                {opt.title} ({opt.year})
-              </NavLink>
-            );
-          })}
-        </div>
+              return (
+                <NavLink
+                  key={opt.year}
+                  to={`/${opt.year}/${formattedTitle}`}
+                  onClick={() => { setOpen(false); if (onClick) onClick(); }}
+                  className={`px-5 py-2.5 text-sm transition-colors ${isAct ? 'bg-[#d4af37]/10 font-bold border-l-4 border-[#d4af37] text-white' : 'text-[#fbe376] hover:bg-[#d4af37]/20 hover:text-white border-l-4 border-transparent'}`}
+                >
+                  {opt.title} ({opt.year})
+                </NavLink>
+              );
+            })}
+            <hr className="border-[#d4af37]/20 my-2" />
+
+          </div>
       </div>
     </div>
   );

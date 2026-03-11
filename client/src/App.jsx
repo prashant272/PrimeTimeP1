@@ -70,7 +70,7 @@ export default function App() {
             <Route path="/previous-editions" element={<PreviousEditions />} />
             <Route path="/media" element={<Media />} />
             <Route path="/editions/:year" element={<EditionDetail />} />
-            <Route path="/:slug" element={<EditionDetail />} />
+            <Route path="/:year/:slug" element={<EditionDetail />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/nominate" element={<NominationForm />} />
             <Route path="/nominate/:id" element={<NominationForm />} />

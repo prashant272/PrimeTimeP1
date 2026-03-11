@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { fetchPreviousEditions } from "../services/api.js";
 
 export default function EditionYearSwitcher({ currentYear }) {
-  const [years, setYears] = useState([]);
+  const [editions, setEditions] = useState([]);
 
   useEffect(() => {
     fetchPreviousEditions()
       .then(res => {
-        const fetchedYears = (res.data || []).map(e => e.year).sort((a, b) => b - a);
-        setYears(fetchedYears);
+        const fetchedEditions = (res.data || []).sort((a, b) => b.year - a.year);
+        setEditions(fetchedEditions);
       })
       .catch(console.error);
   }, []);
@@ -25,18 +25,21 @@ export default function EditionYearSwitcher({ currentYear }) {
         </h2>
       </div>
       <div className="flex flex-wrap gap-2 text-xs">
-        {years.map((year) => (
-          <Link
-            key={year}
-            to={`/editions/${year}`}
-            className={`px-3 py-1 rounded-full border transition ${year === currentYear
+        {editions.map((edition) => {
+          const formattedTitle = edition.title?.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "global-healthcare-awards";
+          return (
+            <Link
+              key={edition.year}
+              to={`/${edition.year}/${formattedTitle}`}
+              className={`px-3 py-1 rounded-full border transition ${edition.year === currentYear
                 ? "border-[#d4af37] bg-[#d4af37]/15 text-[#ffe9b3] font-semibold"
                 : "border-white/20 text-gray-200 hover:bg-white hover:text-black"
-              }`}
-          >
-            {year}
-          </Link>
-        ))}
+                }`}
+            >
+              {edition.year}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
