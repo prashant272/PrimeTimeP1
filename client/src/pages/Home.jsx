@@ -61,10 +61,18 @@ export default function Home() {
 
   const events = [
     {
-      title: "Global Healthcare Awards 2026 – Dubai Edition ",
-      desc: "Honoring groundbreaking achievements and revolutionary leaders who are shaping the future of global medicine and healthcare excellence across the UAE.",
-      date: "26 April 2026",
-      place: "Dubai, UAE",
+       
+      title: "Global Healthcare Awards 2026 – Hyderabad Edition",
+      desc: "Honouring visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of India.",
+      date: "22 May 2026",
+      place: "Hyderabad,India",
+      highlight: "Innovation Leadership",
+    },
+    {
+      title: "Global Healthcare Awards 2026 – Pattaya, Thailand Edition ",
+      desc: "Honoring groundbreaking achievements and revolutionary leaders who are shaping the future of global medicine and healthcare excellence across Thailand.",
+      date: "28 June 2026",
+      place: "Pattaya, Thailand",
       highlight: "International Excellence",
     },
     {
@@ -81,6 +89,7 @@ export default function Home() {
       place: "Washington, DC, USA",
       highlight: "Innovation Leadership",
     },
+  
   ];
 
   //Guest Data
@@ -200,8 +209,8 @@ export default function Home() {
     {
       title: "14th Global Healthcare Awards & Summit 2026",
       desc: "Honouring excellence, innovation, and leadership in the global healthcare industry.",
-      date: "26 April 2026",
-      location: "Dubai",
+      date: "28 June 2026",
+      location: "Pattaya, Thailand",
       banner: "/healthcaredubai.png",
       link: "https://www.globalhealthcareawards.com",
       color: "from-[#ffecd2] to-[#fcb69f]"
@@ -638,11 +647,11 @@ export default function Home() {
               <div className="space-y-6">
                 {[
                   {
-                    title: 'Dubai Edition',
-                    date: '26 April 2026',
+                    title: 'Hyderabad Edition',
+                    date: '22 May 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
-                        <span className="text-xl">🇦🇪</span>
+                        <span className="text-xl">🇮🇳</span>
                       </span>
                     ),
                     border: 'from-[#d4af37] to-[#ead481]',
@@ -656,6 +665,16 @@ export default function Home() {
                       </span>
                     ),
                     border: 'from-[#386bb7] to-[#81b0ea]',
+                  },
+                  {
+                    title: 'Pattaya, Thailand Edition',
+                    date: '28 June 2026',
+                    icon: (
+                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
+                        <span className="text-xl">🇹🇭</span>
+                      </span>
+                    ),
+                    border: 'from-[#d4af37] to-[#ead481]',
                   },
                   {
                     title: 'Washington DC Edition',

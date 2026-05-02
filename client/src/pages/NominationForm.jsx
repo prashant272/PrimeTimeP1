@@ -245,6 +245,8 @@ const categoryMap = {
       "Young Achiever in Pharma Industry",
     ],
   },
+   "Individual": {
+    }
 };
 
 const initialForm = {
@@ -591,7 +593,7 @@ export default function NominationForm() {
             
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 pt-4">
                 {[
-                  { id: "nominated as award", prefix: "Apply for", highlight: "Awarded", primary: true },
+                  { id: "nominated as award", prefix: "Apply for", highlight: "Award", primary: true },
                   { id: "attend as speaker", prefix: "Attend as", highlight: "Speaker", primary: false },
                   { id: "attend as exhibitor", prefix: "Attend as", highlight: "Exhibitor", primary: false },
                   { id: "attend as sponsor", prefix: "Attend as", highlight: "Sponsor", primary: false },
@@ -894,7 +896,7 @@ export default function NominationForm() {
               </div>
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                { ["Dubai", "USA", "London", "New Delhi"].map((loc) => (
+                {["Hyderabad", "London", "Pattaya, Thailand", "Washington DC"].map((loc) => (
                   <label
                     key={loc}
                     className={`flex items-center justify-center p-4 rounded-xl border-2 transition-all duration-300 cursor-pointer text-center
