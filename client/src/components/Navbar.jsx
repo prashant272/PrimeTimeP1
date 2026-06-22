@@ -15,6 +15,7 @@ import {
   FaRegClone,
   FaRegEdit,
   FaQuestionCircle,
+  FaBlog,
 } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext.jsx";
 import { fetchPreviousEditions } from "../services/api.js";
@@ -299,6 +300,7 @@ const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true, edit
       ) : (
         <NavItem to="/previous-editions" icon={<FaHistory />} label="Previous Editions" color={color} onClick={createNavHandler(onClick)} />
       )}
+      <NavItem to="/blogs" icon={<FaBlog />} label="Blogs" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/faq" icon={<FaQuestionCircle />} label="FAQ" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/nominate" icon={<FaRegEdit />} label="Nominate Now" color={color} onClick={createNavHandler(onClick)} />
       {isUser && showDashboard && (

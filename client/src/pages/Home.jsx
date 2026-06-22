@@ -61,35 +61,26 @@ export default function Home() {
 
   const events = [
     {
-       
-      title: "Global Healthcare Awards 2026 – Hyderabad Edition",
+      title: "Global Healthcare Awards 2026 – Mumbai Edition",
       desc: "Honouring visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of India.",
-      date: "22 May 2026",
-      place: "Hyderabad,India",
+      date: "8 August 2026",
+      place: "Mumbai, India",
       highlight: "Innovation Leadership",
-    },
-    {
-      title: "Global Healthcare Awards 2026 – Pattaya, Thailand Edition ",
-      desc: "Honoring groundbreaking achievements and revolutionary leaders who are shaping the future of global medicine and healthcare excellence across Thailand.",
-      date: "28 June 2026",
-      place: "Pattaya, Thailand",
-      highlight: "International Excellence",
     },
     {
       title: "Global Healthcare Awards 2026 – London Edition",
       desc: "Celebrating high-impact pioneers and visionaries in medical research and healthcare management in the heart of Europe’s most prestigious clinical landscape.",
-      date: "9 June 2026",
+      date: "2 July 2026",
       place: "House Of Common , London",
       highlight: "Global Recognition",
     },
     {
       title: "Global Healthcare Awards 2026 – Washington DC Edition",
       desc: "Recognizing policy-shaping leaders and healthcare innovators who are driving global standards and transformative medical advancements in the United States.",
-      date: "30 June 2026",
+      date: "12 October 2026",
       place: "Washington, DC, USA",
       highlight: "Innovation Leadership",
     },
-  
   ];
 
   //Guest Data
@@ -209,8 +200,8 @@ export default function Home() {
     {
       title: "14th Global Healthcare Awards & Summit 2026",
       desc: "Honouring excellence, innovation, and leadership in the global healthcare industry.",
-      date: "28 June 2026",
-      location: "Pattaya, Thailand",
+      date: "8 August 2026",
+      location: "Mumbai, India",
       banner: "/healthcaredubai.png",
       link: "https://www.globalhealthcareawards.com",
       color: "from-[#ffecd2] to-[#fcb69f]"
@@ -236,7 +227,7 @@ export default function Home() {
     {
       title: "Global Achievers Awards 2026",
       desc: "Honouring global leaders and achievers across multiple industries.",
-      date: "9 June 2026",
+      date: "2 July 2026",
       location: "House of Commons, London",
       banner: "/archiverlondon.png",
       link: "https://www.primetimemedia.in/global-achievers-awards",
@@ -245,7 +236,7 @@ export default function Home() {
     {
       title: "Global Healthcare Awards 2026 – Washington DC Edition",
       desc: "Celebrating healthcare visionaries and policy leaders at the heart of the United States' medical capital.",
-      date: "30 June 2026",
+      date: "12 October 2026",
       location: "Washington, DC, USA",
       banner: "/USA.png",
       link: "https://www.globalhealthcareawards.com",
@@ -254,7 +245,7 @@ export default function Home() {
     {
       title: "USA Business Leadership Summit 2026",
       desc: "A premier summit recognising visionary business leaders and entrepreneurs.",
-      date: "30 June 2026",
+      date: "12 October 2026",
       location: "Washington, DC, USA",
       banner: "/USA.png",
       link: "https://www.primetimemedia.in/usa-business-summit",
@@ -647,8 +638,8 @@ export default function Home() {
               <div className="space-y-6">
                 {[
                   {
-                    title: 'Hyderabad Edition',
-                    date: '22 May 2026',
+                    title: 'Mumbai Edition',
+                    date: '8 August 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
                         <span className="text-xl">🇮🇳</span>
@@ -658,7 +649,7 @@ export default function Home() {
                   },
                   {
                     title: 'London Edition',
-                    date: '9 June 2026',
+                    date: '2 July 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#386bb7] to-[#81b0ea] flex items-center justify-center shadow-lg">
                         <span className="text-xl">🇬🇧</span>
@@ -667,18 +658,8 @@ export default function Home() {
                     border: 'from-[#386bb7] to-[#81b0ea]',
                   },
                   {
-                    title: 'Pattaya, Thailand Edition',
-                    date: '28 June 2026',
-                    icon: (
-                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
-                        <span className="text-xl">🇹🇭</span>
-                      </span>
-                    ),
-                    border: 'from-[#d4af37] to-[#ead481]',
-                  },
-                  {
                     title: 'Washington DC Edition',
-                    date: '30 June 2026',
+                    date: '12 October 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#c62828] to-[#ce93d8] flex items-center justify-center shadow-lg">
                         <span className="text-xl">🇺🇸</span>

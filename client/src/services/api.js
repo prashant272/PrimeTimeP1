@@ -153,3 +153,33 @@ export function updatePreviousEdition(id, payload, token) {
 export function deletePreviousEdition(id, token) {
   return request(`/api/previous-editions/${id}`, { method: "DELETE", token });
 }
+
+/* ---------------- Blogs ---------------- */
+export function fetchBlogs(params = {}) {
+  const query = new URLSearchParams(params).toString();
+  return request(`/api/blogs${query ? `?${query}` : ""}`, { method: "GET" });
+}
+
+export function fetchBlogBySlug(slug) {
+  return request(`/api/blogs/${slug}`, { method: "GET" });
+}
+
+export function createBlog(payload, token) {
+  return request("/api/blogs", {
+    method: "POST",
+    body: payload,
+    token,
+  });
+}
+
+export function updateBlog(id, payload, token) {
+  return request(`/api/blogs/${id}`, {
+    method: "PUT",
+    body: payload,
+    token,
+  });
+}
+
+export function deleteBlog(id, token) {
+  return request(`/api/blogs/${id}`, { method: "DELETE", token });
+}

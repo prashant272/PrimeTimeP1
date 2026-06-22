@@ -13,6 +13,8 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Contact = lazy(() => import("./pages/Contact"));
 const PreviousEditions = lazy(() => import("./pages/PreviousEditions"));
 const Media = lazy(() => import("./pages/Media.jsx"));
+const Blogs = lazy(() => import("./pages/Blogs.jsx"));
+const BlogDetail = lazy(() => import("./pages/BlogDetail.jsx"));
 const EditionDetail = lazy(() => import("./pages/EditionDetail.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
 const NominationForm = lazy(() => import("./pages/NominationForm.jsx"));
@@ -60,6 +62,8 @@ export default function App() {
             <Route path="/auth-callback" element={<AuthCallback />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs/:slug" element={<BlogDetail />} />
             <Route path="/jury" element={<Jury />} />
             <Route path="/guidelines" element={<Guidelines />} />
             <Route path="/judging" element={<Judging />} />
