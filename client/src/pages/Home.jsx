@@ -61,25 +61,18 @@ export default function Home() {
 
   const events = [
     {
-      title: "Global Healthcare Awards 2026 – Mumbai Edition",
-      desc: "Honouring visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of India.",
-      date: "8 August 2026",
-      place: "Mumbai, India",
-      highlight: "Innovation Leadership",
-    },
-    {
-      title: "Global Healthcare Awards 2026 – London Edition",
-      desc: "Celebrating high-impact pioneers and visionaries in medical research and healthcare management in the heart of Europe’s most prestigious clinical landscape.",
-      date: "2 July 2026",
-      place: "House Of Common , London",
-      highlight: "Global Recognition",
-    },
-    {
       title: "Global Healthcare Awards 2026 – Washington DC Edition",
       desc: "Recognizing policy-shaping leaders and healthcare innovators who are driving global standards and transformative medical advancements in the United States.",
       date: "12 October 2026",
       place: "Washington, DC, USA",
       highlight: "Innovation Leadership",
+    },
+    {
+      title: "Global Healthcare Awards 2026 – Delhi Edition",
+      desc: "Honouring visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of India.",
+      date: "4 October 2026",
+      place: "Delhi, India",
+      highlight: "Excellence & Innovation",
     },
   ];
 
@@ -198,10 +191,10 @@ export default function Home() {
 
   const upcomingAwards = [
     {
-      title: "14th Global Healthcare Awards & Summit 2026",
+      title: "Global Healthcare Awards 2026 - Delhi Edition",
       desc: "Honouring excellence, innovation, and leadership in the global healthcare industry.",
-      date: "8 August 2026",
-      location: "Mumbai, India",
+      date: "4 October 2026",
+      location: "Delhi, India",
       banner: "/healthcaredubai.png",
       link: "https://www.globalhealthcareawards.com",
       color: "from-[#ffecd2] to-[#fcb69f]"
@@ -638,26 +631,6 @@ export default function Home() {
               <div className="space-y-6">
                 {[
                   {
-                    title: 'Mumbai Edition',
-                    date: '8 August 2026',
-                    icon: (
-                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
-                        <span className="text-xl">🇮🇳</span>
-                      </span>
-                    ),
-                    border: 'from-[#d4af37] to-[#ead481]',
-                  },
-                  {
-                    title: 'London Edition',
-                    date: '2 July 2026',
-                    icon: (
-                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#386bb7] to-[#81b0ea] flex items-center justify-center shadow-lg">
-                        <span className="text-xl">🇬🇧</span>
-                      </span>
-                    ),
-                    border: 'from-[#386bb7] to-[#81b0ea]',
-                  },
-                  {
                     title: 'Washington DC Edition',
                     date: '12 October 2026',
                     icon: (
@@ -666,6 +639,16 @@ export default function Home() {
                       </span>
                     ),
                     border: 'from-[#c62828] to-[#ce93d8]',
+                  },
+                  {
+                    title: 'Delhi Edition',
+                    date: '4 October 2026',
+                    icon: (
+                      <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
+                        <span className="text-xl">🇮🇳</span>
+                      </span>
+                    ),
+                    border: 'from-[#d4af37] to-[#ead481]',
                   },
                 ].map((item, idx) => (
                   <div key={idx} className="relative group"

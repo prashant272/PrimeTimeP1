@@ -25,7 +25,7 @@ export default function FAQ() {
     },
     {
       q: "Where and when will the awards be held?",
-      a: "Global Healthcare Awards 2026 will be organised in international editions, including a Mumbai Edition (8 August 2026, Mumbai, India) and a London Edition (2 July 2026, House of Commons, London, UK). Detailed venue and schedule updates are shared on the official website and through formal communication.",
+      a: "Global Healthcare Awards 2026 will be organised in international editions, including a Washington DC Edition (12 October 2026, Washington DC, USA) and a Delhi Edition (4 October 2026, Delhi, India). Detailed venue and schedule updates are shared on the official website and through formal communication.",
     },
     {
       q: "What are the benefits of participating?",
