@@ -18,10 +18,11 @@ import {
   FaBlog,
 } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext.jsx";
-import { fetchPreviousEditions } from "../services/api.js";
+import { fetchPreviousEditions, fetchUpcomingAwards } from "../services/api.js";
 
 export default function Navbar() {
   const [editions, setEditions] = useState([]);
+  const [upcomingAwards, setUpcomingAwards] = useState([]);
   const [showPill, setShowPill] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
@@ -38,6 +39,11 @@ export default function Navbar() {
 
   useEffect(() => {
     fetchPreviousEditions().then(res => setEditions(res.data || [])).catch(console.error);
+    fetchUpcomingAwards().then(res => {
+      if (Array.isArray(res)) setUpcomingAwards(res);
+      else if (res && res.data) setUpcomingAwards(res.data);
+      else if (res && res.awards) setUpcomingAwards(res.awards);
+    }).catch(console.error);
   }, []);
 
   // Fix: Scroll to top ONLY relative to header on route (tab) change, but only scroll if not already near top
@@ -180,7 +186,7 @@ export default function Navbar() {
             </div>
             <nav className="bg-transparent h-12">
               <div className="max-w-7xl mx-auto px-6 h-full flex justify-center items-center gap-6 text-sm">
-                {menuLinks("white", undefined, headerRef, isUser, false, editions)}
+                {menuLinks("white", undefined, headerRef, isUser, false, editions, upcomingAwards)}
               </div>
             </nav>
           </header>
@@ -199,7 +205,7 @@ export default function Navbar() {
                   />
                 </a>
               </div>
-              <div className="flex gap-5">{menuLinks("black", undefined, headerRef, isUser, false, editions)}</div>
+              <div className="flex gap-5">{menuLinks("black", undefined, headerRef, isUser, false, editions, upcomingAwards)}</div>
             </div>
           </div>
         )}
@@ -263,6 +269,7 @@ export default function Navbar() {
           headerRef={headerRef}
           isUser={isUser}
           editions={editions}
+          upcomingAwards={upcomingAwards}
         />
       </div>
     </>
@@ -273,7 +280,7 @@ export default function Navbar() {
 
 // onClick will be used to close drawer, headerRef for scroll fix on tab switch.
 // Added showDashboard param to control visibility of "My Nominations" link
-const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true, editions = []) => {
+const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true, editions = [], upcomingAwards = []) => {
   // Will scroll page to just under header if in mobile and not at top
   const createNavHandler = (routeHandler) => (e) => {
     if (onClick) onClick();
@@ -293,14 +300,16 @@ const menuLinks = (color, onClick, headerRef, isUser, showDashboard = true, edit
       <NavItem to="/guidelines" icon={<FaBook />} label="Entry Guidelines" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/judging" icon={<FaGavel />} label="Selection Process" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/terms" icon={<FaFileContract />} label="T&C" color={color} onClick={createNavHandler(onClick)} />
-      <NavItem to="/contact" icon={<FaEnvelope />} label="Contact Us" color={color} onClick={createNavHandler(onClick)} />
-      <NavItem to="/media" icon={<FaTrophy />} label="Media" color={color} onClick={createNavHandler(onClick)} />
+      {upcomingAwards.length > 0 ? (
+        <NavDropdown icon={<FaTrophy />} label="Upcoming Awards" color={color} options={upcomingAwards} onClick={createNavHandler(onClick)} isUpcoming={true} />
+      ) : (
+        <NavItem to="/upcoming-awards" icon={<FaTrophy />} label="Upcoming Awards" color={color} onClick={createNavHandler(onClick)} />
+      )}
       {editions.length > 0 ? (
         <NavDropdown icon={<FaHistory />} label="Previous Editions" color={color} options={editions} onClick={createNavHandler(onClick)} />
       ) : (
         <NavItem to="/previous-editions" icon={<FaHistory />} label="Previous Editions" color={color} onClick={createNavHandler(onClick)} />
       )}
-      <NavItem to="/blogs" icon={<FaBlog />} label="Blogs" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/faq" icon={<FaQuestionCircle />} label="FAQ" color={color} onClick={createNavHandler(onClick)} />
       <NavItem to="/nominate" icon={<FaRegEdit />} label="Nominate Now" color={color} onClick={createNavHandler(onClick)} />
       {isUser && showDashboard && (
@@ -346,7 +355,8 @@ function MobileMenuDrawer({
   handleLoginClick,
   headerRef,
   isUser,
-  editions
+  editions,
+  upcomingAwards
 }) {
   // Esc key or overlay for closing drawer
   useEffect(() => {
@@ -407,7 +417,7 @@ function MobileMenuDrawer({
             <nav className="flex flex-col gap-3 mt-6 px-4">
             {/* Give headerRef & isUser to menuLinks for scroll fix and user-related links */}
             {/* Pass true for showDashboard to show My Nominations in mobile drawer */}
-            {menuLinks("white", onClose, headerRef, isUser, true, editions)}
+            {menuLinks("white", onClose, headerRef, isUser, true, editions, upcomingAwards)}
           </nav>
           <div className="mt-6 border-t border-white/10 px-4 py-4 flex flex-col gap-2">
             {user && (
@@ -431,7 +441,7 @@ function MobileMenuDrawer({
   );
 }
 
-function NavDropdown({ icon, label, color, options, onClick }) {
+function NavDropdown({ icon, label, color, options, onClick, isUpcoming = false }) {
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
   const location = useLocation();
@@ -448,9 +458,13 @@ function NavDropdown({ icon, label, color, options, onClick }) {
 
   // Check if any of the options form an active path
   const isActiveGroup = options.some(opt => {
-    const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-    return location.pathname === `/${opt.year}/${formattedTitle}`;
-  }) || location.pathname === "/previous-editions";
+    if (isUpcoming) {
+      return location.pathname === `/upcoming-awards/${opt.slug}`;
+    } else {
+      const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return location.pathname === `/${opt.year}/${formattedTitle}`;
+    }
+  }) || location.pathname === (isUpcoming ? "/upcoming-awards" : "/previous-editions");
 
   return (
     <div
@@ -460,7 +474,7 @@ function NavDropdown({ icon, label, color, options, onClick }) {
       onMouseLeave={() => window.innerWidth >= 768 && setOpen(false)}
     >
       <NavLink
-        to="/previous-editions"
+        to={isUpcoming ? "/upcoming-awards" : "/previous-editions"}
         onClick={(e) => {
           e.preventDefault();
           setOpen(!open);
@@ -480,12 +494,25 @@ function NavDropdown({ icon, label, color, options, onClick }) {
           } ${window.innerWidth < 768 && !open ? 'hidden' : ''}`}
       >
         <div className="min-w-[240px] max-h-[70vh] overflow-y-auto gold-scrollbar bg-[#1a160a] border border-[#d4af37]/30 rounded-xl shadow-2xl py-3 flex flex-col">
-          {options.map((opt) => {
-            const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-            const isAct = location.pathname === `/${formattedTitle}`;
+          {options.map((opt, i) => {
+            if (isUpcoming) {
+              const isAct = location.pathname === `/upcoming-awards/${opt.slug}`;
               return (
                 <NavLink
-                  key={opt.year}
+                  key={opt._id || i}
+                  to={`/upcoming-awards/${opt.slug}`}
+                  onClick={() => { setOpen(false); if (onClick) onClick(); }}
+                  className={`px-5 py-2.5 text-sm transition-colors ${isAct ? 'bg-[#d4af37]/10 font-bold border-l-4 border-[#d4af37] text-white' : 'text-[#fbe376] hover:bg-[#d4af37]/20 hover:text-white border-l-4 border-transparent'}`}
+                >
+                  {opt.title}
+                </NavLink>
+              );
+            } else {
+              const formattedTitle = opt.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+              const isAct = location.pathname === `/${opt.year}/${formattedTitle}`;
+              return (
+                <NavLink
+                  key={opt.year || i}
                   to={`/${opt.year}/${formattedTitle}`}
                   onClick={() => { setOpen(false); if (onClick) onClick(); }}
                   className={`px-5 py-2.5 text-sm transition-colors ${isAct ? 'bg-[#d4af37]/10 font-bold border-l-4 border-[#d4af37] text-white' : 'text-[#fbe376] hover:bg-[#d4af37]/20 hover:text-white border-l-4 border-transparent'}`}
@@ -493,10 +520,10 @@ function NavDropdown({ icon, label, color, options, onClick }) {
                   {opt.title} ({opt.year})
                 </NavLink>
               );
-            })}
-            <hr className="border-[#d4af37]/20 my-2" />
-
-          </div>
+            }
+          })}
+          <hr className="border-[#d4af37]/20 my-2" />
+        </div>
       </div>
     </div>
   );

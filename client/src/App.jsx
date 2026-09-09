@@ -16,6 +16,7 @@ const Media = lazy(() => import("./pages/Media.jsx"));
 const Blogs = lazy(() => import("./pages/Blogs.jsx"));
 const BlogDetail = lazy(() => import("./pages/BlogDetail.jsx"));
 const EditionDetail = lazy(() => import("./pages/EditionDetail.jsx"));
+const UpcomingAwardDetail = lazy(() => import("./pages/UpcomingAwardDetail.jsx"));
 const Login = lazy(() => import("./pages/Login.jsx"));
 const NominationForm = lazy(() => import("./pages/NominationForm.jsx"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard.jsx"));
@@ -75,6 +76,7 @@ export default function App() {
             <Route path="/media" element={<Media />} />
             <Route path="/editions/:year" element={<EditionDetail />} />
             <Route path="/:year/:slug" element={<EditionDetail />} />
+            <Route path="/upcoming-awards/:slug" element={<UpcomingAwardDetail />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/nominate" element={<NominationForm />} />
             <Route path="/nominate/:id" element={<NominationForm />} />

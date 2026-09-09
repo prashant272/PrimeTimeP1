@@ -1,6 +1,8 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import UpcomingAwards from "../components/UpcomingAwards.jsx";
+import { fetchUpcomingAwards } from "../services/api.js";
 
 
 // Import Swiper React components
@@ -23,6 +25,25 @@ export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
   const sectionRefs = useRef([]);
+  const [upcomingAwardsData, setUpcomingAwardsData] = useState([]);
+
+  useEffect(() => {
+    const fetchAwards = async () => {
+      try {
+        const res = await fetchUpcomingAwards();
+        if (Array.isArray(res)) {
+          setUpcomingAwardsData(res);
+        } else if (res && res.data) {
+          setUpcomingAwardsData(res.data);
+        } else if (res && res.awards) {
+          setUpcomingAwardsData(res.awards);
+        }
+      } catch (err) {
+        console.error("Failed to fetch upcoming awards:", err);
+      }
+    };
+    fetchAwards();
+  }, []);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -61,16 +82,16 @@ export default function Home() {
 
   const events = [
     {
-      title: "Global Healthcare Awards 2026 – Washington DC Edition",
-      desc: "Recognizing policy-shaping leaders and healthcare innovators who are driving global standards and transformative medical advancements in the United States.",
-      date: "12 October 2026",
-      place: "Washington, DC, USA",
+      title: "Global Healthcare Awards 2026 – Dubai Edition",
+      desc: "Recognizing visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of the Middle East.",
+      date: "30 October 2026",
+      place: "Dubai, UAE",
       highlight: "Innovation Leadership",
     },
     {
       title: "Global Healthcare Awards 2026 – Delhi Edition",
       desc: "Honouring visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of India.",
-      date: "4 October 2026",
+      date: "22 November 2026",
       place: "Delhi, India",
       highlight: "Excellence & Innovation",
     },
@@ -189,62 +210,7 @@ export default function Home() {
     }
   ];
 
-  const upcomingAwards = [
-    {
-      title: "Global Healthcare Awards 2026 - Delhi Edition",
-      desc: "Honouring excellence, innovation, and leadership in the global healthcare industry.",
-      date: "4 October 2026",
-      location: "Delhi, India",
-      banner: "/healthcaredubai.png",
-      link: "https://www.globalhealthcareawards.com",
-      color: "from-[#ffecd2] to-[#fcb69f]"
-    },
-    {
-      title: "14th Global Education Excellence Awards 2026",
-      desc: "Celebrating outstanding contributions and leadership in the education sector.",
-      date: "14 March 2026",
-      location: "New Delhi, India",
-      banner: "/educationdelhi.png",
-      link: "https://globaleducationawards.in",
-      color: "from-[#e0c3fc] to-[#8ec5fc]"
-    },
-    {
-      title: "India Excellence Awards & Conference 2026",
-      desc: "Recognising excellence, innovation, and leadership across Indian industries.",
-      date: "14 March 2026",
-      location: "New Delhi, India",
-      banner: "/excellencedelhi.png",
-      link: "https://www.primetimemedia.in/india-excellence-awards",
-      color: "from-[#fddb92] to-[#d1fdff]"
-    },
-    {
-      title: "Global Achievers Awards 2026",
-      desc: "Honouring global leaders and achievers across multiple industries.",
-      date: "2 July 2026",
-      location: "House of Commons, London",
-      banner: "/archiverlondon.png",
-      link: "https://www.primetimemedia.in/global-achievers-awards",
-      color: "from-[#cfd9df] to-[#e2ebf0]"
-    },
-    {
-      title: "Global Healthcare Awards 2026 – Washington DC Edition",
-      desc: "Celebrating healthcare visionaries and policy leaders at the heart of the United States' medical capital.",
-      date: "12 October 2026",
-      location: "Washington, DC, USA",
-      banner: "/USA.png",
-      link: "https://www.globalhealthcareawards.com",
-      color: "from-[#fdfbfb] to-[#ebedee]"
-    },
-    {
-      title: "USA Business Leadership Summit 2026",
-      desc: "A premier summit recognising visionary business leaders and entrepreneurs.",
-      date: "12 October 2026",
-      location: "Washington, DC, USA",
-      banner: "/USA.png",
-      link: "https://www.primetimemedia.in/usa-business-summit",
-      color: "from-[#fdfbfb] to-[#ebedee]"
-    }
-  ];
+
 
   const homeFaqs = [
     {
@@ -631,18 +597,18 @@ export default function Home() {
               <div className="space-y-6">
                 {[
                   {
-                    title: 'Washington DC Edition',
-                    date: '12 October 2026',
+                    title: 'Dubai Edition',
+                    date: '30 October 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#c62828] to-[#ce93d8] flex items-center justify-center shadow-lg">
-                        <span className="text-xl">🇺🇸</span>
+                        <span className="text-xl">🇦🇪</span>
                       </span>
                     ),
                     border: 'from-[#c62828] to-[#ce93d8]',
                   },
                   {
                     title: 'Delhi Edition',
-                    date: '4 October 2026',
+                    date: '22 November 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
                         <span className="text-xl">🇮🇳</span>
@@ -1268,153 +1234,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* OUR OTHER UPCOMING AWARDS section */}
-      <section className={`relative pt-12 sm:pt-24 md:pt-32 pb-14 sm:pb-24 md:pb-32 overflow-hidden ${HIGHLIGHT_BG}`}>
-        {/* Responsive glowing background blobs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute top-[20%] left-[12%] w-[60px] xs:w-[110px] sm:w-[190px] md:w-[240px] lg:w-[350px] h-[60px] xs:h-[110px] sm:h-[190px] md:h-[240px] lg:h-[350px] bg-[#d4af37]/5 rounded-full blur-2xl animate-pulse"></div>
-          <div className="absolute bottom-[15%] right-[16%] w-[60px] xs:w-[110px] sm:w-[190px] md:w-[240px] lg:w-[350px] h-[60px] xs:h-[110px] sm:h-[190px] md:h-[240px] lg:h-[350px] bg-[#c62828]/5 rounded-full blur-2xl animate-pulse delay-700"></div>
-        </div>
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-2 xs:px-4 sm:px-6">
-          <div className="text-center mb-8 xs:mb-14 sm:mb-20 md:mb-28">
-            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-3 sm:mb-5 bg-gradient-to-r from-white via-[#d4af37] to-white bg-clip-text text-transparent drop-shadow-xl">
-              Our Other Upcoming Awards
-            </h2>
-            <div className="w-16 xs:w-20 sm:w-32 h-1 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent mx-auto"></div>
-            <p className="mt-3 xs:mt-4 sm:mt-6 text-[#ebdcc8] text-xs xs:text-sm sm:text-base md:text-lg max-w-xl xs:max-w-2xl mx-auto">
-              Join us in celebrating excellence across various industries globally.
-            </p>
-          </div>
-
-          <div className="w-full">
-            <Swiper
-              modules={[Autoplay, Pagination]}
-              spaceBetween={8}
-              slidesPerView={1.05}
-              loop={true}
-              speed={1400}
-              autoplay={{
-                delay: 2600,
-                disableOnInteraction: false,
-              }}
-              pagination={{
-                clickable: true,
-                dynamicBullets: true,
-              }}
-              breakpoints={{
-                0: {
-                  slidesPerView: 1.05,
-                  spaceBetween: 8,
-                },
-                390: {
-                  slidesPerView: 1.12,
-                  spaceBetween: 9,
-                },
-                440: {
-                  slidesPerView: 1.2,
-                  spaceBetween: 12,
-                },
-                580: {
-                  slidesPerView: 1.6,
-                  spaceBetween: 14,
-                },
-                700: {
-                  slidesPerView: 2,
-                  spaceBetween: 14,
-                },
-                900: {
-                  slidesPerView: 2.5,
-                  spaceBetween: 16,
-                },
-                1100: {
-                  slidesPerView: 3,
-                  spaceBetween: 18,
-                },
-                1400: {
-                  slidesPerView: 4,
-                  spaceBetween: 22,
-                },
-              }}
-              className="pb-12 xs:pb-16 sm:pb-20"
-              style={{ paddingLeft: 0, paddingRight: 0 }}
-            >
-              {upcomingAwards.map((award, index) => (
-                <SwiperSlide key={index} className="!px-0">
-                  <div
-                    className="
-                      group relative flex flex-col rounded-lg xs:rounded-xl sm:rounded-2xl
-                      bg-gradient-to-br from-[#2a1b12]/95 via-[#1a110a]/90 to-[#2a1b12]/95
-                      border border-[#d4af37]/10 hover:border-[#d4af37]/80
-                      transition-all duration-500 hover:shadow-[0_8px_26px_-10px_#e5c75b55]
-                      overflow-hidden w-full
-                      h-[280px] xs:h-[330px] sm:h-[370px] md:h-[390px] lg:h-[400px] xl:h-[410px]
-                      p-0 shadow-md hover:scale-[1.025]
-                    "
-                    style={{ maxWidth: '100%' }}
-                  >
-                    {/* Premium Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#d4af37]/5 via-[#ffedbb]/0 to-[#c62828]/10 opacity-0 group-hover:opacity-60 transition duration-500 pointer-events-none z-10 rounded-lg xs:rounded-xl sm:rounded-2xl blur-sm"></div>
-
-                    {/* Image on upper half - strongly responsive height */}
-                    <div className="relative w-full" style={{ height: "51%" }}>
-                      <img
-                        src={award.banner}
-                        alt={award.title}
-                        className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                        style={{ borderTopLeftRadius: 'inherit', borderTopRightRadius: 'inherit', borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
-                        loading="lazy"
-                      />
-                      {/* Top Black gradient for some depth */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10 rounded-t-lg xs:rounded-t-xl sm:rounded-t-2xl pointer-events-none"></div>
-                      {/* Gold shine at bottom of image */}
-                      <div className="absolute bottom-0 left-0 w-full h-3 xs:h-4 sm:h-7 md:h-8 bg-gradient-to-t from-[#ffe18b77] via-transparent to-transparent opacity-75 blur-[2px] pointer-events-none z-10"></div>
-                      <div className="absolute bottom-2 left-1 xs:left-2 z-20">
-                        <span className="px-1.5 py-[1px] xs:px-2.5 xs:py-1 rounded-full bg-gradient-to-r from-[#ffe9a3] to-[#d4af37] text-black text-[9px] xs:text-[10px] sm:text-[12px] font-bold uppercase tracking-wide shadow-md border border-[#fff4]/20 backdrop-blur">
-                          {award.location}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Text Content fills lower half */}
-                    <div className="
-                      flex flex-col flex-grow justify-between
-                      px-2.5 xs:px-3.5 sm:px-5 pt-2 xs:pt-3 sm:pt-4 pb-2.5 sm:pb-5
-                      h-full
-                    ">
-                      <div>
-                        <h3 className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl font-black mb-0.5 xs:mb-1 sm:mb-2.5 bg-gradient-to-r from-[#ffeec3] via-[#d4af37] to-[#efd270] bg-clip-text text-transparent group-hover:from-white group-hover:to-[#ffeec3] transition-all duration-300 leading-tight drop-shadow-[0_2px_8px_#d4af3720] line-clamp-2">
-                          {award.title}
-                        </h3>
-                        <p className="text-[#d4af37] font-semibold text-[10px] xs:text-xs sm:text-sm mb-0.5 xs:mb-1 sm:mb-2">
-                          {award.date}
-                        </p>
-                        <p className="text-[#dbc6ad] text-[10px] xs:text-xs sm:text-sm md:text-base leading-snug group-hover:text-white transition-colors mb-2 xs:mb-3 sm:mb-4 drop-shadow-[0_1px_4px_#23140f11] font-medium line-clamp-3">
-                          {award.desc}
-                        </p>
-                      </div>
-                      <a
-                        href={award.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative overflow-hidden group/btn rounded-md xs:rounded-lg sm:rounded-xl bg-gradient-to-r from-[#fcecb0] via-[#d4af37] to-[#a28533] text-[#23140f] hover:text-white font-extrabold px-2.5 xs:px-3 sm:px-4 py-1.5 xs:py-2 text-xs xs:text-sm sm:text-base text-center transition-all duration-300 hover:scale-105 hover:shadow-[0_2px_16px_-2px_#d4af3780] border border-[#ffe99b44] group-hover/btn:border-[#fff7d1] tracking-wide"
-                      >
-                        <span className="relative z-10 flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2">
-                          Visit Website
-                          <svg className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-4.5 sm:h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </span>
-                        <div className="absolute left-0 top-0 h-full w-1/3 bg-gradient-to-r from-[#fff7d1] via-[#f1d46b90] to-transparent opacity-0 group-hover/btn:opacity-70 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-all duration-700 z-0" />
-                      </a>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </div>
-      </section>
+      <UpcomingAwards upcomingAwards={upcomingAwardsData} HIGHLIGHT_BG={HIGHLIGHT_BG} />
       {/* WHO SHOULD NOMINATE section */}
       <section className={`relative pt-14 sm:pt-24 pb-16 sm:pb-24 overflow-hidden ${HIGHLIGHT_BG}`}>
         {/* Animated Gradient Glows */}
