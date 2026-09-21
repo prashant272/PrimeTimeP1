@@ -91,7 +91,7 @@ export default function Home() {
     {
       title: "Global Healthcare Awards 2026 – Delhi Edition",
       desc: "Honouring visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of India.",
-      date: "22 November 2026",
+      date: "12 December 2026",
       place: "Delhi, India",
       highlight: "Excellence & Innovation",
     },
@@ -608,7 +608,7 @@ export default function Home() {
                   },
                   {
                     title: 'Delhi Edition',
-                    date: '22 November 2026',
+                    date: '12 December 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-[#ead481] flex items-center justify-center shadow-lg">
                         <span className="text-xl">🇮🇳</span>
