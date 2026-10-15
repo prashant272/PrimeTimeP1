@@ -84,7 +84,7 @@ export default function Home() {
     {
       title: "Global Healthcare Awards 2026 – Dubai Edition",
       desc: "Recognizing visionary healthcare leaders and pioneering institutions driving excellence and innovation across the medical landscape of the Middle East.",
-      date: "30 October 2026",
+      date: " 6 December 2026",
       place: "Dubai, UAE",
       highlight: "Innovation Leadership",
     },
@@ -598,7 +598,7 @@ export default function Home() {
                 {[
                   {
                     title: 'Dubai Edition',
-                    date: '30 October 2026',
+                    date: '6 December 2026',
                     icon: (
                       <span className="block w-10 h-10 rounded-xl bg-gradient-to-br from-[#c62828] to-[#ce93d8] flex items-center justify-center shadow-lg">
                         <span className="text-xl">🇦🇪</span>
